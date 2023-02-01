@@ -6,12 +6,13 @@
         <meta charset="utf-8">
         <title>Smart Phone Store</title>
         <link href="products-style.css" rel="stylesheet">
-        
+        <style id="localstyle"></style>
     </head>
     <header>
         <h1>Alanna's Used Smart Phone Store</h1>
     </header>
     
+    <input id='speedSlider' type='range' min=".01" max="5" step=".01" style="direction: rtl;" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
     <body>
         <div>
             <main>
