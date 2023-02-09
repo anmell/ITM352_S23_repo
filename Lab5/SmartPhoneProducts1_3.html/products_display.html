@@ -8,24 +8,33 @@
         <link href="products-style.css" rel="stylesheet">
         <style id="localstyle"></style>
         <script>
-            const store_name = "Alanna Mellor";
-            var hits = 1;
-            spins = 2;
+            var store_name = "Alanna Mellor";
+            var hits = 0;
+            var spins = 0;
         </script>
     </head>
-    <header>
-        <h1><script>
-            document.write(store_name);
-        </script>'s Used Smart Phone Store</h1>
-    </header>
+   
     
     <input id='speedSlider' type='range' min=".01" max="5" step=".01" style="direction: rtl;" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
     <body>
+    <header>
+        <h1 style="text-align: center; font-weight: bold;">
+               
+        <script>
+        document.write(store_name);
+    </script>'s Used Smart Phone Store
+    <div>
+        Hits:<span id="hits_span">0</span>
+        Spins:<span id="spins_span">0</span> </h1>
+        
+    </header>
         <div>
             <main>
                 <section class="item" 
-                    onmouseover="this.className='item rotate'; spins = spins++;"
-                    onclick="this.className='item'; hits++;"
+                    onmouseover="this.className='item rotate';
+                        spins_span.innerHTML++;"
+                    onclick="this.className='item'; 
+                        hits_span.innerHTML++;"
                     id="HTC">
                     <h2>HTC</h2>
                     <p>$40.00</p>
@@ -33,25 +42,45 @@
             
             </section>
     
-                <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+                <section class="item"  onmouseover="this.className='item rotate'; 
+                spins++;
+                spins_span.innerHTML =spins;"
+            onclick="this.className='item'; 
+                hits++; 
+                hits_span.innerHTML =hits;">
                     <h2>Apple</h2>
                     <p>$75.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
                 </section>
     
-                <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+                <section class="item"  onmouseover="this.className='item rotate'; 
+                spins++;
+                spins_span.innerHTML =spins;"
+            onclick="this.className='item'; 
+                hits++; 
+                hits_span.innerHTML =hits;">
                     <h2>Nokia</h2>
                     <p>$35.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
                 </section>
     
-                <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+                <section class="item" o onmouseover="this.className='item rotate'; 
+                spins++;
+                spins_span.innerHTML =spins;"
+            onclick="this.className='item'; 
+                hits++; 
+                hits_span.innerHTML =hits;">
                     <h2>Samsung</h2>
                     <p>$45.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
                 </section>
     
-                <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
+                <section class="item"  onmouseover="this.className='item rotate'; 
+                spins++;
+                spins_span.innerHTML =spins;"
+            onclick="this.className='item'; 
+                hits++; 
+                hits_span.innerHTML =hits;">
                     <h2>Blackberry</td>
                     </h2>
                     <p>$10.00</p>
