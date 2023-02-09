@@ -10,7 +10,9 @@
         <script>
             var store_name = "Alanna Mellor";
             var hits = 0;
-            var spins = 0;
+            var spins = 0; 
+            var firstName = "Alanna ";
+            var lastName = "Mellor";
         </script>
     </head>
    
@@ -18,69 +20,78 @@
     <input id='speedSlider' type='range' min=".01" max="5" step=".01" style="direction: rtl;" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
     <body>
     <header>
-        <h1 style="text-align: center; font-weight: bold;">
-               
-        <script>
-        document.write(store_name);
-    </script>'s Used Smart Phone Store
+        <h1 style=text-align:center; font: weight 100px; bold>     
+       <script>
+        document.write("<big><big><big><big<b>" + firstName + "<b/>" + "<i>" + lastName + "</big></big></big></big></i>");
+       </script>'s Used Smart Phone Store 
+       
     <div>
         Hits:<span id="hits_span">0</span>
-        Spins:<span id="spins_span">0</span> </h1>
+    
+        Spins:<span id="spins_span">0</span></p>
+        <p>Hit/Spin:<span id="hit_spin_span">0</span></p>
         
     </header>
         <div>
             <main>
                 <section class="item" 
                     onmouseover="this.className='item rotate';
-                        spins_span.innerHTML++;"
-                    onclick="this.className='item'; 
-                        hits_span.innerHTML++;"
-                    id="HTC">
+                        spins_span.innerHTML=++spins;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);"
+                    onclick="this.className='item';  
+                        hits_span.innerHTML=++hits;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);">
+                    <id="HTC">
                     <h2>HTC</h2>
                     <p>$40.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/HTC.jpg" alt="HTC Phones">
             
             </section>
     
-                <section class="item"  onmouseover="this.className='item rotate'; 
-                spins++;
-                spins_span.innerHTML =spins;"
+                <section class="item"  
+             onmouseover="this.className='item rotate';
+            
+                spins_span.innerHTML=++spins;
+                hit_spin_span.innerHTML=hits+spins.toFixed(2);"
             onclick="this.className='item'; 
-                hits++; 
-                hits_span.innerHTML =hits;">
+                hits_span.innerHTML=++hits;
+                hit_spin_span.innerHTML=hits+spins.toFixed(2);">
                     <h2>Apple</h2>
                     <p>$75.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/iphone-3gs.jpg">
                 </section>
     
-                <section class="item"  onmouseover="this.className='item rotate'; 
-                spins++;
-                spins_span.innerHTML =spins;"
-            onclick="this.className='item'; 
-                hits++; 
-                hits_span.innerHTML =hits;">
+                <section class="item"  
+                onmouseover="this.className='item rotate';
+                        spins_span.innerHTML=++spins;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);"
+                    onclick="this.className='item'; 
+                        hits_span.innerHTML=++hits;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);">
                     <h2>Nokia</h2>
                     <p>$35.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Nokia.jpg">
                 </section>
     
-                <section class="item" o onmouseover="this.className='item rotate'; 
-                spins++;
-                spins_span.innerHTML =spins;"
-            onclick="this.className='item'; 
-                hits++; 
-                hits_span.innerHTML =hits;">
+                <section class="item" 
+                onmouseover="this.className='item rotate';
+                        spins_span.innerHTML=++spins;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);"
+                    onclick="this.className='item'; 
+                        hits_span.innerHTML=++hits;
+                        hit_spin_span.innerHTML=spins+hits.toFixed(2);">
                     <h2>Samsung</h2>
                     <p>$45.00</p>
                     <img src="http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg">
                 </section>
     
-                <section class="item"  onmouseover="this.className='item rotate'; 
-                spins++;
-                spins_span.innerHTML =spins;"
-            onclick="this.className='item'; 
-                hits++; 
-                hits_span.innerHTML =hits;">
+                <section class="item"  
+                onmouseover="this.className='item rotate';
+                        spins_span.innerHTML=++spins;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);"
+                    onclick="this.className='item'; 
+                        hits_span.innerHTML=++hits;
+                        hit_spin_span.innerHTML=hits+spins.toFixed(2);">
                     <h2>Blackberry</td>
                     </h2>
                     <p>$10.00</p>
@@ -89,10 +100,20 @@
     
             </main>
         </div>
-        <footer>
-            <h1>
-                Your One Stop For Used Phones
-            </h1>
+        <footer> 
+        <script>
+            var line = 1;
+            var now = new Date();
+            var hours = (hours < 12)?'AM':'PM';
+            document.write(`
+            <big><big><table border="5" style="margin-left: auto; margin-right: auto; text-align: center;>
+            <tr><th colspan="2"><h1>Your One Stop For Used Phones - ${firstName[0]}.${lastName[0]}.'s</h1></th></tr>
+    <tr><td>${line++}.</td><td><br />${firstName}${lastName}</td></tr>
+    <tr><td>${line++}.</td><td>${now.getFullYear()}</td></tr>
+    <tr><td>${line++}.</td><td>${now.getHours((+11)% 12 + 1)}:${now.getMinutes()}${hours}</td></tr></table></big></big>
+
+        `);
+            </script>  
         </footer>
     </body>
     
