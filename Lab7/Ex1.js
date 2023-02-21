@@ -15,4 +15,4 @@ while(prod_number < num_products){
       process.exit();
    }; 
 };
-console.log ("That's all we have!");
+console.log ("That's all we have!");m
