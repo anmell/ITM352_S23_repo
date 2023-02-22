@@ -8,6 +8,29 @@
     <script src="./products_data.js"></script>
 </head>
 <body>
+    <table border="1">
+        <tr>
+          <th>Number</th>
+          <th>Item</th>
+        </tr>
+        <script>
+          const products = [
+            { number: 1, name: name1 },
+            { number: 2, name: name2 },
+            { number: 3, name: name3 },
+            { number: 4, name: name4 },
+            { number: 5, name: name5 },
+          ];
+          for (const product of products) {
+            document.write(`
+              <tr>
+                <td>${product.number}</td>
+                <td>${product.name}</td>
+              </tr>
+            `);
+          }
+        </script>
+      </table>
     
 </body>
 </html>
