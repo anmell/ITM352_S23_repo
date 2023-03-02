@@ -1,37 +1,40 @@
-<script src="./productData.json" type="text/javascript"></script> 
-
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House of Cards</title>
-    <link href="products-style.css" rel="stylesheet">
-</head>
+    <html>
 
-<header>
-    Alanna's House of Cards
-</header>
-<body>
-    <div>
-        <main>
+    <head>
+
+
+        <script src="./productsData.js"></script> 
+            
+
+        <meta charset="utf-8">
+        <title>E-Commerce Store of Cards</title>
+        <link href="products-style.css" rel="stylesheet">
+    </head>
+    <header>
+        <h1>Alanna's House of Cards</h1>
+    </header>
+    
+    <body>
+        <div>
+            <main>
             <script>
                for (i = 0; i < products.length; i++)
                 document.write(`
                 <section class="item">
-                    <h2>${products[i].brand}</td>
+                    <h2>${products[i].name}</td>
                     </h2> 
-                    <p>$${products[i].price}</p>
-                    <img src=${products[i].image}>
+                    <p>$${products[i].img}</p>
+                    <img src=${products[i].description}>
+                    <p>$${products[i].qa}</p>
                 </section>
             `);
             </script>
-            
-            </section>
-
-        </main>
-    </div>
-</body>
-</html>
+            </main>
+        </div>
+        <footer>
+        </footer>
+    </body>
+    
+    </html>
