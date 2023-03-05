@@ -1,6 +1,3 @@
-
-/* the function below evaluates the array elements of the variable "pieces" 
-and outputs an array according to whether the retrunError ternanry expression is true or not. */
 function stringNegativeIntegerEval(part, returnErrors) {
     errors = []; // assume no errors at first
    if(Number(part) != part) errors.push('Not a number!'); // Check if string is a number value
@@ -18,3 +15,6 @@ var pieces = attributes.split(";");
 for (let part of pieces) {
     console.log (part, stringNegativeIntegerEval(part));
 }
+
+function checkIt (item, index)
+console.log(`part ${index} is ${(isNonNegInt(item)?'a':'not a')} quantity`); 
