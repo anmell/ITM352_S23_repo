@@ -1,8 +1,8 @@
-function stringNegativeIntegerEval(part, returnErrors) {
+function isNonNegInt(q, returnErrors) {
     errors = []; // assume no errors at first
-   if(Number(part) != part) errors.push('Not a number!'); // Check if string is a number value
-    if(part < 0) errors.push('Negative value!'); // Check if it is non-negative
-   if(parseInt(part) != part) errors.push('Not an integer!'); // Check that it is an integer
+   if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+    if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
+   if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
 
     var returnErrors = returnErrors ? errors : (errors.length == 0);
     return (returnErrors);
@@ -12,9 +12,22 @@ function stringNegativeIntegerEval(part, returnErrors) {
 var attributes  =  "Alanna;20;20.5;-19.5"; 
 var pieces = attributes.split(";");
 
-for (let part of pieces) {
-    console.log (part, stringNegativeIntegerEval(part));
-}
+/* for (let part of pieces) {
+    console.log (part, isNonNegInt);
+} */
 
-function checkIt (item, index)
-console.log(`part ${index} is ${(isNonNegInt(item)?'a':'not a')} quantity`); 
+
+/* Exercise 6a
+
+pieces.forEach(checkIt);
+function checkIt (index, item) {
+    console.log(`part ${index} is ${(isNonNegInt(item)?'a':'not a')} quantity`);
+}
+*/
+
+
+//Exercise 6b
+pieces.forEach((item,index) => {
+    console.log(`part ${index} is ${(isNonNegInt(item)?'a':'not a')} quantity`);
+    } );
+
