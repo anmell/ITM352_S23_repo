@@ -1,38 +1,37 @@
-<script src="./product_data.js"></script> 
+<script src="./products_data.js"></script> 
  <script>
 
 /*
 File for computing totals and generating a sales receipt
 */
 
-// Extended Prices
-    var extended_price1 = price1*quantity1;
-    var extended_price2 = price2*quantity2;
-    var extended_price3 = price3*quantity3;
-    var extended_price4 = price4*quantity4;
-    var extended_price5 = price5*quantity5;
+
+
+ function generate_item_rows(quantities) {
+  for (let i in quantities) {
+  let extendedPrice = quantities[i] * products[i].price;
+  return (
+  document.write(`
+          <tr>
+            <td width="43%">${products[i].brand}</td>
+            <td align="center" width="11%">${quantities[0]}</td>
+            <td width="13%">$ ${products[i].price}</td>
+            <td width="54%">$ ${extendedPrice}</td>
+          </tr>
+          `))
+          subtotal += extendedPrice; 
+        }
+};
+
 
 // Sub-Total
-    var subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+// var subtotal = 0;
 
 // Sales Tax
     var taxRate = 5.75/100;
     var salesTax = subtotal * taxRate;
 
-//Shipping Costs
-var shipping; 
-  if (subtotal <= 50) {
-    shipping = 2;
-  }
-  if (subtotal > 50 && subtotal <= 100){
-    shipping = 5;
-  } 
-  if (subtotal > 100) {
-    shipping = subtotal*0.05;
-  }
 
-// Grand Sales Total
-    var total = subtotal + salesTax + shipping; 
 
 </script>
 
@@ -55,39 +54,24 @@ var shipping;
           </tr>
           
           <script>
-            
-            document.write(`
-          <tr>
-            <td width="43%">${products[1-1].brand}</td>
-            <td align="center" width="11%">${quantities[0]}</td>
-            <td width="13%">$ ${products[1-1].price}</td>
-            <td width="54%">$ ${extended_price1}</td>
-          </tr>
-          <tr>
-            <td width="43%">${products[2-1].brand}</td>
-            <td align="center" width="11%">${quantities[1]}</td>
-            <td width="13%">$ ${products[2-1].price}</td>
-            <td width="54%">$ ${extended_price2}</td>
-          </tr>
-          <tr>
-            <td width="43%">${products[3-1].brand}</td>
-            <td align="center" width="11%">${quantities[2]}</td>
-            <td width="13%">$ ${products[3-1].price}</td>
-            <td width="54%">$ ${extended_price3}</td>
-          </tr>
-          <tr>
-            <td width="43%">${products[4-1].brand}</td>
-            <td align="center" width="11%">${quantities[3]}</td>
-            <td width="13%">$ ${products[4-1].price}</td>
-            <td width="54%">$ ${extended_price4}</td>
-          </tr>
-          <tr>
-            <td width="43%">${products[5-1].brand}</td>
-            <td align="center" width="11%">${quantities[4]}</td>
-            <td width="13%">$ ${products[5-1].price}</td>
-            <td width="54%">$ ${extended_price5}</td>
-          </tr>
-          `)
+
+generate_item_rows (quantities);
+
+//Shipping Costs
+var shipping; 
+  if (subtotal <= 50) {
+    shipping = 2;
+  }
+  if (subtotal > 50 && subtotal <= 100){
+    shipping = 5;
+  } 
+  if (subtotal > 100) {
+    shipping = subtotal*0.05;
+  }
+
+// Grand Sales Total
+    var total = subtotal + salesTax + shipping; 
+
           </script>
            <tr>
             <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
