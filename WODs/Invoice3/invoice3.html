@@ -1,0 +1,120 @@
+<script src="./product_data.js"></script> 
+ <script>
+
+/*
+File for computing totals and generating a sales receipt
+*/
+
+// Extended Prices
+    var extended_price1 = price1*quantity1;
+    var extended_price2 = price2*quantity2;
+    var extended_price3 = price3*quantity3;
+    var extended_price4 = price4*quantity4;
+    var extended_price5 = price5*quantity5;
+
+// Sub-Total
+    var subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+
+// Sales Tax
+    var taxRate = 5.75/100;
+    var salesTax = subtotal * taxRate;
+
+//Shipping Costs
+var shipping; 
+  if (subtotal <= 50) {
+    shipping = 2;
+  }
+  if (subtotal > 50 && subtotal <= 100){
+    shipping = 5;
+  } 
+  if (subtotal > 100) {
+    shipping = subtotal*0.05;
+  }
+
+// Grand Sales Total
+    var total = subtotal + salesTax + shipping; 
+
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="2">
+        <tbody>
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">quantity</th>
+            <th style="text-align: center;" width="13%">price</th>
+            <th style="text-align: center;" width="54%">extended price</th>
+          </tr>
+          
+          <script>
+            
+            document.write(`
+          <tr>
+            <td width="43%">${products[1-1].brand}</td>
+            <td align="center" width="11%">${quantities[0]}</td>
+            <td width="13%">$ ${products[1-1].price}</td>
+            <td width="54%">$ ${extended_price1}</td>
+          </tr>
+          <tr>
+            <td width="43%">${products[2-1].brand}</td>
+            <td align="center" width="11%">${quantities[1]}</td>
+            <td width="13%">$ ${products[2-1].price}</td>
+            <td width="54%">$ ${extended_price2}</td>
+          </tr>
+          <tr>
+            <td width="43%">${products[3-1].brand}</td>
+            <td align="center" width="11%">${quantities[2]}</td>
+            <td width="13%">$ ${products[3-1].price}</td>
+            <td width="54%">$ ${extended_price3}</td>
+          </tr>
+          <tr>
+            <td width="43%">${products[4-1].brand}</td>
+            <td align="center" width="11%">${quantities[3]}</td>
+            <td width="13%">$ ${products[4-1].price}</td>
+            <td width="54%">$ ${extended_price4}</td>
+          </tr>
+          <tr>
+            <td width="43%">${products[5-1].brand}</td>
+            <td align="center" width="11%">${quantities[4]}</td>
+            <td width="13%">$ ${products[5-1].price}</td>
+            <td width="54%">$ ${extended_price5}</td>
+          </tr>
+          `)
+          </script>
+           <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$ <script>document.write(subtotal.toFixed(2))</script></td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span></td>
+            <td width="54%">$ <script>document.write(salesTax.toFixed(2))</script></td>
+            
+          </tr>
+
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span></td>
+            <td width="54%">$ <script>document.write(shipping.toFixed(2))</script></td>
+            
+          </tr>
+          
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong><strong>Total</strong></strong></td>
+            <td width="54%"><strong>$ <script>document.write(total.toFixed(2))</script></strong></td>
+          </tr>
+
+         <p> OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
+          A subtotal $50 - $99.99 will be $5 shipping
+          Subtotals over $100 will be charged 5% of the subtotal amount
+        </p>
+        </tbody>
+      </table> 
+</body>
+</html>
