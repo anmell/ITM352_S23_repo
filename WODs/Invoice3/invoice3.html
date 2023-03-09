@@ -2,7 +2,7 @@
 
 <script>
   // Sub-Total
-   var subtotal = 0; 
+   var subtotal=0; 
 
  // Sales Tax
  var taxRate = 5.75/100;
@@ -12,27 +12,35 @@ var shipping;
 
 // Grand Sales Total
 var total;
-   
+
+// extendent price
+var extended_price;
    
 // function for evealuating the quantities of each product
    function NonNegInt (quantities, returnErrors){
-    let errors = []; // assume no errors at first
+    errors = []; // assume no errors at first
       if(Number(quantities) != quantities) 
         errors.push('Not a number!'); // Check if string is a number value
       if(quantities < 0) 
         errors.push('Negative value!'); // Check if it is non-negative
       if(parseInt(quantities) != quantities) 
         errors.push('Not an integer!'); // Check that it is an integer
-      var returnErrors = returnErrors ? errors : (errors.length == 0);
+      returnErrors = returnErrors ? errors : (errors.length == 0);
         return (returnErrors)
   };
 
 // function for generating table rows 
 function generate_item_rows(products,quantities){  
     for (let i in products && quantities){
-    let extended_price = quantities[i] * products[i].price
-      if (quantities[i] === 0) 
+    if (quantities[i] === 0) 
         continue;
+      if (NonNegInt(quantities[i], NonNegInt.returnErrors)==false){
+      extended_price = 0;
+//return the array of errrors from NonNegInt here, figure out how 
+      } else {
+       extended_price = quantities[i] * products[i].price; 
+      }
+      
     document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
@@ -56,11 +64,6 @@ function generate_item_rows(products,quantities){
           total = subtotal+salesTax+shipping
   }
 };
-</script>
-
-<script>
-
-
 </script>
 
 <!DOCTYPE html>
@@ -103,13 +106,13 @@ function generate_item_rows(products,quantities){
             <td style="text-align: center;" colspan="3" width="67%"><strong><strong>Total</strong></strong></td>
             <td width="54%"><strong>$ <script>document.write(total.toFixed(2))</script></strong></td>
           </tr>
-
-         <p> OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
-          A subtotal $50 - $99.99 will be $5 shipping
-          Subtotals over $100 will be charged 5% of the subtotal amount
-        
         </tbody>
       </table>
-    </p> 
+      <footer>
+        <p><b><div> OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
+          A subtotal $50 - $99.99 will be $5 shipping
+          Subtotals over $100 will be charged 5% of the subtotal amount
+        </b></div>
+      </footer>
 </body>
 </html>
