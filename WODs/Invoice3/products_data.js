@@ -8,5 +8,5 @@
 
      var quantities = 
      [
-          2,1,1,12, "cat"
+          -1,0.4,1,12, "cat"
      ];

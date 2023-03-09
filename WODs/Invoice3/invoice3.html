@@ -34,18 +34,18 @@ function generate_item_rows(products,quantities){
     for (let i in products && quantities){
     if (quantities[i] === 0) 
         continue;
-      if (NonNegInt(quantities[i], NonNegInt.returnErrors)==false){
-      extended_price = 0;
-//return the array of errrors from NonNegInt here, figure out how 
+        errors = NonNegInt(quantities[i], true)
+      if (errors.length == 0){
+      extended_price = quantities[i] * products[i].price;
       } else {
-      extended_price = quantities[i] * products[i].price; 
+       extended_price = 0;
       
       }
       
     document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
-            <td align="center" width="11%">${quantities[i]}</td>
+            <td align="center" width="11%">${quantities[i]}<br><div style="color:red;">${errors.join('</br>')}</div></td>
             <td width="13%">$ ${products[i].price}</td>
             <td width="54%">$ ${extended_price}</td>
           </tr>
