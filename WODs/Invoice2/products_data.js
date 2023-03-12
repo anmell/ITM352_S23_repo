@@ -27,6 +27,3 @@ console.log("Product variables loaded...");
           {'brand': 'Samsung', 'price': '45.00', 'image': 'http://dport96.github.io/ITM352/morea/080.flow-control-II/Samsung.jpg'},
           {'brand': 'Blackberry', 'price': '10.00', 'image': 'http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg'}
      ];
-     var quantities = [
-          -1,0.4,'cat',5,0
-     ];
