@@ -7,12 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    Quantity desired: <input id="quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)">
-    <span id='quantity_textbox_message'>Enter a quantity</span>
-    <br>
+    <form name="quantity_form" action="display_purchase.html" method="GET">
+        Quantity desired: <input id="quantity_textbox" name = "quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)">
+        <span id='quantity_textbox_message'>Enter a quantity</span>
+        <br>
+        <input disabled type = "submit"  id = "purchase_button" value = "Purchase">
+    </form>
 
-
-    <input disabled type = "button"  id = "purchase_button" onclick = "displayPurchase();" value = "Purchase">
 </body>
 </html>
 
