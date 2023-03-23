@@ -7,25 +7,42 @@
     <title>Document</title>
 </head>
 <body>
-    Quantity desired: <input id="quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)">
+    Quantity desired: <input id="quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)&& disableButton(button1)">
     <span id='quantity_textbox_message'>Enter a quantity</span>
     <br>
-    <input type = "button" value = "Purchase" onclick = "document.body.innerHTML = `Thank for you for ordering ${quantity_textbox.value} things!`">
+
+
+    <input type = "button"  id = "button" value = "Purchase" onclick = "document.body.innerHTML = `Thank for you for ordering ${quantity_textbox.value} things!`">
 </body>
 </html>
 
 <script>
     function checkQuantityTextbox (the_quantity_textbox){
-        document.getElementById(the_quantity_textbox.id + "_message").innerHTML = isNonNegInt (the_quantity_textbox.value).join(' ')
+        document.getElementById(the_quantity_textbox.id + "_message").innerHTML = isNonNegInt (the_quantity_textbox.value).join(' ');
     };
 
     function isNonNegInt (q) {
         errors = []; // assume no errors at first
-        if(Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+        if(Number(q) != q) 
+            errors.push('Not a number!') // Check if string is a number value
         else{
-        if(q < 0) errors.push('Negative value!'); // Check if it is non-negative
-        if(parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+        if(q < 0)
+             errors.push('Negative value!'); // Check if it is non-negative
+        if(parseInt(q) != q) 
+            errors.push('Not an integer!'); // Check that it is an integer
         }
         return errors;
     };
+
+    function disableButton(button1){
+    var button1 = document.getElementById ("button")
+    var errors = isNonNegInt (q, true)
+    if (errors.length==0){
+       button1.disabled = false
+    }else{
+        button1.disabled = true
+    }
+};
+
+
 </script>
