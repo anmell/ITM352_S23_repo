@@ -20,13 +20,13 @@
     function checkQuantityTextbox (the_quantity_textbox){
         document.getElementById(the_quantity_textbox.id + "_message").innerHTML = isNonNegInt (the_quantity_textbox.value).join(' ');
 
-        var errors = isNonNegInt (the_quantity_textbox.value)
+       var errors = isNonNegInt (the_quantity_textbox.value)
         if (errors.length==0){
             document.getElementById ("button").disabled = false;
         }else{
             document.getElementById ("button").disabled = true;
-    }
     };
+    }
 
     function isNonNegInt (q) {
         errors = []; // assume no errors at first
