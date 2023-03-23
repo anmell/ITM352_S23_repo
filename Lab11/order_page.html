@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    Quantity desired: <input id="quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)&& disableButton(button1)">
+    Quantity desired: <input id="quantity_textbox" type ="text" onkeyup="checkQuantityTextbox(this)">
     <span id='quantity_textbox_message'>Enter a quantity</span>
     <br>
 
@@ -19,6 +19,12 @@
 <script>
     function checkQuantityTextbox (the_quantity_textbox){
         document.getElementById(the_quantity_textbox.id + "_message").innerHTML = isNonNegInt (the_quantity_textbox.value).join(' ');
+        var errors = isNonNegInt (the_quantity_textbox.value)
+    if (errors.length==0){
+        document.getElementById ("button").disabled = false
+    }else{
+        document.getElementById ("button").disabled = true
+    }
     };
 
     function isNonNegInt (q) {
@@ -34,15 +40,7 @@
         return errors;
     };
 
-    function disableButton(button1){
-    var button1 = document.getElementById ("button")
-    var errors = isNonNegInt (q, true)
-    if (errors.length==0){
-       button1.disabled = false
-    }else{
-        button1.disabled = true
-    }
-};
+    
 
 
 </script>
