@@ -25,16 +25,17 @@
         }
         return errors;
     };
-
+ 
         
         if (params.has('quantity_textbox')) {
             let qty = params.get('quantity_textbox')
             //validate qty first, if valid then display thank you
-            if (isNonNegInt(qty).length == 0)
+            if (isNonNegInt(qty).length == 0) {
             document.write(`Thank for you for ordering ${qty} things!`)
-        }else{
+            }else{
             document.write(`Invalid quantity. Press the back button and try again.`)
         };
+    };
     </script>
 </body>
 </html>
