@@ -20,7 +20,8 @@
         <div>
             <main>
             <script>
-               for (let i in products && quantities )
+            // loop to increment through the products array and generate a section of product information; 
+               for (let i = 0; i < products.length; i++) {
                 document.write(`
                 
                 <section class="item">
@@ -28,10 +29,11 @@
                     </h2> 
                     <p>$${products[i].price}</p>
                     <img src=${products[i].image}>
-                   <p><b><label for ="${quantities[i].id}">Quantity Desired</label></b><p>
-                   <p><input type = "text" name = "${quantities[i].name}" id = "${quantities[i].id}"></p>
+                   <p><b><label for = "quantities${i}" id = "quantities${i}_label">Quantity Desired</label></b><p>
+                   <p><input type = "text" name = "quantities${i}"></p>
                 </section>
             `);
+            }
             </script>
             </main>
         </div>

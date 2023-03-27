@@ -7,10 +7,3 @@ console.log("Product variables loaded...");
           {'brand': 'Blackberry', 'price': '10.00', 'image': 'http://dport96.github.io/ITM352/morea/080.flow-control-II/Blackberry.jpg'}
      ];
 
-     var quantities = [
-          {'name': 'quantity0', 'id': 'quantity0_label'},
-          {'name': 'quantity1', 'id': 'quantity1_label'},
-          {'name': 'quantity2', 'id': 'quantity2_label'},
-          {'name': 'quantity3', 'id': 'quantity3_label'},
-          {'name': 'quantity4', 'id': 'quantity4_label'}
-     ];
