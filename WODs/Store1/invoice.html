@@ -8,6 +8,8 @@
     var subtotal = 0;
 // shipping 
 var shipping;
+var qty;
+
 
 
 function isNonNegInt(quantities, returnErrors) {
@@ -22,22 +24,25 @@ return (returnErrors);
 
 
 function generate_item_rows (products, quantities){
-  for (let i = 0; i <= products.length && i <= quantities.length; i++ ) {
-   if (quantities[i] == 0) {
+  for (let i in quantities && products) {
+    if (params.has('${quantities[i].id}')) {
+     let  qty = params.get($quantities[i].id)
+    }
+
+   if (qty[i] == 0) {
     continue;
     }
-  let errors = isNonNegInt (quantities[i], true)
+  let errors = isNonNegInt (qty[i], true)
   if (errors.length == 0) {
-    extended_price = quantities[i] * products[i].price;
+    extended_price = qty[i] * products[i].price;
   }else{
     extended_price=0;
-  }
-
+    };
 
     document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
-            <td align="center" width="11%">${quantities[i]}</td>
+            <td align="center" width="11%">${qty[i]}</td>
             <td width="13%">$${products[i].price}<div style="color:red;">${errors.join()}</div></td>
             <td width="43%">$${extended_price.toFixed(2)}</td>
           </tr>
@@ -61,12 +66,9 @@ shipping;
   }
 
 // Grand Sales Total
-     total = subtotal + salesTax + shipping; 
-}      
+     total = subtotal + salesTax + shipping;     
+}
 };
-
-
-
 </script>
 
 <!DOCTYPE html>
