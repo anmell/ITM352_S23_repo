@@ -14,7 +14,3 @@ console.log("Product variables loaded...");
           {'name': 'quantity3', 'id': 'quantity3_label'},
           {'name': 'quantity4', 'id': 'quantity4_label'}
      ];
-
-     var quantity_ids = [
-          "quantity1_label", "quantity2_label", "quantity3_label", "quantity4_label"
-     ];
