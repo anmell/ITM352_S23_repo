@@ -31,8 +31,10 @@
 
 <script>
     function displayPurchase(the_quantity_textbox) {
+        window.location.href = "display_purchase.html" + document.location.search;
         document.body.innerHTML += `Thank for you for ordering ${quantity_textbox.value} things!`
     };
+
 
     function checkQuantityTextbox(the_quantity_textbox) {
         var errors = isNonNegInt(the_quantity_textbox.value)

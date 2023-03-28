@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form name="quantity_form" action="" method="GET">
+    <form name="quantity_form" action="display_purchase.html" method="POST">
         Quantity desired: <input id="quantity_textbox" name="quantity_textbox" type="text"
             onkeyup="checkQuantityTextbox(this)">
             
@@ -22,7 +22,7 @@
         
         <span id='quantity_textbox_message'>Enter a quantity</span>
         <br>
-        <input disabled type="submit" id="purchase_button" value="Purchase" onclick="displayPurchase(quantity_textbox)">
+        <input disabled type="submit" id="purchase_button" value="Purchase">
     </form>
 
 </body>
@@ -31,8 +31,10 @@
 
 <script>
     function displayPurchase(the_quantity_textbox) {
+        window.location.href = "display_purchase.html" + document.location.search;
         document.body.innerHTML += `Thank for you for ordering ${quantity_textbox.value} things!`
     };
+
 
     function checkQuantityTextbox(the_quantity_textbox) {
         var errors = isNonNegInt(the_quantity_textbox.value)
