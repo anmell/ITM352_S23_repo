@@ -1,12 +1,15 @@
 <script src="./products_data.js"></script>
 <script>
-  params = (new URL(document.location)).searchParams;
-
+  let params = (new URL(document.location)).searchParams;
+</script>
+<script>
 
   // Sub-Total
   var subtotal = 0;
   // shipping 
   var shipping;
+  var qty;
+
 
 
   function isNonNegInt(quantities, returnErrors) {
@@ -20,22 +23,33 @@
   };
 
 
-  function generate_item_rows(products) {
+  function generate_item_rows() {
+    // function to generate item rows based on products array and the quantities in the query string
 
+    // loop through products to generate a row for each product and quantity 
     for (let i in products) {
-      if (params.has(`quantity${i}`)) {
-          var qty = params.get(`quantity${i}`);
-      
-      if (qty == 0) {
-        continue;
-      }
-      let errors = isNonNegInt(qty, true)
-      if (errors.length == 0) {
-        extended_price = qty * products[i].price;
-      } else {
-        extended_price = 0;
-      }
-      document.write(`
+      //get the quantity for [i]th product from the query string
+
+      if (params.has(`quantities${i}`)) {
+        var qty = params.get(`quantities${i}`);
+
+        //skip items with no quantities
+        if (qty == 0) {
+          continue;
+        }
+
+
+        // check to see if valid, if not set the extended price to 0 
+        let errors = isNonNegInt(qty, true);
+
+        if (errors.length == 0) {
+          extended_price = qty * products[i].price;
+        } else {
+          extended_price = 0;
+        };
+
+        // generate item rows 
+        document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
             <td align="center" width="11%">${qty}</td>
@@ -43,14 +57,14 @@
             <td width="43%">$${extended_price.toFixed(2)}</td>
           </tr>
     `)
-      subtotal += extended_price
-
+        subtotal += extended_price
+      }
     }
   }
-  };
 
-
-
+      /*
+       
+    */
 </script>
 
 <!DOCTYPE html>
@@ -74,25 +88,26 @@
       </tr>
 
       <script>
-        generate_item_rows(products)
-          // Sales Tax
-      taxRate = 5.75 / 100;
+        generate_item_rows();
+        // Sales Tax
+      taxRate = 5.75/100;
       salesTax = subtotal * taxRate;
-
+      
       //Shipping Costs
-      shipping;
-      if (subtotal <= 50) {
-        shipping = 2;
-      }
-      if (subtotal > 50 && subtotal <= 100) {
-        shipping = 5;
-      }
-      if (subtotal > 100) {
-        shipping = subtotal * 0.05;
-      }
-
+      shipping; 
+        if (subtotal <= 50) {
+          shipping = 2;
+        }
+        if (subtotal > 50 && subtotal <= 100){
+          shipping = 5;
+        } 
+        if (subtotal > 100) {
+          shipping = subtotal*0.05;
+        }
+      
       // Grand Sales Total
-      total = subtotal + salesTax + shipping;
+           total = subtotal + salesTax + shipping;     
+      
       </script>
       <tr>
         <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <html>
+
+    <head>
+        <script src="./products_data.js">
+    
+        </script>
+        <meta charset="utf-8">
+        <title>Smart Phone Store</title>
+        <link href="products-style.css" rel="stylesheet">
+        
+    </head>
+    <header>
+        <h1>Alanna's Used Smart Phone Store</h1>
+    </header>
+    
+    <form name="quantity_form" action= "./invoice.html" method="GET">
+    <body>
+        <div>
+            <main>
+            <script>
+            // loop to increment through the products array and generate a section of product information; 
+               for (let i = 0; i < products.length; i++) {
+                document.write(`
+                
+                <section class="item">
+                    <h2>${products[i].brand}</td>
+                    </h2> 
+                    <p>$${products[i].price}</p>
+                    <img src=${products[i].image}>
+                   <p><b><label for = "quantities${i}" id = "quantities${i}_label">Quantity Desired</label></b><p>
+                   <p><input type = "text" name = "quantities${i}"></p>
+                </section>
+            `);
+            }
+            </script>
+            </main>
+        </div>
+        <footer>
+            
+            <h1>
+                Your One Stop For Used Phones
+            </h1>
+            <p><input type ="Submit"></p>
+        </footer>
+    </body>
+    </html>
