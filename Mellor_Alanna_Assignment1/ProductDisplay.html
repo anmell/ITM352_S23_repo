@@ -5,7 +5,7 @@
     <head>
 
 
-        <script src="./productsData.js"></script> 
+        <script src="./productData.js"></script> 
             
 
         <meta charset="utf-8">
@@ -13,7 +13,7 @@
         <link href="products-style.css" rel="stylesheet">
     </head>
     <header>
-        <h1>Alanna's House of Cards</h1>
+        <h1>House of Hearts</h1>
     </header>
     
     <body>
@@ -26,8 +26,8 @@
                     <h2>${products[i].name}</td>
                     </h2> 
                     <p>$${products[i].img}</p>
-                    <img src=${products[i].description}>
-                    <p>$${products[i].qa}</p>
+                    <img src=${products[i].price}>
+                    <p>Quantity Available: ${products[i].quantityAvailable}</p>
                 </section>
             `);
             </script>
