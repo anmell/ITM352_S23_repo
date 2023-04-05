@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var querystring = require('querystring');
 
 // Routing 
 
@@ -26,17 +25,27 @@ app.use(express.urlencoded({ extended: true }));
 
 // process purchase request (validate quantities, check quantity available)
 
-// load product data into server; make it accessible via a GET request; when a client send a GET request
-
 
 // <** your code here ***>
 
 // route to get to invoice page
 app.post('/invoice.html', function (request, response) {
+var query = '';
 for (let i in products) {
-request.body [`quantities${i}`];
-response.sendFile(__dirname + '/public/invoice.html')
-}});
+var quantity = request.body [`quantities${i}`];
+var quantityLabel =`quantities${i}`;
+
+//here, I'm requesting the values of the textboxes
+
+if (quantity == 0){
+   continue;
+}
+
+query += `&${quantityLabel}=${quantity}`;
+response.redirect(__dirname + `/public/invoice.html?${query.slice(8080)}`)
+}
+});
+
 // the following allows access to the body when the server recieves a POST request 
  
 
