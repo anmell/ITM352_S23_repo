@@ -6,7 +6,7 @@
   
   /* Typography */
   
-  h1, h2, p { 
+  h1, h2, p, footer, span { 
     text-align: center;
     color:goldenrod
   }

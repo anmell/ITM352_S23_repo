@@ -19,6 +19,7 @@
     <body>
         <div>
             <main>
+            <form name="quantity_form" action="./invoice.html" method="POST">
             <script>
                 // for loop that generates product data
                for (i = 0; i < products.length; i++)
@@ -29,14 +30,19 @@
                     <p>$${products[i].price}</p>
                     <img src="${products[i].img}"">
                     <p>Quantity Available: ${products[i].quantityAvailable}</p>
-                    <p><input id="quantity_textbox" name="quantity_textbox" type="text"></p>
+                    <p><b><label for = "quantities${i}" id = "quantities${i}_label">Quantity Desired</label></b><p>
+                   <p><input type = "text" name = "quantities${i}"></p>
                 </section>
             `);
             </script>
             </main>
         </div>
         <footer>
+        </p><input type = "submit" value = "Click Here to Purchase!">
         </footer>
     </body>
-    
+    </form>
+    <script>
+        // note** the form tags changed the layout of the whole page, play with css to fix this 
+    </script>
     </html>
