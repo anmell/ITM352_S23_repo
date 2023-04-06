@@ -46,7 +46,7 @@ app.post('/invoice.html', function (request, response) {
    console.log(request.body);
 
 // loop throigh the products array
-for (let i in products) {
+for (let i = 0; i < products.length; i++ ) {
 
 //assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
    var qty = request.body [`quantities${i}`];
@@ -60,32 +60,33 @@ for (let i in products) {
 // assign a variable to the quantity available for each product
    var qa = products[i].quantityAvailable
 
+//check if quantities are valid via the NonNegInt function; call the function
+// if valid, send to invoice page;
 
-  if (qty == 0 ){
-      continue;
-   }
-
+if (qty == 0) {
+   continue;
+}
    if (errors.length > 0) {
-      alert(
+      response.send(
        `Hi, please fix the following errors: ${errors}. <div> Please press the "back" button and insert a valid quantity for ${name}.`
      );
       console.log(errors)
    }
    // if there is an error, send the user to a page that points out the specific error
-    else if (qty>qa) {
-      alert(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
-   }else{
-      response.redirect('./invoice.html?' + querystring.stringify(request.body));
-    }}});
-// if there are invalid quantities are entered, send an alert to user
-// else send user to invoice page 
-
-
-// the following allows access to the body when the server recieves a POST request 
+   if (qty>qa) {
+      response.send(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
+   }
+   
+      
+    }
+   response.redirect('./invoice.html?' + querystring.stringify(request.body));
+   
+   }
+    
+    );
  
 
-//check if quantities are valid via the NonNegInt function; call the function
-// if valid, send to invoice page;
+
 
 
 
