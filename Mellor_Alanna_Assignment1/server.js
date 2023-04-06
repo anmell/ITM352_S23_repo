@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var querystring = require('querystring');
 
-var alert = require('alert'); 
+var session = require('express-session');
 
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
@@ -66,14 +66,14 @@ for (let i in products) {
    }
 
    if (errors.length > 0) {
-      alert({
-         content: `Hi, please fix the following errors: ${errors}. <div> Please press the "back" button and insert a valid quantity for ${name}.`
-     });
+      alert(
+       `Hi, please fix the following errors: ${errors}. <div> Please press the "back" button and insert a valid quantity for ${name}.`
+     );
       console.log(errors)
    }
    // if there is an error, send the user to a page that points out the specific error
     else if (qty>qa) {
-      response.send(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
+      alert(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
    }else{
       response.redirect('./invoice.html?' + querystring.stringify(request.body));
     }}});
