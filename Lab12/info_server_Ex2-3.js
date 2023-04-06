@@ -16,15 +16,14 @@ app.get('/test', function (request, response, next) {
 
 app.post ('/process_purchase', function (request, response) {
     console.log(request.body);
-
-    response.send('POST to process_purchase');
-});
-
 // validate quantities 
 var q = request.body['quantity_textbox'];
 if (typeof q != 'undefined') {
-response.send(`Thank you for purchasing ${q} things!`);
+response.send(`<b>Thank you for purchasing ${q} things!</b>`);
 } 
+});
+
+
 
 
 app.use(express.static(__dirname + '/public'));
