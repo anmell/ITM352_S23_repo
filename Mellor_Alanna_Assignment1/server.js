@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var querystring = require('querystring');
 
 // Routing 
 
@@ -30,21 +31,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // route to get to invoice page
 app.post('/invoice.html', function (request, response) {
-var query = '';
-for (let i in products) {
-var quantity = request.body [`quantities${i}`];
-var quantityLabel =`quantities${i}`;
+   console.log(request.body);
+ 
+   // Pass the quantities data to the invoice.html template
+   response.redirect('./invoice.html?' + querystring.stringify(request.body));
+ });
 
-//here, I'm requesting the values of the textboxes
 
-if (quantity == 0){
-   continue;
-}
-
-query += `&${quantityLabel}=${quantity}`;
-response.redirect(__dirname + `/public/invoice.html?${query.slice(8080)}`)
-}
-});
 
 // the following allows access to the body when the server recieves a POST request 
  
