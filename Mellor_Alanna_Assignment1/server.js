@@ -2,11 +2,13 @@ var express = require('express');
 var app = express();
 var querystring = require('querystring');
 
+var alert = require('alert'); 
+
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
-   if (Number(quantities) != quantities) errors.push('Not a number!'); // Check if string is a number value
-   if (quantities < 0) errors.push('Negative value!'); // Check if it is non-negative
-   if (parseInt(quantities) != quantities) errors.push('Not an integer!'); // Check that it is an integer
+   if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
+   if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
+   if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
 
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return (returnErrors);
@@ -42,24 +44,41 @@ app.use(express.urlencoded({ extended: true }));
 // route to get to invoice page
 app.post('/invoice.html', function (request, response) {
    console.log(request.body);
+
+// loop throigh the products array
 for (let i in products) {
+
+//assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
    var qty = request.body [`quantities${i}`];
+
+// assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
+   var name = products[i].name
+
+// assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
    let errors = isNonNegInt(qty, true);
+
+// assign a variable to the quantity available for each product
+   var qa = products[i].quantityAvailable
+
+
+  if (qty == 0 ){
+      continue;
+   }
+
    if (errors.length > 0) {
-      response.type('.js');
-      response.send(`Hi please fix the following errors: ${errors.join()}`);
+      alert({
+         content: `Hi, please fix the following errors: ${errors}. <div> Please press the "back" button and insert a valid quantity for ${name}.`
+     });
       console.log(errors)
    }
-   if (qty == 0 ){
-      response.send (`please enter a quantity in any textbox`)
+   // if there is an error, send the user to a page that points out the specific error
+    else if (qty>qa) {
+      response.send(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
    }else{
       response.redirect('./invoice.html?' + querystring.stringify(request.body));
     }}});
 // if there are invalid quantities are entered, send an alert to user
 // else send user to invoice page 
-
-   // Pass the quantities data to the invoice.html template
-
 
 
 // the following allows access to the body when the server recieves a POST request 
