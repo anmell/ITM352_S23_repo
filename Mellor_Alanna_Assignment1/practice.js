@@ -18,6 +18,12 @@ function isNonNegInt(quantities, returnErrors) {
    return (returnErrors);
 };
 
+function validateQuantity (quantities, quantityAvailable, returnErrors){
+   errors_array = [];
+   let errors = isNonNegInt(quantities, true);
+   if (errors.length > 0) errors_array.push ('Invalid Quantity')
+}
+
 // Routing 
 
 // monitor all requests; this manages what is output in the console for all requests
@@ -71,7 +77,7 @@ app.post('/invoice.html', function (request, response) {
       var qa = products[i].quantityAvailable
 
       //assign a variable to collect all errors
-      let errors_array=[];
+      let errors_array = [];
 
 
 
@@ -82,8 +88,8 @@ app.post('/invoice.html', function (request, response) {
 
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
       if (errors.length > 0) {
-         errors_array.push(`Invalid Quantity for ${products[i].name}`);
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)};` }));
+         errors_array.push('Invalid Quantity');
+         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array.join())};` }));
 
          //output the errors in console so that I can track them
          console.log(errors_array);
@@ -93,7 +99,7 @@ app.post('/invoice.html', function (request, response) {
          errors_array.push('too many selected');
 
          // is qty>qa, redirect client back to the display page and send the errors_array (which is a json object) back as a string and attach it to the query string). the "errors_array:${...." assigns the string to errors_array
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)};` }));
+         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array.join())};` }));
          console.log(errors_array);
       } else {
          products[i].quantityAvailable -= request.body[`quantities${i}`]

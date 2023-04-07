@@ -7,8 +7,12 @@
 
 <script>
     // if the server sends back an error, display an alert box
-    if (params.has(`errors_array=`)){
-        window.alert(`hi there are these errors`);
+    
+    if (params.has(`errors_array`)){
+        var errors = params.get(`errors_array`)
+        console.log (errors) }
+        if (errors.length > 0){
+        window.alert(`Hi there are these errors: ${errors}`);
     };
 </script>
 
