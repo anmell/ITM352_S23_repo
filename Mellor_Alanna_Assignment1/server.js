@@ -6,7 +6,6 @@ var querystring = require('querystring');
 var products = require(__dirname + '/product_data.json');
 
 
-
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
@@ -36,11 +35,6 @@ app.get("/product_data.js", function (request, response, next) {
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get('/product_display', function (reqest, response) {
-   // your code to handle the GET request for the product_display page goes here
-});
-
 // <** your code here ***>
 
 // process purchase request (validate quantities, check quantity available)
@@ -49,10 +43,14 @@ app.post('/invoice.html', function (request, response) {
    console.log(request.body);
 
    // use a FLAG to check that at least one quanitty was selected,is q>0; use true and false statement, continue to the loop
-
-
-   // alert box must be done on the client, send client back to the order page, make the html page check if there is an error, if so, display alert box 
-
+   var flag = false;
+   for (let i in products) {
+      var quantities = [];
+      if (request.body[`quantities${i}`] > 0) {
+         quantities.push(request.body[`quantities${i}`])
+         console.log(quantities)
+      }
+   }
 
    // loop through the products array
    for (let i = 0; i < products.length; i++) {
@@ -61,9 +59,6 @@ app.post('/invoice.html', function (request, response) {
       //assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
       var qty = request.body[`quantities${i}`];
 
-      // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
-      var name = products[i].name
-
       // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
       let errors = isNonNegInt(qty, true);
 
@@ -71,15 +66,13 @@ app.post('/invoice.html', function (request, response) {
       var qa = products[i].quantityAvailable
 
       //assign a variable to collect all errors
-      let errors_array=[];
+      let errors_array = [];
 
 
-
-      //if there's an empty textbox, let the loop continue
-      if (qty == 0) {
-         continue;
+      if ((qty.every) < 0) {
+         errors_array.push('Please enter at least one quantity')
+         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)};` }));
       }
-
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
       if (errors.length > 0) {
          errors_array.push(`Invalid Quantity for ${products[i].name}`);
@@ -90,7 +83,7 @@ app.post('/invoice.html', function (request, response) {
       }
       // if the user selects more quantities than are available, send the user to a page that points out the specific error
       else if (qty > qa) {
-         errors_array.push('too many selected');
+         errors_array.push(`The quantity you have selected exceeds the quantity we have available for ${products[i].name}`);
 
          // is qty>qa, redirect client back to the display page and send the errors_array (which is a json object) back as a string and attach it to the query string). the "errors_array:${...." assigns the string to errors_array
          response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)};` }));
@@ -99,10 +92,9 @@ app.post('/invoice.html', function (request, response) {
          products[i].quantityAvailable -= request.body[`quantities${i}`]
          // after running the loop through the entire 'products' array and validating the data, send the user to the invoice page 
          response.redirect('./invoice.html?' + querystring.stringify(request.body));
-         console.log (`products${i}.quantityAvailable`)
+         console.log(`products${i}.quantityAvailable`)
       }
    }
-
 
 }
 );

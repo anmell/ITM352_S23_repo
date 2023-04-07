@@ -6,14 +6,17 @@
 </script>
 
 <script>
-    // if the server sends back an error, display an alert box
-    
-    if (params.has(`errors_array`)){
+
+    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in an alert box
+
+    if (params.has(`errors_array`)) {
         var errors = params.get(`errors_array`)
-        console.log (errors) }
-        if (errors.length > 0){
-        window.alert(`Hi there are these errors: ${errors}`);
-    };
+        console.log(errors)
+    }
+    if (errors.length > 0) {
+        window.alert(`Hi please fix this error: ${errors}`);
+        };
+
 </script>
 
 <head>
@@ -45,7 +48,7 @@
                     <img src="${products[i].img}">
                     <p>Quantity Available: ${products[i].quantityAvailable}</p>
                     <p><b><label for = "quantities${i}" id = "quantities${i}_label">Quantity Desired</label></b><p>
-                   <p><input type = "text" name = "quantities${i}"></p>
+                   <p><input type = "text" id = "quantities${i}" name = "quantities${i}" onload = "entered_quantities()"></p>
                 </section>
             `);
                 </script>
