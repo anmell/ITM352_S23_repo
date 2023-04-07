@@ -40,7 +40,9 @@ app.get("/product_data.js", function (request, response, next) {
 app.use(express.urlencoded({ extended: true }));
 
 
-
+app.get('/product_display', function(req, res) {
+   // your code to handle the GET request for the product_display page goes here
+ });
 
 // <** your code here ***>
 
@@ -58,6 +60,7 @@ app.post('/invoice.html', function (request, response) {
    // loop through the products array
    for (let i = 0; i < products.length; i++) {
 
+
       //assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
       var qty = request.body[`quantities${i}`];
 
@@ -70,6 +73,10 @@ app.post('/invoice.html', function (request, response) {
       // assign a variable to the quantity available for each product
       var qa = products[i].quantityAvailable
 
+      //assign a variable to collect all errors
+      var errors_array="";
+
+      qa -= qty;
 
       //if there's an empty textbox, let the loop continue
       if (qty == 0) {
@@ -78,16 +85,21 @@ app.post('/invoice.html', function (request, response) {
 
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
       if (errors.length > 0) {
-         response.send(
+         /*response.send(
             `Hi, please fix the following errors for ${name}: ${errors}. <div> Please press the "back" button and insert a valid quantity for ${name}.`
-         );
+         );*/
+         errors_array += 'Invalid Quantity';
+         response.redirect('./product_display?' + querystring.stringify({...request.body,errors_array:`${JSON.stringify(errors_array)};`}));
 
          //output the errors in console so that I can track them
-         console.log(errors)
+         console.log(errors_array);
       }
       // if the user selects more quantities than are available, send the user to a page that points out the specific error
       if (qty > qa) {
-         response.send(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)
+         /*response.send(`Hi, unfortunately House of Cards does not have enough of ${name} in stock at the moment. Please press the "back" button and insert a quantity that is less than or equal to the quantity avaiable. Thank you! `)*/
+         errors_array += 'too many selected';
+         response.redirect('./product_display?' + querystring.stringify({...request.body, errors_array: `${JSON.stringify(errors_array)};`}));
+         console.log(errors_array);
       }
    }
 
