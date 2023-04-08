@@ -47,13 +47,17 @@ app.post('/invoice.html', function (request, response) {
 
 
    // alert box must be done on the client, send client back to the order page, make the html page check if there is an error, if so, display alert box 
-  
-   var valid_quantities = true;
+   // assume nothing was entered into the textboxes 
+   var valid_quantities = false;
+
+   // check if at least one quantity value has been entered
+
+      
 
    //assign a variable to collect all errors
-   let errors_array=[];
+   let errors_array = [];
 
-   
+
 
    // loop through the products array
    for (let i = 0; i < products.length; i++) {
@@ -63,7 +67,7 @@ app.post('/invoice.html', function (request, response) {
       var qty = request.body[`quantities${i}`];
 
       // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
-      var name = products[i].name
+      var name = products[i].name;
 
       // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
       let errors = isNonNegInt(qty, true);
@@ -71,15 +75,17 @@ app.post('/invoice.html', function (request, response) {
       // assign a variable to the quantity available for each product
       var qa = products[i].quantityAvailable;
 
+
       //if there's an empty textbox, let the loop continue
       if (qty == 0) {
-         valid_quantities = false;
          continue;
       }
 
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
       if (errors.length > 0) {
          errors_array.push(`Invalid Quantity for ${products[i].name}`);
+
+         //confirm that something was entered (even if it was an error)
          valid_quantities = true;
          //output the errors in console so that I can track them
          console.log(errors_array);
@@ -87,29 +93,31 @@ app.post('/invoice.html', function (request, response) {
       // if the user selects more quantities than are available, send the user to a page that points out the specific error
       if (qty > qa) {
          errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
+
+         //confirm that something was entered (even if it was an error)
          valid_quantities = true;
          console.log(errors_array);
-      
-   }}
+
+      }
+   }
 
 
    for (let i = 0; i < products.length; i++) {
-   if (errors_array.length == 0) {
-      products[i].quantityAvailable -= request.body[`quantities${i}`]
-      
-      console.log (errors_array)
-   
-   }else {
-      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
-   }
-}
+      if (errors_array.length == 0) {
+         products[i].quantityAvailable -= request.body[`quantities${i}`];
+         console.log(errors_array)
 
-   if (valid_quantities){
+      } else {
+         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+      }
+   }
+
+   if (valid_quantities) {
+      errors_array.push ('Please enter at least one quantitiy')
+      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+   } else {
       // after running the loop through the entire 'products' array and validating the data, send the user to the invoice page
       response.redirect('./invoice.html?' + querystring.stringify(request.body));
-   } else {
-      errors_array.push (`please enter something`);
-      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
    }
 });
 
