@@ -18,12 +18,6 @@ function isNonNegInt(quantities, returnErrors) {
    return (returnErrors);
 };
 
-function validateQuantity (quantities, quantityAvailable, returnErrors){
-   errors_array = [];
-   let errors = isNonNegInt(quantities, true);
-   if (errors.length > 0) errors_array.push ('Invalid Quantity')
-}
-
 // Routing 
 
 // monitor all requests; this manages what is output in the console for all requests
@@ -42,11 +36,6 @@ app.get("/product_data.js", function (request, response, next) {
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
-
-app.get('/product_display', function (reqest, response) {
-   // your code to handle the GET request for the product_display page goes here
-});
-
 // <** your code here ***>
 
 // process purchase request (validate quantities, check quantity available)
@@ -58,7 +47,11 @@ app.post('/invoice.html', function (request, response) {
 
 
    // alert box must be done on the client, send client back to the order page, make the html page check if there is an error, if so, display alert box 
+  
+   let valid_quantities = true;
 
+   //assign a variable to collect all errors
+   let errors_array=[];
 
    // loop through the products array
    for (let i = 0; i < products.length; i++) {
@@ -74,12 +67,7 @@ app.post('/invoice.html', function (request, response) {
       let errors = isNonNegInt(qty, true);
 
       // assign a variable to the quantity available for each product
-      var qa = products[i].quantityAvailable
-
-      //assign a variable to collect all errors
-      let errors_array = [];
-
-
+      var qa = products[i].quantityAvailable;
 
       //if there's an empty textbox, let the loop continue
       if (qty == 0) {
@@ -88,34 +76,40 @@ app.post('/invoice.html', function (request, response) {
 
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
       if (errors.length > 0) {
-         errors_array.push('Invalid Quantity');
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array.join())};` }));
+         valid_quantities = false;
+         errors_array.push(`Invalid Quantity for ${products[i].name}`);
 
          //output the errors in console so that I can track them
          console.log(errors_array);
       }
       // if the user selects more quantities than are available, send the user to a page that points out the specific error
-      else if (qty > qa) {
-         errors_array.push('too many selected');
+      if (qty > qa) {
+         valid_quantities = false;
+         errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
 
-         // is qty>qa, redirect client back to the display page and send the errors_array (which is a json object) back as a string and attach it to the query string). the "errors_array:${...." assigns the string to errors_array
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array.join())};` }));
          console.log(errors_array);
-      } else {
-         products[i].quantityAvailable -= request.body[`quantities${i}`]
-         // after running the loop through the entire 'products' array and validating the data, send the user to the invoice page 
-         response.redirect('./invoice.html?' + querystring.stringify(request.body));
-         console.log (`products${i}.quantityAvailable`)
-      }
+      
+   }}
+
+   for (let i = 0; i < products.length; i++) {
+   if (errors_array.length == 0) {
+      products[i].quantityAvailable -= request.body[`quantities${i}`]
+      
+      console.log (`products${i}.quantityAvailable`)
+   } else {
+      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
    }
-
-
 }
-);
+   if (valid_quantities){
+      // after running the loop through the entire 'products' array and validating the data, send the user to the invoice page
+      response.redirect('./invoice.html?' + querystring.stringify(request.body));
+   }
+});
 
 /* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */
 app.use(express.static(__dirname + '/public'));
 
 // starts the server; outputs the port in console
 app.listen(8080, () => console.log(`listening on port 8080`))
+
 
