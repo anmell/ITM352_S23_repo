@@ -17,7 +17,8 @@
   function isNonNegInt(quantities, returnErrors) {
     errors = []; // assume no errors at first
     if (Number(quantities) != quantities) errors.push('Not a number!'); // Check if string is a number value
-    if (quantities < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if (quantities < 0) errors.push('Negative Value!'); // Check if it is non-negative
+    if (quantities == 0) errors.push('Zero!');
     if (parseInt(quantities) != quantities) errors.push('Not an integer!'); // Check that it is an integer
 
     var returnErrors = returnErrors ? errors : (errors.length == 0);
@@ -53,7 +54,7 @@
         // generate item rows 
         document.write(`
           <tr>
-            <td width="43%">${products[i].name}</td>
+            <td width="43%"><img src="${products[i].img}" width=30% height=30%><div><div>${products[i].name}</td>
             <td align="center" width="11%">${qty}</td>
             <td width="13%">$${products[i].price}<div style="color:red;">${errors.join()}</div></td>
             <td width="43%">$${extended_price.toFixed(2)}</td>

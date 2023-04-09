@@ -11,6 +11,7 @@ var products = require(__dirname + '/product_data.json');
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
+   if (quantities == 0) errors.push('Zero!');
    if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
 

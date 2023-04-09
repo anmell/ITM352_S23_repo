@@ -5,19 +5,7 @@
     let params = (new URL(document.location)).searchParams;
 </script>
 
-<script>
 
-    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in an alert box
-
-    if (params.has(`errors_array`)) {
-        var errors = params.get(`errors_array`)
-        console.log(errors)
-    }
-    if (errors) {
-        alert(`Hi please fix this error: ${errors}`);
-    };
-
-</script>
 
 <head>
 
@@ -56,13 +44,25 @@
 
     </div>
     <footer>
-        </p><input type="submit" value="Click Here to Purchase!">
+    </p><input type="submit" id = "purchase_button" value="Click Here to Purchase!"></p>
     </footer>
-</body>
 </form>
 </main>
+</body>
 <script>
-        // note** the form tags changed the layout of the whole page, play with css to fix this 
+
+    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in an alert box
+
+    if (params.has(`errors_array`)) {
+        var errors = params.get(`errors_array`)
+        console.log(errors)
+    }
+    if (errors) {
+        alert(`Hi please fix this error: ${errors}`);
+        document.getElementById('purchase_button').value = errors;
+    };
+
 </script>
+
 
 </html>
