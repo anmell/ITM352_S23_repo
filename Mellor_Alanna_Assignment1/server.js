@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var querystring = require('querystring');
 
+
 // stores product json data in server memory undet the variable name 'products' and maes it accessible through the root directory and the following json file path
 var products = require(__dirname + '/product_data.json');
 
@@ -36,32 +37,39 @@ app.get("/product_data.js", function (request, response, next) {
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
-// <** your code here ***>
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
 app.post('/invoice.html', function (request, response) {
-   console.log(request.body);
+   //console.log(request.body);
 
-   // use a FLAG to check that at least one quanitty was selected,is q>0; use true and false statement, continue to the loop
 
 
    // alert box must be done on the client, send client back to the order page, make the html page check if there is an error, if so, display alert box 
-   // assume nothing was entered into the textboxes 
-   var valid_quantities = false;
 
-   // check if at least one quantity value has been entered
 
-      
+   // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
+
+
+   //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
+   var all_textboxes = [];
 
    //assign a variable to collect all errors
-   let errors_array = [];
+   var errors_array = [];
 
-
-
-   // loop through the products array
+   // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.length; i++) {
+      all_textboxes.push(request.body[`quantities${i}`]);
+   }
+   console.log(all_textboxes);
 
+   // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
+   if (all_textboxes.every(element => element === '')) {
+      errors_array.push('Please enter at least one quantity');
+   }
+
+   // loop through the products array; massive for loop for the second and third validations
+   for (let i = 0; i < products.length; i++) {
 
       //assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
       var qty = request.body[`quantities${i}`];
@@ -81,45 +89,43 @@ app.post('/invoice.html', function (request, response) {
          continue;
       }
 
-      //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, send an error message
+      //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, push an error to the errors_array
       if (errors.length > 0) {
          errors_array.push(`Invalid Quantity for ${products[i].name}`);
 
-         //confirm that something was entered (even if it was an error)
-         valid_quantities = true;
-         //output the errors in console so that I can track them
-         console.log(errors_array);
       }
-      // if the user selects more quantities than are available, send the user to a page that points out the specific error
+      // if the user selects more quantities than are available, push an error into the errors_array
       if (qty > qa) {
          errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
 
-         //confirm that something was entered (even if it was an error)
-         valid_quantities = true;
-         console.log(errors_array);
-
       }
    }
 
+   // Individual Requirement 1: track the total quantity sold an dynamically display it with the product information
+   // add a total_sold property for each json object in json file, initialize it to 0
+   // add a line to display this in html file for each product
+   // if every validation passes, update the total sold property when you update the quantities available property
 
+
+   // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
    for (let i = 0; i < products.length; i++) {
       if (errors_array.length == 0) {
          products[i].quantityAvailable -= request.body[`quantities${i}`];
-         console.log(errors_array)
+         products[i].total_sold =+ request.body[`quantities${i}`];;
+      }}
 
-      } else {
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+
+      // after evaluating all the data and updating quantitiesAvailable, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
+      for (let i = 0; i < products.length; i++) {
+         if (errors_array.length == 0) {
+            console.log(`this is the errors_array: ${errors_array}`)
+            response.redirect('./invoice.html?' + querystring.stringify(request.body));
+         } else {
+            response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
+         }
       }
-   }
+   });
 
-   if (valid_quantities) {
-      errors_array.push ('Please enter at least one quantitiy')
-      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
-   } else {
-      // after running the loop through the entire 'products' array and validating the data, send the user to the invoice page
-      response.redirect('./invoice.html?' + querystring.stringify(request.body));
-   }
-});
 
 /* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */
 app.use(express.static(__dirname + '/public'));
