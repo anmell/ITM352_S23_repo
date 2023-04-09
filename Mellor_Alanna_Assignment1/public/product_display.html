@@ -13,9 +13,9 @@
         var errors = params.get(`errors_array`)
         console.log(errors)
     }
-    if (errors.length > 0) {
+    if (errors) {
         alert(`Hi please fix this error: ${errors}`);
-        };
+    };
 
 </script>
 
@@ -48,18 +48,19 @@
                     <img src="${products[i].img}">
                     <p>Quantity Available: ${products[i].quantityAvailable}</p>
                     <p>Total Sold: ${products[i].total_sold} </p>
-                    <p><b><label for = "quantities${i}" id = "quantities${i}_label">Quantity Desired</label></b><p>
+                    <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
                    <p><input type = "text" id = "quantities${i}" name = "quantities${i}" onload = "entered_quantities()"></p>
                 </section>
             `);
                 </script>
-        </main>
+
     </div>
     <footer>
         </p><input type="submit" value="Click Here to Purchase!">
     </footer>
 </body>
 </form>
+</main>
 <script>
         // note** the form tags changed the layout of the whole page, play with css to fix this 
 </script>

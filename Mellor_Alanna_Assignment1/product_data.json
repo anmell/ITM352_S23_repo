@@ -2,28 +2,28 @@
     {
         "name": "Jack Of Hearts",
         "price": "11",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/JOH.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Doggy%20Jack%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0
     },
     {
         "name": "Queen Of Hearts",
         "price": "12",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/QOH.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/cool%20queen%20of%20hearts.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0
     },
     {
         "name": "King Of Hearts",
         "price": "13",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/KOH.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/New%20King%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0
     },
     {
         "name": "Ace Of Hearts",
         "price": "14",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Ace.png?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/New%20Ace%20of%20Hearts.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0
     },
