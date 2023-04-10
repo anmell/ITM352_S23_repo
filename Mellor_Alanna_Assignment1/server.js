@@ -7,11 +7,10 @@ var querystring = require('querystring');
 var products = require(__dirname + '/product_data.json');
 
 
-
+// function to check is quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
-   if (quantities == 0) errors.push('Zero!');
    if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
 
@@ -42,11 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
 app.post('/invoice.html', function (request, response) {
-   //console.log(request.body);
 
-
-
-   // alert box must be done on the client, send client back to the order page, make the html page check if there is an error, if so, display alert box 
 
 
    // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
@@ -62,7 +57,6 @@ app.post('/invoice.html', function (request, response) {
    for (let i = 0; i < products.length; i++) {
       all_textboxes.push(request.body[`quantities${i}`]);
    }
-   console.log(all_textboxes);
 
    // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
    if (all_textboxes.every(element => element === '')) {
@@ -116,10 +110,11 @@ app.post('/invoice.html', function (request, response) {
       }}
 
 
-      // after evaluating all the data and updating quantitiesAvailable, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
+      // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
       for (let i = 0; i < products.length; i++) {
+
+         // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
          if (errors_array.length == 0) {
-            console.log(`this is the errors_array: ${errors_array}`)
             response.redirect('./invoice.html?' + querystring.stringify(request.body));
          } else {
             response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));

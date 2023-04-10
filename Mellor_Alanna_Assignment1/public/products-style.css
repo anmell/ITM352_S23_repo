@@ -1,8 +1,14 @@
  /* General */
+html {
+  background-image: url("https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Flying%20cards.png?raw=true");
+    background-repeat: repeat;
+    background-position: center;
+}
  body {
     font-family: "American Typewriter", sans-serif;
     margin: 0 auto;
     padding: 0;
+    background-color: rgba(255, 255, 255, 0.63);;
   }
   
   /* Typography */
@@ -11,33 +17,28 @@
     font-family: "Optima", sans-serif;
     color:rgb(182, 18, 18);
     text-align: center;
-    background: rgba(248, 248, 248, 0.8);
-    
-
+    background: rgba(255, 255, 255, 0.8); 
   } 
-
- 
   
    p, span { 
     text-align: center;
     color:rgb(0, 0, 0);
-    font-weight: bold;
     padding-left: 25px;
     padding-right: 25x;
-    background: rgba(248, 248, 248, 0.8);
 
   }
   
   /* block styling */
+  /*  
+  from tag above:
+  
+ */
   
   body > div > main  {
-    border: 2px solid rgb(0, 0, 0);
     flex-direction: column;
     display: flex;
     align-items: center;
-    background-image: url("https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Flying%20cards.png?raw=true");
-    background-repeat: repeat;
-    background-position: center;
+    background-color: rgba(255, 254, 254, 0.352);
   }
   
   /*  Form styling */
@@ -52,15 +53,16 @@
   /* Styling the products */
 
   
+ 
   .item img {
     padding: 10px; 
       width: 150px;
       height: 200px; 
       border: 2px solid rgb(0, 0, 0);
+      border-radius: 16px;
       
   }
   footer {
-    background-color: #f2f2f2;
     text-align: center;
     padding: 25px;
   }

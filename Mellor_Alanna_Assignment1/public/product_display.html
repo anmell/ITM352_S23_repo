@@ -3,6 +3,28 @@
 <html>
 <script>
     let params = (new URL(document.location)).searchParams;
+
+    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
+    // store in function and call it when the page loads 
+    window.onload = function () {
+        for (let i in products) {
+        
+        // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
+            quantity_form[`quantities${i}`].value = params.get(`quantities${i}`); 
+
+        // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+            if (params.has(`errors_array`)) {
+                var errors = JSON.parse(params.get(`errors_array`));
+            }
+
+            // if the variable storing the errors_array exists, assign the value of the button to the errors
+            if (errors) {
+                document.getElementById('purchase_button').value = errors;
+            };
+        }
+    }
+    
+
 </script>
 
 
@@ -33,7 +55,7 @@
                     <h2 name = "products${i}_name">${products[i].name}</td>
                     </h2> 
                     <p>$${products[i].price}</p>
-                    <img src="${products[i].img}">
+                    <img src="${products[i].img}" id = "image">
                     <p>Quantity Available: ${products[i].quantityAvailable}</p>
                     <p>Total Sold: ${products[i].total_sold} </p>
                     <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
@@ -44,22 +66,14 @@
 
     </div>
     <footer>
-    </p><input type="submit" id = "purchase_button" value="Click Here to Purchase!"></p>
+        </p><input type="submit" id="purchase_button" value="Click Here to Purchase!"></p>
     </footer>
-</form>
-</main>
+    </form>
+    </main>
 </body>
 <script>
 
-    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in an alert box
 
-    if (params.has(`errors_array`)) {
-        var errors = params.get(`errors_array`)
-        console.log(errors)
-    }
-    if (errors) {
-        document.getElementById('purchase_button').value = errors;
-    };
 
 </script>
 
