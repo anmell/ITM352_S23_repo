@@ -2,7 +2,7 @@
     {
         "name": "Jack of Clubs",
         "price": "11",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Doggy%20Jack%20of%20Hearts.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Doggy%20Jack%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
         "description": "Jack Of Hearts Card"
@@ -10,7 +10,7 @@
     {
         "name": "Queen of Diamonds",
         "price": "12",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/cool%20queen%20of%20hearts.png?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/cool%20queen%20of%20hearts.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
         "description": "Queen Of Hearts Card"
@@ -18,7 +18,7 @@
     {
         "name": "King of Hearts",
         "price": "13",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/New%20King%20of%20Hearts.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/New%20King%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
         "description": "King Of Hearts Card"
@@ -26,7 +26,7 @@
     {
         "name": "Ace of Spades",
         "price": "14",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/black%20ace.png?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/black%20ace.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
         "description": "Ace Of Hearts Card"
@@ -34,7 +34,7 @@
     {
         "name": "Joker",
         "price": "15",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/Images/Joker.jpeg?raw=true",
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Joker.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
         "description": "Joker Card"
