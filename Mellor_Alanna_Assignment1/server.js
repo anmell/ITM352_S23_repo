@@ -109,8 +109,8 @@ app.post('/invoice.html', function (request, response) {
    // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
    for (let i = 0; i < products.length; i++) {
       if (errors_array.length == 0) {
+         products[i].total_sold += Number(request.body[`quantities${i}`]);
          products[i].quantityAvailable -= request.body[`quantities${i}`];
-         products[i].total_sold =+ request.body[`quantities${i}`];;
       }}
 
 
