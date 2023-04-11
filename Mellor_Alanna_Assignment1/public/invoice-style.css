@@ -8,6 +8,30 @@ body {
   background-repeat: repeat;
   background-position: center;
 }
+ /* styling my navigation bar */
+ nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(212, 212, 212, 0.792);
+  margin-bottom: 15px;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+}
+
+nav li {
+  margin: 0 10px;
+}
+
+nav a {
+  font-family: "Optima", sans-serif;
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  font-weight: bold;
+}
 
 /*styling for the actual invoice table*/
 table {
