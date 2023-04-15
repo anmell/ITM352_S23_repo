@@ -108,9 +108,15 @@ app.post('/login.html', function (request, response) {
 
    // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
    for (let i = 0; i < products.length; i++) {
-      if (errors_array.length == 0) {
+      /* if (errors_array.length == 0) {
          products[i].total_sold += Number(request.body[`quantities${i}`]);
          products[i].quantityAvailable -= request.body[`quantities${i}`];
+      }} */ 
+
+      // store the quantity selected for each product in the products_data.json file
+      // at invoice, update total sold, quantityAvailable, and quantity_selected
+      if (errors_array.length == 0) {
+         products[i].quantity_selected += Number(request.body[`quantities${i}`])
       }}
 
 
@@ -134,25 +140,39 @@ app.post('/login.html', function (request, response) {
 // load file system (fs) interface
 var fs = require ('fs');
 
+var filename = __dirname + '/user_data.json'; 
 
-
-app.post("/invoice.html", function (request, response) {
-   var filename = __dirname + '/user_data.json'; 
-
- // objective: read the user_data file, get the contents; taken from File IO Lab
- var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
+// objective: read the user_data file, get the contents; taken from File IO Lab
+var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 
 // parse through user_data JSON, turn it into an object; Taken from File IO lab
-var user_data= JSON.parse(user_data_object_JSON);   
+var user_data= JSON.parse(user_data_object_JSON);  
+
+app.post("/invoice.html", function (request, response) {
+ 
 // Process login form POST and redirect to logged in page if ok, back to login page if not
 var username = request.body[`uname`];
 var password = request.body[`psw`];
 
 if (user_data.hasOwnProperty(`${username}`)) {
-   console.log (`${username}`)
-   response.send(`youre in`)
+
+   response.redirect('./invoice.html');
 }
 });
+
+app.post ('/invoice.html', function (request, response) {
+   for (let i in products) {
+
+      //update total sold
+      products[i].total_sold += products[i].quantity_selected;
+
+      //update quantity available
+      products[i].quantityAvailable -= products[i].quantity_selected;
+
+      //set quantity_selected back to 0
+      products[i].quantity_selected -= products[i].quantity_selected;
+   }
+})
 
 
 // Registration

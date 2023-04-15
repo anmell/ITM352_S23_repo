@@ -22,15 +22,13 @@
 
     // loop through products to generate a row for each product and quantity 
     for (let i in products) {
-      //get the quantity for [i]th product from the query string
 
-      if (params.has(`quantities${i}`)) {
-        var qty = params.get(`quantities${i}`);
+      // assign variable to quantity_selected
+      var qty = products[i].quantity_selected;
 
-        //skip items with no quantities
-        if (qty == 0) {
-          continue;
-        }
+      if (qty == 0){
+        continue;
+      }
 
         //set extended price
           var extended_price = qty * products[i].price;
@@ -47,8 +45,7 @@
     `)
         subtotal += extended_price
       }
-    }
-  }
+    };
 
     
 </script>

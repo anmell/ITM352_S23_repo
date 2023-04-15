@@ -5,7 +5,8 @@
         "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Doggy%20Jack%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
-        "description": "Jack Of Hearts Card"
+        "description": "Jack Of Hearts Card",
+        "quantity_selected": 0
     },
     {
         "name": "Queen of Diamonds",
@@ -13,7 +14,8 @@
         "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/cool%20queen%20of%20hearts.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
-        "description": "Queen Of Hearts Card"
+        "description": "Queen Of Hearts Card",
+        "quantity_selected": 0
     },
     {
         "name": "King of Hearts",
@@ -21,7 +23,8 @@
         "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/New%20King%20of%20Hearts.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
-        "description": "King Of Hearts Card"
+        "description": "King Of Hearts Card",
+        "quantity_selected": 0
     },
     {
         "name": "Ace of Spades",
@@ -29,7 +32,8 @@
         "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/black%20ace.png?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
-        "description": "Ace Of Hearts Card"
+        "description": "Ace Of Hearts Card",
+        "quantity_selected": 0
     },
     {
         "name": "Joker",
@@ -37,6 +41,7 @@
         "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Joker.jpeg?raw=true",
         "quantityAvailable": 100,
         "total_sold": 0,
-        "description": "Joker Card"
+        "description": "Joker Card",
+        "quantity_selected": 0
     }
 ]
