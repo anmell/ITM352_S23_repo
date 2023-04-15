@@ -47,7 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/login.html', function (request, response) {
 
 
-
    // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
 
 
@@ -133,8 +132,6 @@ app.post('/login.html', function (request, response) {
    });
 
 
-
-
 // Login 
 
 // load file system (fs) interface
@@ -148,31 +145,36 @@ var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 // parse through user_data JSON, turn it into an object; Taken from File IO lab
 var user_data= JSON.parse(user_data_object_JSON);  
 
+
+
 app.post("/invoice.html", function (request, response) {
  
 // Process login form POST and redirect to logged in page if ok, back to login page if not
+
+// assign variables to collect the values entered into the username and password fields
 var username = request.body[`uname`];
 var password = request.body[`psw`];
 
-if (user_data.hasOwnProperty(`${username}`)) {
+// assign empty variable  to collect error; alert of incorrect password, or prompt user to create an account if username does not exist 
+var error_check = [];
 
+//if username does not exist, redirect back to invoice, pass error via query string
+if (!user_data.hasOwnProperty(`${username}`)){
+   error_check.push(`The username you've entered does not exist, please create a new account`)
+   response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}`}));
+}
+
+//check if the username exists in the user_data file and that the password matches appropriately
+if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
+
+   //if validation passes, direct to invoice page 
    response.redirect('./invoice.html');
+} else {
+
+   // redirect back to login page, pass errors via query string
+   response.send('please enter a valid password')
 }
 });
-
-app.post ('/invoice.html', function (request, response) {
-   for (let i in products) {
-
-      //update total sold
-      products[i].total_sold += products[i].quantity_selected;
-
-      //update quantity available
-      products[i].quantityAvailable -= products[i].quantity_selected;
-
-      //set quantity_selected back to 0
-      products[i].quantity_selected -= products[i].quantity_selected;
-   }
-})
 
 
 // Registration
