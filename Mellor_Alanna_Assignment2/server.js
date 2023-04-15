@@ -44,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
-app.post('/invoice.html', function (request, response) {
+app.post('/login.html', function (request, response) {
 
 
 
@@ -131,9 +131,27 @@ app.post('/invoice.html', function (request, response) {
 
 // Login 
 
-app.post("/login", function (request, response) {
-   // Process login form POST and redirect to logged in page if ok, back to login page if not
+// load file system (fs) interface
+var fs = require ('fs');
 
+
+
+app.post("/invoice.html", function (request, response) {
+   var filename = __dirname + '/user_data.json'; 
+
+ // objective: read the user_data file, get the contents; taken from File IO Lab
+ var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
+
+// parse through user_data JSON, turn it into an object; Taken from File IO lab
+var user_data= JSON.parse(user_data_object_JSON);   
+// Process login form POST and redirect to logged in page if ok, back to login page if not
+var username = request.body[`uname`];
+var password = request.body[`psw`];
+
+if (user_data.hasOwnProperty(`${username}`)) {
+   console.log (`${username}`)
+   response.send(`youre in`)
+}
 });
 
 

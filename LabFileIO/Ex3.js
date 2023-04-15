@@ -24,6 +24,7 @@ app.post("/login", function (request, response) {
     console.log(request.body)
     // check username is in user_data
     if (user_data.hasOwnProperty(username)) {
+
         //get user info, load all values into variable
         var user_info = user_data.username;
 
@@ -52,8 +53,6 @@ if (fs.existsSync(filename)){
     // parse through user_data JSON, turn it into an object
     var user_data= JSON.parse(user_data_object_JSON);
     
-    // parse through user_data JSON, turn it into an object
-     var user_data= JSON.parse(user_data_object_JSON);
 
     console.log(`the password for kazman is ${user_data[username][`password`]}`);
     } else {
