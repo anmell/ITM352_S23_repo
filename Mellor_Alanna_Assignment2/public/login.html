@@ -9,23 +9,23 @@
   // store in function and call it when the page loads 
   window.onload = function () {
 
-          // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
-          if (params.has(`uname`)){
-           login_form[`uname${i}`].value = params.get(`uname${i}`); 
-          }
-          if (params.has(`psw`)) {
-            login_form[`psw${i}`].value = params.get(`psw${i}`);
-          }
-          
-          // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
-          if (params.has(`error_check`)) {
-              var errors = JSON.parse(params.get(`error_check`));
-          }
-          // if the variable storing the errors_array exists, assign the value of the button to the errors
-          if (errors) {
-                window.alert(errors);
-            };
-      };
+    // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
+    if (params.has(`uname`)) {
+      login_form[`uname`].value = params.get(`uname`);
+    }
+    if (params.has(`psw`)) {
+      login_form[`psw`].value = params.get(`psw`);
+    }
+
+    // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+    if (params.has(`error_check`)) {
+      var errors = JSON.parse(params.get(`error_check`));
+    }
+    // if the variable storing the errors_array exists, assign the value of the button to the errors
+    if (errors) {
+      window.alert(errors);
+    };
+  };
 
 
 </script>
@@ -33,25 +33,37 @@
 <head>
   <link href="login-style.css" rel="stylesheet">
 </head>
+
 <body>
-<form name = "login_form" action="/invoice.html" method="post">
-  <div class="imgcontainer">
-    <img src="https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment2/public/Images/FallingHouseofCards.jpeg?raw=true" height = 50% width = 30% alt="Avatar" class="avatar">
-  </div>
+  <form name="login_form" action="/invoice.html" method="post">
+    <div class="imgcontainer">
+      <img
+        src="https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment2/public/Images/FallingHouseofCards.jpeg?raw=true"
+        height=50% width=30% alt="Avatar" class="avatar">
+    </div>
 
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
 
-    <button type="submit" name = "button">Login</button>
-  </div>
+      <button type="submit" name="button">Login</button>
+    </div>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
+
+    <script>
+  // I am adding in this next "<div>" to give users the option of registering a new account; completed via a hyperlink
+    </script>
+    <div> 
+        <span class = "registration_link"> Click <a href = "/registration.html">here</a> to create a new account!</span>
+    </div>
+
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" class="cancelbtn" onclick="window.location.href='./product_display.html'">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+  </form>
 </body>

@@ -107,10 +107,12 @@ app.post('/login.html', function (request, response) {
 
    // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
    for (let i = 0; i < products.length; i++) {
-      /* if (errors_array.length == 0) {
+
+      /*
+       if (errors_array.length == 0) {
          products[i].total_sold += Number(request.body[`quantities${i}`]);
          products[i].quantityAvailable -= request.body[`quantities${i}`];
-      }} */ 
+      }}  */
 
       // store the quantity selected for each product in the products_data.json file
       // at invoice, update total sold, quantityAvailable, and quantity_selected
@@ -124,7 +126,7 @@ app.post('/login.html', function (request, response) {
 
          // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
          if (errors_array.length == 0) {
-            response.redirect('./login.html?' + querystring.stringify(request.body));
+            response.redirect('./login.html?');
          } else {
             response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
          }
@@ -151,30 +153,42 @@ app.post("/invoice.html", function (request, response) {
  
 // Process login form POST and redirect to logged in page if ok, back to login page if not
 
+
 // assign variables to collect the values entered into the username and password fields
-var username = request.body[`uname`];
+var username = request.body[`uname`].toLowerCase();
 var password = request.body[`psw`];
 
 // assign empty variable  to collect error; alert of incorrect password, or prompt user to create an account if username does not exist 
 var error_check = [];
 
-//if username does not exist, redirect back to invoice, pass error via query string
+//if username does not exist, redirect back to login.html, pass error via query string
 if (!user_data.hasOwnProperty(`${username}`)){
    error_check.push(`The username you've entered does not exist, please create a new account`)
    response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}`}));
 }
 
+// if username does exist, but password does match, redict back to login.html, pass error via query string
+if (user_data.hasOwnProperty(`${username}`) && password !== user_data[username][`password`]){
+   error_check.push(`Incorrect password for ${username}`)
+   response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}`}));
+}
+
+
 //check if the username exists in the user_data file and that the password matches appropriately
 if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
-
-   //if validation passes, direct to invoice page 
+   for (let i in products){
+      products[i].total_sold += Number(products[i].quantity_selected);
+      products[i].quantityAvailable -= Number(products[i].quantity_selected);
+      products[i].quantity_selected -=;
+   }
+   //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
    response.redirect('./invoice.html');
-} else {
-
-   // redirect back to login page, pass errors via query string
-   response.send('please enter a valid password')
 }
 });
+
+
+
+
 
 
 // Registration
