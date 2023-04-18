@@ -23,8 +23,9 @@
     // loop through products to generate a row for each product and quantity 
     for (let i in products) {
 
-      // assign variable to quantity_selected
-      var qty = products[i].quantity_selected;
+      // grab selected_quantities from query string 
+      if (params.has(`selected_quantities${i}`)) {
+        var qty = params.get(`selected_quantities${i}`);
 
       if (qty == 0){
         continue;
@@ -45,7 +46,7 @@
     `)
         subtotal += extended_price
       }
-    };
+    }};
 
     
 </script>

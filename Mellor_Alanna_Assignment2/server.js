@@ -41,6 +41,8 @@ app.get("/product_data.js", function (request, response, next) {
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
+// assign an empty variable to collect the values entered for each product
+var selected_quantites;
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
@@ -48,7 +50,6 @@ app.post('/login.html', function (request, response) {
 
 
    // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
-
 
    //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
    var all_textboxes = [];
@@ -108,17 +109,11 @@ app.post('/login.html', function (request, response) {
    // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
    for (let i = 0; i < products.length; i++) {
 
-      /*
+
        if (errors_array.length == 0) {
          products[i].total_sold += Number(request.body[`quantities${i}`]);
          products[i].quantityAvailable -= request.body[`quantities${i}`];
-      }}  */
-
-      // store the quantity selected for each product in the products_data.json file
-      // at invoice, update total sold, quantityAvailable, and quantity_selected
-      if (errors_array.length == 0) {
-         products[i].quantity_selected += Number(request.body[`quantities${i}`])
-      }}
+      }}  
 
 
       // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
@@ -126,7 +121,8 @@ app.post('/login.html', function (request, response) {
 
          // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
          if (errors_array.length == 0) {
-            response.redirect('./login.html?');
+            selected_quantites = request.body;
+            response.redirect('./login.html?' + querystring.stringify ({selected_quantites:`${JSON.stringify(selected_quantites)}`}));
          } else {
             response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
          }
@@ -150,6 +146,7 @@ var user_data= JSON.parse(user_data_object_JSON);
 
 
 app.post("/invoice.html", function (request, response) {
+   let params = new URLSearchParams(request.query)
  
 // Process login form POST and redirect to logged in page if ok, back to login page if not
 
@@ -179,10 +176,9 @@ if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`
    for (let i in products){
       products[i].total_sold += Number(products[i].quantity_selected);
       products[i].quantityAvailable -= Number(products[i].quantity_selected);
-      products[i].quantity_selected -=;
    }
    //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
-   response.redirect('./invoice.html');
+   response.redirect('./invoice.html?' + params.toString());
 }
 });
 
@@ -199,5 +195,3 @@ app.use(express.static(__dirname + '/public'));
 
 // starts the server; outputs the port in console
 app.listen(8080, () => console.log(`listening on port 8080`))
-
-
