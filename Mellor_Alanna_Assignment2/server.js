@@ -42,7 +42,7 @@ app.get("/product_data.js", function (request, response, next) {
 app.use(express.urlencoded({ extended: true }));
 
 // assign an empty variable to collect the values entered for each product
-var selected_quantites;
+// var selected_quantities =[];
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
@@ -106,85 +106,80 @@ app.post('/login.html', function (request, response) {
    // if every validation passes, update the total sold property when you update the quantities available property
 
 
-   // if quantities entered passes every validation, run a loop through all products to update the quantities available and the total quantities sold
+   // if quantities entered passes every validation, run a loop through all products to update quantity_selected for each 
+   for (let i in products) {
+
+      if (errors_array.length == 0) {
+         // push the values that the user has entered to quantity_selected for each product 
+         products[i].quantity_selected += Number(request.body[`quantities${i}`]);
+      }
+   }
+
+
+   // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
    for (let i = 0; i < products.length; i++) {
 
-
-       if (errors_array.length == 0) {
-         products[i].total_sold += Number(request.body[`quantities${i}`]);
-         products[i].quantityAvailable -= request.body[`quantities${i}`];
-      }}  
-
-
-      // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the invoice page (all data entered is valid)
-      for (let i = 0; i < products.length; i++) {
-
-         // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
-         if (errors_array.length == 0) {
-            selected_quantites = request.body;
-            response.redirect('./login.html?' + querystring.stringify ({selected_quantites:`${JSON.stringify(selected_quantites)}`}));
-         } else {
-            response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}`}));
-         }
+      // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
+      if (errors_array.length == 0) {
+         response.redirect('./login.html?'/*+ querystring.stringify ({selected_quantities:`${JSON.stringify(selected_quantities)}`})*/);
+      } else {
+         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
       }
-   });
+   }
+});
 
 
 // Login 
 
 // load file system (fs) interface
-var fs = require ('fs');
+var fs = require('fs');
 
-var filename = __dirname + '/user_data.json'; 
+var filename = __dirname + '/user_data.json';
 
 // objective: read the user_data file, get the contents; taken from File IO Lab
 var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 
 // parse through user_data JSON, turn it into an object; Taken from File IO lab
-var user_data= JSON.parse(user_data_object_JSON);  
+var user_data = JSON.parse(user_data_object_JSON);
 
 
 
 app.post("/invoice.html", function (request, response) {
-   let params = new URLSearchParams(request.query)
- 
-// Process login form POST and redirect to logged in page if ok, back to login page if not
+
+   // Process login form POST and redirect to logged in page if ok, back to login page if not
 
 
-// assign variables to collect the values entered into the username and password fields
-var username = request.body[`uname`].toLowerCase();
-var password = request.body[`psw`];
+   // assign variables to collect the values entered into the username and password fields
+   var username = request.body[`uname`].toLowerCase();
+   var password = request.body[`psw`];
 
-// assign empty variable  to collect error; alert of incorrect password, or prompt user to create an account if username does not exist 
-var error_check = [];
+   // assign empty variable  to collect error; alert of incorrect password, or prompt user to create an account if username does not exist 
+   var error_check = [];
 
-//if username does not exist, redirect back to login.html, pass error via query string
-if (!user_data.hasOwnProperty(`${username}`)){
-   error_check.push(`The username you've entered does not exist, please create a new account`)
-   response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}`}));
-}
-
-// if username does exist, but password does match, redict back to login.html, pass error via query string
-if (user_data.hasOwnProperty(`${username}`) && password !== user_data[username][`password`]){
-   error_check.push(`Incorrect password for ${username}`)
-   response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}`}));
-}
-
-
-//check if the username exists in the user_data file and that the password matches appropriately
-if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
-   for (let i in products){
-      products[i].total_sold += Number(products[i].quantity_selected);
-      products[i].quantityAvailable -= Number(products[i].quantity_selected);
+   //if username does not exist, redirect back to login.html, pass error via query string
+   if (!user_data.hasOwnProperty(`${username}`)) {
+      error_check.push(`The username you've entered does not exist, please create a new account`)
+      response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}` }));
    }
-   //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
-   response.redirect('./invoice.html?' + params.toString());
-}
+
+   // if username does exist, but password does match, redict back to login.html, pass error via query string
+   if (user_data.hasOwnProperty(`${username}`) && password !== user_data[username][`password`]) {
+      error_check.push(`Incorrect password for ${username}`)
+      response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}` }));
+   }
+
+
+   //check if the username exists in the user_data file and that the password matches appropriately
+   if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
+      for (let i in products) {
+         products[i].total_sold += Number(products[i].quantity_selected);
+         products[i].quantityAvailable -= Number(products[i].quantity_selected);
+      }
+      //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
+      response.redirect('./invoice.html?');
+
+   }
 });
-
-
-
-
 
 
 // Registration

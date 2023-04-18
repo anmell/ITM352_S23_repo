@@ -23,30 +23,30 @@
     // loop through products to generate a row for each product and quantity 
     for (let i in products) {
 
-      // grab selected_quantities from query string 
-      if (params.has(`selected_quantities${i}`)) {
-        var qty = params.get(`selected_quantities${i}`);
+     /* // grab selected_quantities from query string 
+      if (params.has(`selected_quantities$`)) {
+        var qty = JSON.parse(params.get(`selected_quantities`)); } */
 
-      if (qty == 0){
+      if (products[i].quantity_selected == 0){
         continue;
       }
 
         //set extended price
-          var extended_price = qty * products[i].price;
+          var extended_price = products[i].quantity_selected * products[i].price;
         
 
         // generate item rows 
         document.write(`
           <tr>
             <td align="center" width="43%"><img src="${products[i].img}" alt="description" width="30%" height="30%" title="${products[i].description}"><div><div><div>${products[i].name}</td>
-            <td align="center" width="11%">${qty}</td>
+            <td align="center" width="11%">${products[i].quantity_selected}</td>
             <td align="center" width="13%">$${products[i].price}</div></td>
             <td width="43%">$${extended_price.toFixed(2)}</td>
           </tr>
     `)
         subtotal += extended_price
       }
-    }};
+    };
 
     
 </script>
