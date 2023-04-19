@@ -2,6 +2,41 @@
   <script>
   // I got this login template from: https://mdbootstrap.com/docs/standard/extended/registration/
  </script>
+
+<script>
+  // grab reg_errors from param string (of there is an error) and display an alert; make texboxes sticky 
+  let params = (new URL(document.location)).searchParams;
+
+  // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
+  // store in function and call it when the page loads 
+  window.onload = function () {
+
+    // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
+    if (params.has(`email`)) {
+      registration_form[`email`].value = params.get(`email`);
+    }
+    if (params.has(`name`)) {
+      registration_form[`name`].value = params.get(`name`);
+    }
+    if (params.has(`password`)) {
+      registration_form[`password`].value = params.get(`password`);
+    }
+    if (params.has(`repeat_password`)) {
+      registration_form[`repeat_password`].value = params.get(`repeat_password`);
+    }
+    
+    // if query string has the array "reg_errors" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+    if (params.has(`reg_errors`)) {
+      var errors = JSON.parse(params.get(`reg_errors`));
+      }
+      if (errors){
+      window.alert(errors);  
+    }
+    
+  };
+
+
+</script>
 </head>
 
 <body>
@@ -16,50 +51,59 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-                <form class="mx-1 mx-md-4">
-
+                <form name="registration_form" action="/registration.html" method="POST">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="text" id="form3Example1c" class="form-control" />
-                      <label class="form-label" for="form3Example1c">Your Name</label>
+    
                     </div>
                   </div>
-
+                
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="email" id="form3Example3c" class="form-control" />
-                      <label class="form-label" for="form3Example3c">Your Email</label>
+                      <label class="form-label" for="form3Example3c">Email Address</label>
+                      <input type="email" id="form3Example3c" class="form-control" name="email" />
                     </div>
                   </div>
-
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4c" class="form-control" />
-                      <label class="form-label" for="form3Example4c">Password</label>
+                      <label class="form-label" for="form3Example4c">Name</label>
+                      <input type="text" id="form3Example4c" class="form-control" name="name" />
                     </div>
                   </div>
-
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example4c">Password</label>
+                      <input type="password" id="form3Example4c" class="form-control" name="password" />
+                    </div>
+                  </div>
+                
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="form3Example4cd" class="form-control" />
                       <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                      <input type="password" id="form3Example4cd" class="form-control" name="repeat_password" />
+                      
                     </div>
                   </div>
-
+                  
+                  <script>
+                  /*
                   <div class="form-check d-flex justify-content-center mb-5">
                     <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                     <label class="form-check-label" for="form2Example3">
                       I agree all statements in <a href="#!">Terms of service</a>
                     </label>
                   </div>
-
+                  */
+                </script>
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="button" class="btn btn-primary btn-lg">Register</button>
-                  </div>
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                 
+                
 
                 </form>
 
