@@ -105,7 +105,7 @@ app.post('/login.html', function (request, response) {
 
 
 
-   // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the login page (all data entered is valid)
+
 
    // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
    if (errors_array.length == 0) {
