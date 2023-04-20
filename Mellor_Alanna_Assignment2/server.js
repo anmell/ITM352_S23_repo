@@ -11,9 +11,9 @@ var querystring = require('querystring');
 var products = require(__dirname + '/product_data.json');
 
 //variable to collect temporary data (like quantities and user info)
-var transient_data = {};
+// var transient_data = [];
 
-var params = new URLSearchParams(transient_data);
+//var params = window.location.search;
 
 
 // function to check is quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
@@ -122,20 +122,21 @@ app.post('/login.html', function (request, response) {
 
    // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the login page (all data entered is valid)
 
-      // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
-      if (errors_array.length == 0) {
-         
-         for (let i in products) {
-            transient_data = request.body;
-            console.log(transient_data)
-            products[i].total_sold += request.body[`quantities${i}`];
-            products[i].quantityAvailable -= request.body[`quantities${i}`];
-         }
-         response.redirect('./login.html?' + querystring.stringify({transient_data: `${JSON.stringify(transient_data)}` }));
+   // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
+   if (errors_array.length == 0) {
 
-      } else {
-         response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+      for (let i in products) {
+         /* transient_data.push(request.body);
+          console.log(transient_data) */
+         products[i].total_sold += Number(request.body[`quantities${i}`]);
+         products[i].quantityAvailable -= Number(request.body[`quantities${i}`]);
+         products[i].quantity_selected += Number(request.body[`quantities${i}`]);
       }
+      response.redirect('./login.html?');
+
+   } else {
+      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+   }
 });
 
 
@@ -154,7 +155,6 @@ var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 var user_data = JSON.parse(user_data_object_JSON);
 
 
-
 app.post("/invoice.html", function (request, response) {
 
    // Process login form POST and redirect to logged in page if ok, back to login page if not
@@ -167,70 +167,85 @@ app.post("/invoice.html", function (request, response) {
    // assign empty variable  to collect error; alert of incorrect password, or prompt user to create an account if username does not exist 
    var error_check = [];
 
+   // check that all fields have been filled out
+   if (username.length == 0 || password.length == 0) {
+      error_check.push('Please fill out all fields');
+      response.redirect('./login.html?' + querystring.stringify({ error_check: `${JSON.stringify(error_check)}` }));
+   }
+
    //if username does not exist, redirect back to login.html, pass error via query string
    if (!user_data.hasOwnProperty(`${username}`)) {
-      error_check.push(`The email you've entered does not exist, please create a new account`)
-      response.redirect('./login.html?' + querystring.stringify({error_check: `${JSON.stringify(error_check)}` }) + params.toString());
+      error_check.push(`The email you've entered does not exist, please create a new account`);
+      response.redirect('./login.html?' + querystring.stringify({ error_check: `${JSON.stringify(error_check)}` }));
    }
 
    // if username does exist, but password does match, redict back to login.html, pass error via query string
    if (user_data.hasOwnProperty(`${username}`) && password !== user_data[username][`password`]) {
-      error_check.push(`Incorrect password for ${username}`)
-      response.redirect('./login.html?' + querystring.stringify({ ...request.body, error_check: `${JSON.stringify(error_check)}` }) + params.toString());
+      error_check.push(`Incorrect password for ${username}`);
+      response.redirect('./login.html?' + querystring.stringify({ error_check: `${JSON.stringify(error_check)}` }));
    }
-
 
    //check if the username exists in the user_data file and that the password matches appropriately
    if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
       //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
-      response.redirect('./invoice.html?'+ querystring.stringify({username: `${JSON.stringify(username)}` }) + params.toString());
+      response.redirect('./invoice.html?' + querystring.stringify({ username: `${JSON.stringify(username)}` }));
 
    }
 });
 
 app.get('/product_display.html', function (request, response) {
- // Reset quantity_selected for all products back to zero when product_display is requested (GET) after an invoice has already been generated 
-for (let i in products) {
-products[i].quantity_selected = 0;  
-}
-
-// can't use response.redirect here because the server gets into an endless loop of redirecting to this file nonstop (since response.redirect is always a GET request)
-response.sendFile (__dirname + '/public' + '/product_display.html')
+   // Reset quantity_selected for all products back to zero when product_display is requested (GET) after an invoice has already been generated 
+   for (let i in products) {
+      products[i].quantity_selected = 0;
+   }
+   // can't use response.redirect here because the server gets into an endless loop of redirecting to this file nonstop (since response.redirect is always a GET request)
+   response.sendFile(__dirname + '/public' + '/product_display.html')
 });
+
+
 
 
 // Registration
 
-var reg_errors = []; // keep errors on server to share with registration page
+
 var successful_login = []
 
 // the following is inspired by assignment 2 code examples
 app.post('/registration.html', function (request, response) {
    // process a simple register form
    username = request.body.email.toLowerCase();
-
+   
+   var reg_errors = []; // keep errors on server to share with registration page
+   
    // check that all required fields have been filled out
-if(request.body.email == '' || request.body.name == ''|| request.body.password == '' || request.body.repeat_password == '') {
-       reg_errors.push('Please fill out all fields');
+   if (request.body.email == '' || request.body.name == '' || request.body.password == '' || request.body.repeat_password == '') {
+      reg_errors.push('Please fill out all fields');
    }
    // check if is username taken
-   if(typeof user_data[username] != 'undefined') {
-       reg_errors.push(`Sorry! ${username} is already taken. Please select a new username`);
+   if (typeof user_data[username] != 'undefined') {
+      reg_errors.push(`Sorry! ${username} is already taken. Please select a new username`);
    }
-   if(request.body.password != request.body.repeat_password) {
-       reg_errors.push('The passwords entered do not match');
-   } 
-   
-   if(Object.keys(reg_errors).length == 0) {
+   if (request.body.password != request.body.repeat_password) {
+      reg_errors.push('The passwords entered do not match');
+   }
+
+  
+
+   if (Object.keys(reg_errors).length == 0) {
       user_data[username] = {};
       user_data[username].password = request.body.password;
       user_data[username].email = request.body.email;
-       fs.writeFileSync(filename, JSON.stringify(user_data));
+      fs.writeFileSync(filename, JSON.stringify(user_data));
       successful_login.push(`Your account has been registered!`)
-       response.redirect('./login.html?' + querystring.stringify({successful_login: `${JSON.stringify(successful_login)}` })+ params.toString());
-   } else {
-       response.redirect("./registration.html?" + querystring.stringify({ ...request.body, reg_errors: `${JSON.stringify(reg_errors)}` })+params.toString());
+      response.redirect('./login.html?' + querystring.stringify({ successful_login: `${JSON.stringify(successful_login)}` }));
+   }else if (reg_errors.length > 0) {
+      response.redirect('./registration.html?' + querystring.stringify({ ...request.body, reg_errors: `${JSON.stringify(reg_errors)}` }));
    }
+
+});
+
+app.get ('/registration.html', function (request,response){
+   response.sendFile (__dirname + '/public' +'/registration.html');
 });
 
 /* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */

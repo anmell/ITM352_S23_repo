@@ -1,1 +1,14 @@
-{"dport@hawaii.edu":{"name":"Dan Port","password":"portspassword"},"kazman@hawaii.edu":{"name":"Rick Kazman","password":"kazmanpassword"},"itm352@hawaii.edu":{"name":"ITM 352","password":"grader"},"mellora@hawaii.edu":{"password":"mellor","email":"mellora@hawaii.edu"}}
+{
+    "dport@hawaii.edu": {
+        "name": "Dan Port",
+        "password": "portspassword"
+    },
+    "kazman@hawaii.edu": {
+        "name": "Rick Kazman",
+        "password": "kazmanpassword"
+    },
+    "itm352@hawaii.edu": {
+        "name": "ITM 352",
+        "password": "grader"
+    }
+}
