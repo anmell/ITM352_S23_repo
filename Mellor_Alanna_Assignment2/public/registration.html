@@ -1,126 +1,121 @@
 <head>
   <script>
-  /*I, Alanna Mellor, am the author of this code. The following is a user registration page. Data entered here gets validated via the server. If validation passes, data is written into user_data.json*/
+    /*I, Alanna Mellor, am the author of this code. The following is a user registration page. Data entered here gets validated via the server. If validation passes, data is written into user_data.json*/
 
-  // I got this login template from: https://mdbootstrap.com/docs/standard/extended/registration/
- </script>
+  // I got this registration template from: https://mdbootstrap.com/docs/standard/extended/registration/
+  </script>
 
-<script>
-  // grab reg_errors from param string (of there is an error) and display an alert; make texboxes sticky 
-  let params = (new URL(document.location)).searchParams;
+  <head>
+    <link rel="stylesheet" href="registration-style.css">
+  </head>
+  <script>
+    let params = (new URL(document.location)).searchParams;
 
-  // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
-  // store in function and call it when the page loads 
-  window.onload = function () {
+    // grab reg_errors from param string (if there is an error) and display an alert; make texboxes sticky
+    window.onload = function () {
 
-    // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
-    if (params.has(`email`)) {
-      registration_form[`email`].value = params.get(`email`);
-    }
-    if (params.has(`name`)) {
-      registration_form[`name`].value = params.get(`name`);
-    }
-    if (params.has(`password`)) {
-      registration_form[`password`].value = params.get(`password`);
-    }
-    if (params.has(`repeat_password`)) {
-      registration_form[`repeat_password`].value = params.get(`repeat_password`);
-    }
-    
-    // if query string has the array "reg_errors" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
-    if (params.has(`reg_errors`)) {
-      var errors = JSON.parse(params.get(`reg_errors`));
+      // loop through the products object, pull the values entered from query string and put them back in the textboxes
+      if (params.has(`email`)) {
+        registration_form[`email`].value = params.get(`email`);
       }
-      if (errors){
-      window.alert(errors);  
-    }
-    
-  };
+      if (params.has(`name`)) {
+        registration_form[`name`].value = params.get(`name`);
+      }
+      if (params.has(`password`)) {
+        registration_form[`password`].value = params.get(`password`);
+      }
+      if (params.has(`repeat_password`)) {
+        registration_form[`repeat_password`].value = params.get(`repeat_password`);
+      }
+
+      // if query string has the array "reg_errors" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+      if (params.has(`reg_errors`)) {
+        var errors = JSON.parse(params.get(`reg_errors`));
+      }
+      if (errors) {
+        window.alert(errors);
+      }
+
+    };
 
 
-</script>
+  </script>
 </head>
 
 <body>
-<section class="vh-100" style="background-color: #eee;">
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+  <section class="vh-100" style="background-color: #eee;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-12 col-xl-11">
+          <div class="card text-black" style="border-radius: 25px;">
+            <div class="card-body p-md-5">
+              <div class="row justify-content-center">
+                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                 <h1><p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Create an Account with House of Cards Purchase</p></h1>
 
-                <form name="registration_form" action="/registration.html" method="POST">
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-    
-                    </div>
-                  </div>
-                
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example3c">Email Address</label>
-                      <input type="text" id="form3Example3c" class="form-control" name="email" />
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example4c">Full Name</label>
-                      <input type="text" id="form3Example4c" class="form-control" name="name" />
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example4c">Password</label>
-                      <input type="password" id="form3Example4c" class="form-control" name="password" />
-                    </div>
-                  </div>
-                
-                  <div class="d-flex flex-row align-items-center mb-4">
-                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                    <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example4cd">Repeat your password</label>
-                      <input type="password" id="form3Example4cd" class="form-control" name="repeat_password" />
-                      
-                    </div>
-                  </div>
-                  
                   <script>
-                  /*
-                  <div class="form-check d-flex justify-content-center mb-5">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                    <label class="form-check-label" for="form2Example3">
-                      I agree all statements in <a href="#!">Terms of service</a>
-                    </label>
-                  </div>
-                  */
-                </script>
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                 
-                
+                    /*
+                  <div class="form-outline flex-fill mb-0">
+                    <img
+                      src="https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment2/public/Images/FourAces.png?raw=true"
+                      class="img-fluid" alt="Sample image">
+                  </div> */
+                  </script>
 
-                </form>
+                  <form name="registration_form" action="/registration.html" method="POST">
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
 
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                    </div>
 
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                  class="img-fluid" alt="Sample image">
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example3c">Email Address</label>
+                        <input type="text" id="form3Example3c" class="form-control" name="email" />
+                      </div>
+                    </div>
 
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example4c">Full Name</label>
+                        <input type="text" id="form3Example4c" class="form-control" name="name" />
+                      </div>
+                    </div>
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example4c">Password</label>
+                        <input type="password" id="form3Example4c" class="form-control" name="password" />
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                        <input type="password" id="form3Example4cd" class="form-control" name="repeat_password" />
+
+                      </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                      <button type="submit" class="btn btn-primary btn-lg">Register</button>
+
+
+
+                    </div>
+                  </form>
+
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+    </div>
+  </section>
 </body>

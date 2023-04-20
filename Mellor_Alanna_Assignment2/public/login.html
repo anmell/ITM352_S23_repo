@@ -6,7 +6,7 @@
 <script>
   let params = (new URL(document.location)).searchParams;
 
-  // errors from server has been input into the query string and assigned to the variable "error_check". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
+  // errors from server has been input into the query string and assigned to the variable "error_check". if errors_arrays is in the query string, get it, pull out the value, and display it in window alert
   // store in function and call it when the page loads 
   window.onload = function () {
 
@@ -18,7 +18,7 @@
       login_form[`psw`].value = params.get(`psw`);
     }
 
-    // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+    // if query string has the array "errors_check" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
     if (params.has(`error_check`)) {
       var errors = JSON.parse(params.get(`error_check`));
     }

@@ -16,5 +16,11 @@
         "password": "alannapassword",
         "last_login": "4/20/2023, 8:06:15 AM",
         "login_count": 5
+    },
+    "itm352@hawaii.edu": {
+        "name": "ITM 352",
+         "password": "grader",
+         "last_login": "",
+         "login_count": 0
     }
 }

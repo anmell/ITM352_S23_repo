@@ -1,5 +1,7 @@
 /* I, Alanna Mellor, am the author of this code. The following program is a simple server designed to serve an eccomerce website. 
-The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to an invoice.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors
+The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to a login.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors. 
+
+At login.html the user may enter a valid email and password (which gets validated via the server). If validation passes, client is directed to invoice.html (receipt page generated from data entered in product_display.html). If validation fails, user is prompted to register a new account -- executed at registration.html
 */
 
 var express = require('express');
