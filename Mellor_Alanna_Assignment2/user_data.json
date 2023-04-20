@@ -1,14 +1,20 @@
 {
     "dport@hawaii.edu": {
         "name": "Dan Port",
-        "password": "portspassword"
+        "password": "portspassword",
+        "last_login": "",
+        "login_count": 0
     },
     "kazman@hawaii.edu": {
         "name": "Rick Kazman",
-        "password": "kazmanpassword"
+        "password": "kazmanpassword",
+        "last_login": "",
+        "login_count": 0
     },
-    "itm352@hawaii.edu": {
-        "name": "ITM 352",
-        "password": "grader"
+    "mellora@hawaii.edu": {
+        "name": "Alanna Mellor",
+        "password": "alannapassword",
+        "last_login": "4/20/2023, 8:06:15 AM",
+        "login_count": 5
     }
 }

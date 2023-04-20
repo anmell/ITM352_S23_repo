@@ -15,6 +15,13 @@ body {
   align-items: center;
   background-color: rgba(212, 212, 212, 0.792);
   margin-bottom: 15px;
+  position: relative;
+}
+.logout {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
 }
 
 nav ul {
@@ -33,6 +40,13 @@ nav a {
   font-weight: bold;
 }
 
+/* Style the user info */
+.user_info {
+  background-color: rgba(255, 255, 255, 0.658);
+  padding: 20px;
+  border: 1px solid black;
+  margin-bottom: 15px;
+}
 /*styling for the actual invoice table*/
 table {
   border-collapse: collapse;
@@ -48,7 +62,6 @@ th {
   background-color: rgb(199, 199, 199);
   color: rgb(0, 0, 0);
 }
-
 
 /* style for the shipping policy notice*/
 footer {

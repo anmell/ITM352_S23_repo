@@ -1,5 +1,5 @@
 <script>
-    /* I, Alanna Mellor, am the author of this code. The following is a simple html page which recives data from the sever and generates an invoice. */
+  /* I, Alanna Mellor, am the author of this code. The following is a simple html page which recives data from the sever and generates an invoice. */
 </script>
 
 <link href="invoice-style.css" rel="stylesheet">
@@ -7,6 +7,21 @@
 
 <script>
   let params = (new URL(document.location)).searchParams;
+
+  // grab the user's name from the query string to display a custom thank you message
+  if (params.has(`name`)) {
+    var name = JSON.parse(params.get(`name`));
+  }
+  if (params.has(`last_time`)) {
+    last_time = JSON.parse(params.get(`last_time`));
+    if (last_time == ""){
+            last_time =  `This is the first time you've logged in!`
+         }
+  }
+  if (params.has(`login_count`)) {
+    login_count = JSON.parse(params.get(`login_count`));
+  }
+
 </script>
 <script>
 
@@ -23,20 +38,16 @@
     // loop through products to generate a row for each product and quantity 
     for (let i in products) {
 
-     /* // grab selected_quantities from query string 
-      if (params.has(`selected_quantities$`)) {
-        var qty = JSON.parse(params.get(`selected_quantities`)); } */
-
-      if (products[i].quantity_selected == 0){
+      if (products[i].quantity_selected == 0) {
         continue;
       }
 
-        //set extended price
-          var extended_price = products[i].quantity_selected * products[i].price;
-        
+      //set extended price
+      var extended_price = products[i].quantity_selected * products[i].price;
 
-        // generate item rows 
-        document.write(`
+
+      // generate item rows 
+      document.write(`
           <tr>
             <td align="center" width="43%"><img src="${products[i].img}" alt="description" width="30%" height="30%" title="${products[i].description}"><div><div><div>${products[i].name}</td>
             <td align="center" width="11%">${products[i].quantity_selected}</td>
@@ -44,11 +55,11 @@
             <td width="43%">$${extended_price.toFixed(2)}</td>
           </tr>
     `)
-        subtotal += extended_price
-      }
-    };
+      subtotal += extended_price
+    }
+  };
 
-    
+
 </script>
 
 <!DOCTYPE html>
@@ -64,10 +75,22 @@
 <body>
   <nav>
     <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="product_display.html">Products</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="product_display.html">Products</a></li>
     </ul>
-</nav>
+    <div class="logout">
+      <button onclick="location.href = '/product_display.html'">Logout</button>
+    </div>
+  </nav>
+
+  <div class="user_info">
+  <h2>Thank you
+    <script>document.write(`${name}`)</script> for your purchase!
+  </h2>
+  <h2> You've logged into our site <script>document.write(`${login_count}`)</script> times!</h2>
+  <h2> Last login: <script>document.write(`${last_time}`)</script></h2>
+  </div>
+
   <table border="2">
     <tbody>
       <tr>
@@ -81,26 +104,26 @@
         //call the function 
         generate_item_rows();
 
-        
+
         // Sales Tax
-      taxRate = 5.75/100;
-      salesTax = subtotal * taxRate;
-      
-      //Shipping Costs
-      shipping; 
+        taxRate = 5.75 / 100;
+        salesTax = subtotal * taxRate;
+
+        //Shipping Costs
+        shipping;
         if (subtotal <= 50) {
           shipping = 2;
         }
-        if (subtotal > 50 && subtotal <= 100){
+        if (subtotal > 50 && subtotal <= 100) {
           shipping = 5;
-        } 
-        if (subtotal > 100) {
-          shipping = subtotal*0.05;
         }
-      
-      // Grand Sales Total
-           total = subtotal + salesTax + shipping;     
-      
+        if (subtotal > 100) {
+          shipping = subtotal * 0.05;
+        }
+
+        // Grand Sales Total
+        total = subtotal + salesTax + shipping;
+
       </script>
       <tr>
         <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
@@ -140,8 +163,7 @@
 <footer>
   <p><b> OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
       A subtotal $50 - $99.99 will be $5 shipping
-      Subtotals over $100 will be charged 5% of the subtotal amount
-    </b></p>
+      Subtotals over $100 will be charged 5% of the subtotal amount</b></p>
 </footer>
 
 </html>

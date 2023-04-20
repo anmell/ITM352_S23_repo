@@ -10,10 +10,6 @@ var querystring = require('querystring');
 // stores product json data in server memory undet the variable name 'products' and maes it accessible through the root directory and the following json file path
 var products = require(__dirname + '/product_data.json');
 
-//variable to collect temporary data (like quantities and user info)
-// var transient_data = [];
-
-//var params = window.location.search;
 
 
 // function to check is quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
@@ -46,8 +42,6 @@ app.get("/product_data.js", function (request, response, next) {
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
-// assign an empty variable to collect the values entered for each product
-// var selected_quantities =[];
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
@@ -110,15 +104,6 @@ app.post('/login.html', function (request, response) {
    // if every validation passes, update the total sold property when you update the quantities available property
 
 
-   /*// if quantities entered passes every validation, run a loop through all products to update quantity_selected for each 
-   for (let i in products) {
-
-      if (errors_array.length == 0) {
-         // push the values that the user has entered to quantity_selected for each product 
-         products[i].quantity_selected += Number(request.body[`quantities${i}`]);
-      }
-   }*/
-
 
    // after evaluating all the data and updating quantitiesAvailable and total_sold, decide if the client should be sent back to products_display (meaning at least one validation was not passed) or move forward to the login page (all data entered is valid)
 
@@ -126,10 +111,7 @@ app.post('/login.html', function (request, response) {
    if (errors_array.length == 0) {
 
       for (let i in products) {
-         /* transient_data.push(request.body);
-          console.log(transient_data) */
-         products[i].total_sold += Number(request.body[`quantities${i}`]);
-         products[i].quantityAvailable -= Number(request.body[`quantities${i}`]);
+         // assign the quantities selected by user to quantity_selected attribute for each object
          products[i].quantity_selected += Number(request.body[`quantities${i}`]);
       }
       response.redirect('./login.html?');
@@ -153,7 +135,6 @@ var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 
 // parse through user_data JSON, turn it into an object; Taken from File IO lab
 var user_data = JSON.parse(user_data_object_JSON);
-
 
 app.post("/invoice.html", function (request, response) {
 
@@ -187,8 +168,24 @@ app.post("/invoice.html", function (request, response) {
 
    //check if the username exists in the user_data file and that the password matches appropriately
    if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
-      //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples 
-      response.redirect('./invoice.html?' + querystring.stringify({ username: `${JSON.stringify(username)}` }));
+      // update the user's login count and last login time
+      user_data[username]['login_count'] = user_data[username]['login_count'] + 1;
+      var last_time = user_data[username]['last_login'];
+      user_data[username]['last_login'] = new Date().toLocaleString();
+
+
+      // upate quantity available and total sold 
+      for (let i in products){
+         products[i].total_sold += products[i].quantity_selected;
+         products[i].quantityAvailable -= products[i].quantity_selected;
+      }
+
+      //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples; Chapt GPT helped with passing several variables via a query string
+      response.redirect('./invoice.html?' + querystring.stringify({
+         name: `${JSON.stringify(user_data[username][`name`])}`,
+         login_count: `${JSON.stringify(user_data[username]['login_count'])}`,
+         last_time: `${JSON.stringify(last_time)}`
+      }));
 
    }
 });
@@ -207,45 +204,70 @@ app.get('/product_display.html', function (request, response) {
 
 // Registration
 
-
+//store a 'succesful login' variable that will display when the user successfully creates a new account
 var successful_login = []
 
 // the following is inspired by assignment 2 code examples
 app.post('/registration.html', function (request, response) {
    // process a simple register form
    username = request.body.email.toLowerCase();
-   
+
    var reg_errors = []; // keep errors on server to share with registration page
-   
+
    // check that all required fields have been filled out
    if (request.body.email == '' || request.body.name == '' || request.body.password == '' || request.body.repeat_password == '') {
       reg_errors.push('Please fill out all fields');
-   }
-   // check if is username taken
-   if (typeof user_data[username] != 'undefined') {
-      reg_errors.push(`Sorry! ${username} is already taken. Please select a new username`);
-   }
-   if (request.body.password != request.body.repeat_password) {
-      reg_errors.push('The passwords entered do not match');
+      response.redirect('./registration.html?' + querystring.stringify({ ...request.body, reg_errors: `${JSON.stringify(reg_errors)}` }));
+
    }
 
-  
+   // Check if the email address is in the correct format; provided by chapt gpt
+   function validateEmail(email) {
+      // Regular expression to validate email address
+      const regex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+      return regex.test(String(email).toLowerCase());
+   }
+
+   // Check if the email address is already taken
+   if (!validateEmail(request.body.email)) {
+      reg_errors.push('Please enter a valid email address');
+   } else if (user_data.hasOwnProperty(request.body.email.toLowerCase())) {
+      reg_errors.push('This email address is already registered. Please use a different email address');
+   }
+
+   // Check if password length is valid
+   if (request.body.password.length < 10 || request.body.password.length > 16) {
+      reg_errors.push('Password must be between 10 and 16 characters long');
+   }
+
+   // Check if password contains spaces
+   if (/\s/.test(request.body.password)) {
+      reg_errors.push('Password cannot contain spaces');
+   }
+
+   // Check if password and confirm password match
+   if (request.body.password !== request.body.repeat_password) {
+      reg_errors.push('Passwords do not match');
+   }
 
    if (Object.keys(reg_errors).length == 0) {
       user_data[username] = {};
+      user_data[username].name = request.body.name;
       user_data[username].password = request.body.password;
-      user_data[username].email = request.body.email;
+      user_data[username].last_login = '';
+      user_data[username].login_count = 0;
       fs.writeFileSync(filename, JSON.stringify(user_data));
       successful_login.push(`Your account has been registered!`)
       response.redirect('./login.html?' + querystring.stringify({ successful_login: `${JSON.stringify(successful_login)}` }));
-   }else if (reg_errors.length > 0) {
+   } else if (reg_errors.length > 0) {
       response.redirect('./registration.html?' + querystring.stringify({ ...request.body, reg_errors: `${JSON.stringify(reg_errors)}` }));
    }
 
 });
 
-app.get ('/registration.html', function (request,response){
-   response.sendFile (__dirname + '/public' +'/registration.html');
+// clear errors from query string after the user gets an alert and hits "ok"
+app.get('/registration.html', function (request, response) {
+   response.sendFile(__dirname + '/public' + '/registration.html');
 });
 
 /* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */
