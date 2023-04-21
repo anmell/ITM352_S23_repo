@@ -19,8 +19,14 @@
     },
     "itm352@hawaii.edu": {
         "name": "ITM 352",
-         "password": "grader",
-         "last_login": "",
-         "login_count": 0
+        "password": "grader",
+        "last_login": "",
+        "login_count": 0
+    },
+    "gsmyers@hawaii.edu": {
+        "name": "Garrett",
+        "password": "Gdogs20$$$",
+        "last_login": "",
+        "login_count": 0
     }
 }
