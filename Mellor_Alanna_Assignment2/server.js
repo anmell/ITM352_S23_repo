@@ -100,7 +100,7 @@ app.post('/login.html', function (request, response) {
       }
    }
 
-   // Individual Requirement 1: track the total quantity sold an dynamically display it with the product information
+   // Assignment 1, Individual Requirement 1: track the total quantity sold an dynamically display it with the product information
    // add a total_sold property for each json object in json file, initialize it to 0
    // add a line to display this in html file for each product
    // if every validation passes, update the total sold property when you update the quantities available property
@@ -166,19 +166,21 @@ app.post("/invoice.html", function (request, response) {
 
    //check if the username exists in the user_data file and that the password matches appropriately
    if (user_data.hasOwnProperty(`${username}`) && password == user_data[username][`password`]) {
+      
+      // Assignment2, IR4: keep track of the number of times a user how logged in and the last time that they logged in. 
       // update the user's login count and last login time
       user_data[username]['login_count'] = user_data[username]['login_count'] + 1;
       var last_time = user_data[username]['last_login'];
       user_data[username]['last_login'] = new Date().toLocaleString();
 
 
-      // upate quantity available and total sold 
+      // upate quantity available and total sold after all login validations are passed
       for (let i in products){
          products[i].total_sold += products[i].quantity_selected;
          products[i].quantityAvailable -= products[i].quantity_selected;
       }
 
-      //if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples; Chapt GPT helped with passing several variables via a query string
+      // if validation passes, direct to invoice page; second half of this equation is from Assignment2 Code Examples; Chapt GPT helped with passing several variables via a query string
       response.redirect('./invoice.html?' + querystring.stringify({
          name: `${JSON.stringify(user_data[username][`name`])}`,
          login_count: `${JSON.stringify(user_data[username]['login_count'])}`,
@@ -210,7 +212,7 @@ app.post('/registration.html', function (request, response) {
    // process a simple register form
    username = request.body.email.toLowerCase();
 
-   var reg_errors = []; // keep errors on server to share with registration page
+   var reg_errors = []; // an empty error to store errors; intended to be passed back to registration page via query string
 
    // check that all required fields have been filled out
    if (request.body.email == '' || request.body.name == '' || request.body.password == '' || request.body.repeat_password == '') {
@@ -266,6 +268,7 @@ if (!password_regex.test(request.body.password)) {
       reg_errors.push('Passwords do not match.');
    }
 
+   // if validations pass, write new user data to users_data.json file; heavily inspired by Assignment 2 example codes
    if (Object.keys(reg_errors).length == 0) {
       user_data[username] = {};
       user_data[username].name = request.body.name;
@@ -273,15 +276,19 @@ if (!password_regex.test(request.body.password)) {
       user_data[username].last_login = '';
       user_data[username].login_count = 0;
       fs.writeFileSync(filename, JSON.stringify(user_data));
+
+      // push this to display when the user return to login after successfully registering a new account 
       successful_login.push(`Your account has been registered!`)
       response.redirect('./login.html?' + querystring.stringify({ successful_login: `${JSON.stringify(successful_login)}` }));
    } else if (reg_errors.length > 0) {
+
+      //make user stay if registration page if there are errors. Pass errors via query string
       response.redirect('./registration.html?' + querystring.stringify({ ...request.body, reg_errors: `${JSON.stringify(reg_errors)}` }));
    }
 
 });
 
-// clear errors from query string after the user gets an alert and hits "ok"
+// clear registration errors from query string after the user gets an alert and hits "ok"
 app.get('/registration.html', function (request, response) {
    response.sendFile(__dirname + '/public' + '/registration.html');
 });
