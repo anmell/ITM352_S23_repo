@@ -235,33 +235,15 @@ app.post('/registration.html', function (request, response) {
       reg_errors.push('This email address is already registered. Please use a different email address');
    }
 
+   // Check if password is between 10 and 16 characters long
+if (request.body.password.length < 10 || request.body.password.length > 16) {
+   reg_errors.push('Password must be between 10 and 16 characters long');
+}
 
    // Check if password contains spaces
    if (/\s/.test(request.body.password)) {
       reg_errors.push('Password cannot contain spaces');
    }
-
-   // function to satisfy IR3: suggest a strong password consisting of 10 random characters -- completed with help of chat gpt
-   function generateRandomPassword() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-      let password = '';
-      for (let i = 0; i < 10; i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return password;
-    }
-
-    // IR2: Require that passwords have at least one number and one special character and are 10 to 16 characters long; generated from Chat GPT 
-    const password_regex = /^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.*[a-zA-Z]).{10,16}$/;
-
-   
-   // see if password satifies IR2: Require that passwords have at least one number and one special character. Suggest a random password (IR3)
-if (!password_regex.test(request.body.password)) {
-      // suggest a random password to the user
-      const suggested_password = generateRandomPassword();
-      reg_errors.push(`Password must be between 10 and 16 characters long and include at least one number and one special character. You are welcomed to use the suggested password: ${suggested_password}`);
-    }
-
 
    // Check if password and confirm password match
    if (request.body.password !== request.body.repeat_password) {
