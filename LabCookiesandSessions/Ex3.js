@@ -13,7 +13,6 @@ app.get("/use_session", function (request, response) {
 });
 
 
-
 //middleware that makes the data store in the cookie object easily accessible
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -36,27 +35,6 @@ app.get("/use_cookie", function (request, response) {
 });
 
 
-app.get("/login", function (request, response) {
-    // Give a simple login form
-    // check is last login is in user's session
-    var lastTimeLogIn = 'First Login!'
-    if (typeof request.session["lastLogin"] != 'undefined') {
-        lastTimeLogIn = request.session["lastLogin"];
-    }
-    str = `
-<body>
-You last logged in on ${lastTimeLogIn}
-<br>
-<form action="" method="POST">
-<input type="text" name="username" size="40" placeholder="enter username" ><br />
-<input type="password" name="password" size="40" placeholder="enter password"><br />
-<input type="submit" value="Submit" id="submit">
-</form>
-</body>
-    `;
-    response.send(str);
-});
-
 
 //when the user submits the log in form
 app.post("/login", function (request, response) {
@@ -74,7 +52,10 @@ app.post("/login", function (request, response) {
             
             // add lastLogin to session
             request.session['lastLogin'] = loginDate;
-            response.send(` ${username} logged in on ${loginDate}`);
+
+            //send the cookie back to the browser with client's username stored in browser memory
+            response.cookie(`username`, username);
+            response.send(`${username} logged in on ${loginDate}`);
            
             console.log(request.session);
         } else {
@@ -85,6 +66,42 @@ app.post("/login", function (request, response) {
         response.send(`${username} does not exist`);
     }
 });
+
+app.get("/login", function (request, response) {
+    // Give a simple login form
+    // check is last login is in user's session
+    var lastTimeLogIn = 'First Login!';
+    if (typeof request.session["lastLogin"] != 'undefined') {
+        lastTimeLogIn = request.session["lastLogin"];
+    }
+
+    var username_welcome = 'Please log in';
+
+    //check if you have the username stored in cookie (i.e. )
+    if (request.cookies.hasOwnProperty[`username`]){
+        // if you have it, go and get it and redefine the variable
+         username_welcome = `Welcome ${request.cookies[`username`]}`
+    }
+
+    console.log (request.cookies);
+    // generate login page
+    str = `
+<body>
+<br> 
+${username_welcome}
+<br>
+You last logged in on ${lastTimeLogIn}
+<br>
+<form action="" method="POST">
+<input type="text" name="username" size="40" placeholder="enter username" ><br />
+<input type="password" name="password" size="40" placeholder="enter password"><br />
+<input type="submit" value="Submit" id="submit">
+</form>
+</body>
+    `;
+    response.send(str);
+});
+
 
 app.listen(8080, () => console.log(`listening on port 8080`));
 
