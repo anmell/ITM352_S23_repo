@@ -1,47 +1,152 @@
-[
+{
+    "light_totes": [
     {
-        "name": "Jack of Clubs",
-        "price": "11",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Doggy%20Jack%20of%20Hearts.jpeg?raw=true",
+        "name": "Light Blue Tote",
+        "price": 10,
         "quantityAvailable": 100,
-        "total_sold": 0,
-        "description": "Jack Of Clubs Card",
-        "quantity_selected": 0
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
     },
     {
-        "name": "Queen of Diamonds",
-        "price": "12",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/cool%20queen%20of%20hearts.png?raw=true",
+        "name": "Light Blue Tote",
+        "price": 10,
         "quantityAvailable": 100,
-        "total_sold": 0,
-        "description": "Queen Of Diamonds Card",
-        "quantity_selected": 0
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
     },
     {
-        "name": "King of Hearts",
-        "price": "13",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/New%20King%20of%20Hearts.jpeg?raw=true",
+        "name": "Light Blue Tote",
+        "price": 10,
         "quantityAvailable": 100,
-        "total_sold": 0,
-        "description": "King Of Hearts Card",
-        "quantity_selected": 0
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
     },
     {
-        "name": "Ace of Spades",
-        "price": "14",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/black%20ace.png?raw=true",
+        "name": "Light Blue Tote",
+        "price": 10,
         "quantityAvailable": 100,
-        "total_sold": 0,
-        "description": "Ace Of Spades Card",
-        "quantity_selected": 0
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
     },
     {
-        "name": "Joker",
-        "price": "15",
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment1/public/Images/Joker.jpeg?raw=true",
+        "name": "Light Blue Tote",
+        "price": 10,
         "quantityAvailable": 100,
-        "total_sold": 0,
-        "description": "Joker Card",
-        "quantity_selected": 0
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+    },
+    {
+        "name": "Light Blue Tote",
+        "price": 10,
+        "quantityAvailable": 100,
+        "quantity_selected": 0,
+        "total_sold":0, 
+        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
     }
-]
+    ],
+    "heavy_totes":[
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        }
+    ],
+    "backpacks": [
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        },
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold":0, 
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true"
+        }
+    ]
+}
