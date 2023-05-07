@@ -115,7 +115,7 @@ app.post('/login.html', function (request, response) {
       response.redirect('./login.html?');
 
    } else {
-      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+      response.redirect('./index.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
    }
 });
 

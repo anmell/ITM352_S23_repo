@@ -51,10 +51,12 @@
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="product_display.html">Products</a></li>
+            <li><a href="light_totes.html">Light Totes</a></li>
+            <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+            <li><a href="backpacks.html">Backpacks</a></li>
         </ul>
     </nav>
-    <h1>Alanna's House of Cards</h1>
+    <h1>Alanna's Speciality Bags</h1>
     <div>
         <main>
             <form name="quantity_form" action="/login.html" method="POST">
@@ -64,7 +66,7 @@
                     products.light_totes[i].quantity_selected -= products.light_totes[i].quantity_selected ; // set the quantity_selected property back to 0 for each product
                        document.write(`
                 <section class="item">
-                    <h2 name = "products${i}_name">${products.light_totes[i].name}</td>
+                    <h2 name = "products.light_totes${i}_name">${products.light_totes[i].name}</td>
                     </h2> 
                     <p>$${products.light_totes[i].price}</p>
                     <img src="${products.light_totes[i].img}" id = "image">

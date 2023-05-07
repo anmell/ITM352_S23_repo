@@ -51,7 +51,9 @@
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="product_display.html">Products</a></li>
+            <li><a href="light_totes.html">Light Totes</a></li>
+            <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+            <li><a href="backpacks.html">Backpacks</a></li>
         </ul>
     </nav>
     <h1>Alanna's House of Cards</h1>
@@ -60,16 +62,16 @@
             <form name="quantity_form" action="/login.html" method="POST">
                 <script>
                     // for loop that generates product data
-                    for (i = 0; i < products.length; i++){
-                    products[i].quantity_selected -= products[i].quantity_selected ; // set the quantity_selected property back to 0 for each product
+                    for (i = 0; i < products.backpacks.length; i++){
+                    products.backpacks[i].quantity_selected -= products.backpacks[i].quantity_selected ; // set the quantity_selected property back to 0 for each product
                        document.write(`
                 <section class="item">
-                    <h2 name = "products${i}_name">${products[i].name}</td>
+                    <h2 name = "products.backpacks${i}_name">${products.backpacks[i].name}</td>
                     </h2> 
-                    <p>$${products[i].price}</p>
-                    <img src="${products[i].img}" id = "image">
-                    <p>Quantity Available: ${products[i].quantityAvailable}</p>
-                    <p>Total Sold: ${products[i].total_sold} </p>
+                    <p>$${products.backpacks[i].price}</p>
+                    <img src="${products.backpacks[i].img}" id = "image">
+                    <p>Quantity Available: ${products.backpacks[i].quantityAvailable}</p>
+                    <p>Total Sold: ${products.backpacks[i].total_sold} </p>
                     <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
                    <p><input type = "text" id = "quantities${i}" name = "quantities${i}"></p>
                 </section>
