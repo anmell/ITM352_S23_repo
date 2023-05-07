@@ -1,113 +1,174 @@
- /*I, Alanna Mellor, am the author of this code. The following is a stylesheet which gets applied to product_data.html */
- 
- /* styling for the entire page */
+/* Reset default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
- html {
-   background: rgba(255, 255, 255, 0.792);
- }
+/* Global styles */
+body {
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f4f4f4;
+}
 
- /* styling my navigation bar */
- nav {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   background-color: rgba(212, 212, 212, 0.792);
-   margin-bottom: 15px;
- }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
- nav ul {
-   display: flex;
-   list-style-type: none;
- }
+header {
+  background-color:rgb(186, 164, 164);
+  padding: 10px;
+  color: #fff;
+}
 
- nav li {
-   margin: 0 10px;
- }
+nav {
+  margin-bottom: 20px;
+  background-color: rgb(129, 117, 117);
+}
 
- nav a {
-   font-family: "Optima", sans-serif;
-   color: rgb(0, 0, 0);
-   font-size: 20px;
-   font-weight: bold;
- }
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
 
+nav ul li {
+  margin-right: 10px;
+}
 
- /* styling for the main contents of the page*/
- body {
-   font-family: "American Typewriter", sans-serif;
-   margin: 0 auto;
-   padding: 0;
- }
+nav ul li a {
+  color: #e7e7e7;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
 
- /* styling the header: House of Cards */
- header {
-   background: rgba(255, 255, 255, 0.792);
- }
+nav ul li a:hover {
+  background-color: #555;
+}
+.store-title{
+  align-items: end;
+}
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
+}
 
- /* styling for the page title and title of each product*/
- h1 {
-   font-family: "Optima", sans-serif;
-   color: rgb(182, 18, 18);
-   text-align: center;
- }
+.item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+  width: calc(50% - 20px); /* Display two items side by side */
+  display: inline-block;
+  vertical-align: top;
+}
 
+.item:hover {
+  transform: scale(1.05);
+}
 
- h2 {
-   font-family: "Optima", sans-serif;
-   color: rgb(182, 18, 18);
-   text-align: center;
- }
+.item h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #555;
+}
 
- /* styling for the actual prodcts itself*/
- section {
-   border: 2px solid black;
-   border-radius: 16px;
-   padding: 10px;
-   margin: 10px;
-   background-color: rgba(255, 254, 254, 0.933);
- }
+.item p {
+  margin-bottom: 5px;
+  color: #555;
+}
 
+.item img {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px; /* Adjust the maximum height as needed */
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
 
- /* styling for everything but the images of each product: product name, price, available, etc. */
- p,
- span {
-   text-align: center;
-   color: rgb(0, 0, 0);
-   padding-left: 10px;
-   padding-right: 10px;
+footer {
+  background-color:rgb(198, 183, 183);
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
 
- }
+footer input[type="submit"] {
+  background-color: rgb(249, 249, 249);
+  color: rgb(129, 117, 117);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
- /* styling the images of each product */
- .item img {
-   padding: 10px;
-   width: 150px;
-   height: 200px;
-   border: 1px solid rgb(124, 4, 4);
-   border-radius: 16px;
+footer input[type="submit"]:hover {
+  background-color: rgb(211, 211, 211);
+}
+.header-container {
+  display: flex;
+  justify-content: space-between; /* Add space between login and cart buttons */
+  align-items: center;
+  padding-top: 20px;
+}
 
- }
+.login-button,
+.cart-button {
+  background-color: #f7f7f7;
+  color: rgb(129, 117, 117);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  font-size: 16px;
+}
 
- /* block styling*/
+.cart-button {
+  margin-left: 10px;
+}
+.add-cart {
+  display: inline-block;
+  font-weight: bolder;
+  vertical-align: middle;
+  background-color: rgb(198, 183, 183);
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
- body>div>main {
-   flex-direction: column;
-   display: flex;
-   align-items: center;
- }
-
- /*  Form styling */
-
- form {
-   display: flex;
-   flex-flow: row wrap;
-   text-align: center;
-   align-items: center;
-
- }
-
- /* styling the purchase button */
- footer {
-   text-align: center;
-   padding: 25px;
- }
+.add-cart:hover {
+  background-color: rgb(255, 255, 255);
+  color:  rgb(129, 117, 117);
+}
+.images{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.image-container{
+  flex: 0 0 250px; /* Set a fixed width for each container */
+  text-align: center;
+  padding: 25px;
+}
+.welcome-text{
+  text-align: center;
+}
