@@ -45,6 +45,7 @@ app.get("/product_data.js", function (request, response, next) {
 app.use(express.urlencoded({ extended: true }));
 
 
+
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
 app.post('/login.html', function (request, response) {

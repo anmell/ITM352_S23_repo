@@ -7,11 +7,11 @@
 
 /* Global styles */
 body {
-  font-family: Tahoma, sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
 }
 
 .container {
@@ -21,14 +21,17 @@ body {
 }
 
 header {
-  background-color:rgb(186, 164, 164);
+  background-color:rgb(250, 191, 168);
   padding: 10px;
-  color: #fff;
+  color: #fefcfc;
+  font-size: larger;
 }
 
 nav {
   margin-bottom: 20px;
-  background-color: rgb(129, 117, 117);
+  background-color: rgb(195, 182, 206);
+  font-weight: bolder;
+  font-size: larger
 }
 
 nav ul {
@@ -42,7 +45,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: #e7e7e7;
+  color: #ffffff;
   text-decoration: none;
   padding: 5px 10px;
   border-radius: 5px;
@@ -58,6 +61,12 @@ nav ul li a:hover {
 h1 {
   font-size: 36px;
   margin-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
+}
+h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
   text-align: center;
   color: #ffffff;
 }
