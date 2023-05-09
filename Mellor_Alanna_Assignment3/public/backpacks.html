@@ -79,8 +79,10 @@
                     <img src="${products.backpacks[i].img}" id = "image">
                     <p>Quantity Available: ${products.backpacks[i].quantityAvailable}</p>
                     <p>Total Sold: ${products.backpacks[i].total_sold} </p>
-                    <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
-                   <p><input type = "text" id = "quantities${i}" name = "quantities${i}"></p>
+                    <p><label for = "quantities${i}" id = "quantities${i}_label">Choose Quantity Desired:</label><p>
+                   <p><select id = "quantities${i}" name = "quantities${i}" size ="10">
+                    <option value="1">1</option></p>
+
                 </p><input type="submit" id="purchase_button" value="Add to Cart" class="add-cart"></p>
                 </section>
             `)};
@@ -88,7 +90,6 @@
 
     </div>
     <footer>
-        </p><input type="submit" id="purchase_button" value="Click Here to Purchase!"></p>
     </footer>
     </form>
     </main>

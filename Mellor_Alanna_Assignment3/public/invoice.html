@@ -2,7 +2,7 @@
   /* I, Alanna Mellor, am the author of this code. The following is a simple html page which recives data from the server and generates an invoice. */
 </script>
 
-<link href="invoice-style.css" rel="stylesheet">
+<link href="products-style.css" rel="stylesheet">
 <script src="/product_data.js"></script>
 
 <script>
@@ -71,26 +71,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+<header>
+  <div class="store-title">
+  <h1>Capture the Bag</h1>
+</div>
+</header>
 
 <body>
   <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="product_display.html">Products</a></li>
-    </ul>
-    <div class="logout">
-      <button onclick="location.href = '/product_display.html'">Logout</button>
-    </div>
+      <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="light_totes.html">Light Totes</a></li>
+          <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+          <li><a href="backpacks.html">Backpacks</a></li>
+      </ul>
   </nav>
 
   <div class="user_info">
   <h2>Thank you
     <script>document.write(`${name}`)</script> for your purchase!
   </h2>
-  <h2> You've logged into our site <script>document.write(`${login_count}`)</script> time(s)!</h2>
-  <h2> Last login: <script>document.write(`${last_time}`)</script></h2>
   </div>
 
+  <div class = "invoice_table">
   <table border="2">
     <tbody>
       <tr>
@@ -159,6 +162,7 @@
 
     </tbody>
   </table>
+</div>
 </body>
 <footer>
   <p><b> OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping

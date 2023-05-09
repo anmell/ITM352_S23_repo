@@ -108,7 +108,7 @@ h2 {
 }
 
 footer {
-  background-color:rgb(198, 183, 183);
+  background-color:rgb(250, 191, 168);
   padding: 10px;
   color: #fff;
   text-align: center;
@@ -155,8 +155,8 @@ footer input[type="submit"]:hover {
   display: inline-block;
   font-weight: bolder;
   vertical-align: middle;
-  background-color: rgb(198, 183, 183);
-  color: rgb(255, 255, 255);
+  background-color: rgb(250, 191, 168);
+  color: #ffffff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -165,8 +165,8 @@ footer input[type="submit"]:hover {
 }
 
 .add-cart:hover {
-  background-color: rgb(255, 255, 255);
-  color:  rgb(129, 117, 117);
+  background-color: rgb(195, 182, 206);
+  color:  #ffffff;
 }
 .images{
   display: flex;
@@ -181,3 +181,55 @@ footer input[type="submit"]:hover {
 .welcome-text{
   text-align: center;
 }
+
+/*styling the table on the shopping cart page*/
+.users_cart,
+.invoice_table {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25;
+}
+
+/*styling the login page*/
+.login-container{
+  justify-content: center;
+  display: flex;
+}
+.login_confirm_button,
+.cancel_button,
+.registration_button{
+  background-color: rgb(250, 191, 168);
+  color: #f7f7f7;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  font-size: 16px;
+  text-align: center;
+}
+
+.login_row{
+  padding: 10px;
+}
+
+/*styling the registration page*/
+.registration_note{
+  color: rgb(250, 191, 168);
+}
+.registration_button{
+  background-color: rgb(195, 182, 206);
+  color: #f7f7f7;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  font-size: 16px;
+  text-align: center;
+}
+

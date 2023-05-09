@@ -40,34 +40,77 @@
 </script>
 
 <head>
-  <link href="login-style.css" rel="stylesheet">
+  <link href="products-style.css" rel="stylesheet">
 </head>
 
+<header>
+  <div class="header-container">
+    <a href="cart.html" class="cart-button">Shopping Cart</a>
+  </div>
+  <div class="store-title">
+    <h1>Capture the Bag</h1>
+  </div>
+</header>
+
 <body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="light_totes.html">Light Totes</a></li>
+      <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
+      <li><a href="backpacks.html">Backpacks</a></li>
+    </ul>
+  </nav>
   <form name="login_form" action="/invoice.html" method="post">
 
-    <div class="container">
-      <label for="uname"><b>Email Address</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+    <div class="login-container">
+      <table>
+        <tr>
+          <td class="login_row">
+            <label for="uname"><b>Email Address</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+          </td>
+        </tr>
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-
-      <button type="submit" name="button">Login</button>
-    </div>
-
-
-    <script>
-  // I am adding in this next "<div>" to give users the option of registering a new account; completed via a hyperlink
-    </script>
-    <div> 
-        <span class = "registration_link"> Click <a href = "/registration.html">here</a> to create a new account!</span>
-    </div>
+        <tr>
+          <td class="login_row">
 
 
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" class="cancelbtn" onclick="window.location.href='./product_display.html'">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="login_row">
+            <button type="submit"  class = "login_confirm_button" name="button">Login</button>
+          </td>
+        </tr>
+
+
+        <script>
+      // I am adding in this next "<div>" to give users the option of registering a new account; completed via a hyperlink
+        </script>
+
+        <tr>
+          <td class="login_row">
+            <div>
+              <span class="registration_link"> Click <a href="/registration.html">here</a> to create a new
+                account!</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="login_row">
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" class="cancel_button"
+                onclick="window.location.href='./index.html'">Cancel</button>
+              <span class="psw">Forgot <a href="#">password?</a></span>
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
   </form>
 </body>
