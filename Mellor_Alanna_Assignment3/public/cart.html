@@ -21,10 +21,19 @@
     if (params.has(`login_count`)) {
       login_count = JSON.parse(params.get(`login_count`));
     }
-  
+
+  // Retrieve quantities from the session
+  const quantities = JSON.parse(' JSON.stringify(quantities) %>');
+
+  // Generate item rows based on quantities
+  function generate_item_rows() {
+    for (let i in products) {
+      const quantitySelected = quantities[`quantities${i}`] || 0;
+    }
+  }
   </script>
   <script>
-  
+    
     // Sub-Total
     var subtotal = 0;
     // shipping 
@@ -38,7 +47,7 @@
       // loop through products to generate a row for each product and quantity 
       for (let i in products) {
   
-        if (products[i].quantity_selected == 0) {
+        if (quantitySelected == 0) {
           continue;
         }
   
@@ -48,9 +57,10 @@
   
         // generate item rows 
         document.write(`
+
             <tr>
-              <td align="center" width="43%"><img src="${products[i].img}" alt="description" width="30%" height="30%" title="${products[i].description}"><div><div><div>${products[i].name}</td>
-              <td align="center" width="11%">${products[i].quantity_selected}</td>
+              <td align="center" width="43%"><img src="${products[i].img}">${products[i].name}</td>
+              <td align="center" width="11%">${quantitySelected}</td>
               <td align="center" width="13%">$${products[i].price}</div></td>
               <td width="43%">$${extended_price.toFixed(2)}</td>
             </tr>

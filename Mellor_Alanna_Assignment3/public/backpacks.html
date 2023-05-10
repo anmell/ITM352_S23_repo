@@ -66,22 +66,21 @@
     
     <div>
         <main>
-            <form name="quantity_form" action="/login.html" method="POST">
+            <form name="quantity_form" action="/add_cart" method="POST">
                 <script>
                     // for loop that generates product data
                     for (i = 0; i < products.backpacks.length; i++){
                     products.backpacks[i].quantity_selected -= products.backpacks[i].quantity_selected ; // set the quantity_selected property back to 0 for each product
                        document.write(`
                 <section class="item">
-                    <h2 name = "products.backpacks${i}_name">${products.backpacks[i].name}</td>
+                    <h2 name = "products.backpacks${i}.name">${products.backpacks[i].name}</td>
                     </h2> 
-                    <p>$${products.backpacks[i].price}</p>
+                    <p name = "products${i}.price">$${products.backpacks[i].price}</p>
                     <img src="${products.backpacks[i].img}" id = "image">
                     <p>Quantity Available: ${products.backpacks[i].quantityAvailable}</p>
                     <p>Total Sold: ${products.backpacks[i].total_sold} </p>
-                    <p><label for = "quantities${i}" id = "quantities${i}_label">Choose Quantity Desired:</label><p>
-                   <p><select id = "quantities${i}" name = "quantities${i}" size ="10">
-                    <option value="1">1</option></p>
+                    <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
+                   <p><input type = "text" id = "quantities${i}" name = "quantities${i}"></p>
 
                 </p><input type="submit" id="purchase_button" value="Add to Cart" class="add-cart"></p>
                 </section>
