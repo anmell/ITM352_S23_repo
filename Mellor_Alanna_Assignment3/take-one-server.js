@@ -7,6 +7,33 @@ At login.html the user may enter a valid email and password (which gets validate
 var express = require('express');
 var app = express();
 var querystring = require('querystring');
+var session = require('express-session');
+
+app.use(express.urlencoded({ extended: true }));
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
+//middleware that makes the data store in the cookie object easily accessible
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
+app.use(express.urlencoded({ extended: true }));
+
+
+/* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */
+app.use(express.static(__dirname + '/public'));
+
+// starts the server; outputs the port in console
+app.listen(8080, () => console.log(`listening on port 8080`));
+
+app.all('*', function (request, response, next) {
+   console.log(`Got a ${request.method} to path ${request.path}`);
+   // need to initialize an object to store the cart in the session. We do it when there is any request so that we don't have to check it exists
+   // anytime it's used
+   if(typeof request.session.cart == 'undefined') { request.session.cart = {}; } 
+   next();
+});
+
 
 
 // stores product json data in server memory undet the variable name 'products' and maes it accessible through the root directory and the following json file path
@@ -41,13 +68,11 @@ app.get("/product_data.js", function (request, response, next) {
    response.send(products_str);
 });
 
-// express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
-app.use(express.urlencoded({ extended: true }));
 
 
 // process purchase request (validate quantities, check quantity available)
 // when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
-app.post('/login.html', function (request, response) {
+/* app.post('/add_cart', function (request, response) {
 
 
    // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
@@ -61,12 +86,14 @@ app.post('/login.html', function (request, response) {
    // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.length; i++) {
       all_textboxes.push(request.body[`quantities${i}`]);
-   }
+   } 
 
    // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
-   if (all_textboxes.every(element => element === '')) {
+    if (all_textboxes.every(element => element === '')) {
       errors_array.push('Please enter at least one quantity');
-   }
+   } 
+
+
 
    // loop through the products array; massive for loop for the second and third validations
    for (let i = 0; i < products.length; i++) {
@@ -87,7 +114,7 @@ app.post('/login.html', function (request, response) {
       //if there's an empty textbox, let the loop continue
       if (qty == 0) {
          continue;
-      }
+      } 
 
       //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, push an error to the errors_array
       if (errors.length > 0) {
@@ -106,25 +133,36 @@ app.post('/login.html', function (request, response) {
    // if every validation passes, update the total sold property when you update the quantities available property
 
    // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
-   if (errors_array.length == 0) {
+   
 
       for (let i in products) {
+         
+         if (errors_array.length == 0) {
          // assign the quantities selected by user to quantity_selected attribute for each object
-         products[i].quantity_selected += Number(request.body[`quantities${i}`]);
-      }
-      response.redirect('./login.html?');
+         //products[i].quantity_selected += Number(request.body[`quantities${i}`]);
+
+         //push to session here
+      // Retrieve the quantities from the request body
+   const quantities = request.body;
+ 
+   response.redirect('./cart.html?');
+   // Store the quantities in the session
+   request.session.quantities = quantities;
+ 
+   // Redirect the user back to the previous page or any other desired page
 
    } else {
-      response.redirect('./product_display.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
-   }
-});
+      response.redirect('./index.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+   }}
 
+});
+*/
 
 // Login 
 
 // load file system (fs) interface
 var fs = require('fs');
-const { request } = require('http');
+const {request} = require('http');
 
 var filename = __dirname + '/user_data.json';
 
@@ -190,14 +228,14 @@ app.post("/invoice.html", function (request, response) {
    }
 });
 
-app.get('/product_display.html', function (request, response) {
+/* app.get('/product_display.html', function (request, response) {
    // Reset quantity_selected for all products back to zero when product_display is requested (GET) after an invoice has already been generated 
    for (let i in products) {
       products[i].quantity_selected = 0;
    }
    // can't use response.redirect here because the server gets into an endless loop of redirecting to this file nonstop (since response.redirect is always a GET request)
    response.sendFile(__dirname + '/public' + '/product_display.html')
-});
+}); */
 
 
 
@@ -221,7 +259,7 @@ app.post('/registration.html', function (request, response) {
 
    }
 
-   // Check if the email address is in the correct format; provided by chapt gpt
+   // Check if the email address is in the correct format; provided by chatpt gpt
    function validateEmail(email) {
       // Regular expression to validate email address
       const regex = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -275,18 +313,77 @@ app.get('/registration.html', function (request, response) {
    response.sendFile(__dirname + '/public' + '/registration.html');
 });
 
-/* enable server to respond to requests for static files (files that are not intended to have any server-processing); files must be located in a directory called "public"; the following uses the Express static middleware component */
-app.use(express.static(__dirname + '/public'));
+// when the server recieves a "POST" request, validate data. If valid: route to get to invoice page. If invalid: send error to client
+app.post('/add_cart', function (request, response) {
 
-// starts the server; outputs the port in console
-app.listen(8080, () => console.log(`listening on port 8080`))
 
-//adding code for assignment3
+   // run through every validation: check all quantities are whole integer numbers, check quantity selected doesn't exceed quantity available, check to make sure user entered at least one thing
 
-// set a rout to put product_key in query string every time a user directs to a product page
-// using this site for help: https://www.thequantizer.com/javascript-json-get-value-by-key/
-app.get('/backpacks.html', function (request, response) {
-   var product_key = products.backpacks
+   //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
+   //var all_textboxes = [];
 
-   response.redirect('./backpacks.html?' + querystring.stringify({ product_key: `${JSON.stringify(product_key)}` }));
+   //assign a variable to collect all errors
+   var errors_array = [];
+
+
+   // loop through the products array; massive for loop for the second and third validations
+   for (let i = 0; i < products.length; i++) {
+
+      //assign a variable to the value of the quantity textbox (whar the user entered for "quantity desired")
+      var qty = request.body[`quantities${i}`];
+
+      // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
+      var name = products[i].name;
+
+      // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
+      let errors = isNonNegInt(qty, true);
+
+      // assign a variable to the quantity available for each product
+      var qa = products[i].quantityAvailable;
+
+
+      //if there's an empty textbox, let the loop continue
+      if (qty == 0) {
+         continue;
+      }
+
+      //check if quantities are valid via the NonNegInt function; call the function through it's associated variable (errors). If invalid, push an error to the errors_array
+      if (errors.length > 0) {
+         errors_array.push(`Invalid Quantity for ${products[i].name}`);
+
+      }
+      // if the user selects more quantities than are available, push an error into the errors_array
+      if (qty > qa) {
+         errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
+      }
+   }
+
+   // Assignment 1, Individual Requirement 1: track the total quantity sold an dynamically display it with the product information
+   // add a total_sold property for each json object in json file, initialize it to 0
+   // add a line to display this in html file for each product
+   // if every validation passes, update the total sold property when you update the quantities available property
+
+   // if errors_array.length is 0, then they can go to the invoice page. If array is not empty, send them back to the products_display page
+   if (errors_array.length == 0) {
+
+      for (let i in products) {
+         // assign the quantities selected by user to quantity_selected attribute for each object
+         products[i].quantity_selected += Number(request.body[`quantities${i}`]);
+      }
+
+       //push to session here
+      // Retrieve the quantities from the request body
+      const quantities = JSON.stringify(request.body);
+   // Store the quantities in the session
+   response.cookie('quantities', quantities);
+   console.log(`Welcome, your cookie is ${request.cookies["quantities"]}`);
+      response.redirect('./cart.html');
+
+   } else {
+      response.redirect('./index.html?' + querystring.stringify({ ...request.body, errors_array: `${JSON.stringify(errors_array)}` }));
+   }
+});
+
+app.get("./cart.html", function (request, response) {
+   response.json(request.session.cart);
 });
