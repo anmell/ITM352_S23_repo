@@ -135,7 +135,8 @@ footer input[type="submit"]:hover {
 }
 
 .login-button,
-.cart-button {
+.cart-button,
+.update_button {
   background-color: #f7f7f7;
   color: rgb(129, 117, 117);
   padding: 10px 20px;
@@ -148,8 +149,18 @@ footer input[type="submit"]:hover {
   font-size: 16px;
 }
 
-.cart-button {
-  margin-left: 10px;
+
+.confirm_purchase_button {
+  background-color: #f7f7f7;
+  color: rgb(129, 117, 117);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  font-size: 16px;
 }
 .add-cart {
   display: inline-block;
@@ -162,6 +173,11 @@ footer input[type="submit"]:hover {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+/* styling for update_cart button in cart page */
+.update_button:hover {
+  background-color: rgb(195, 182, 206);
+  color:  #ffffff;
 }
 
 .add-cart:hover {
