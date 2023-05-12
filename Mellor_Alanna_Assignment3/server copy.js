@@ -212,7 +212,7 @@ app.listen(8080, () => console.log(`listening on port 8080`))
 // set a rout to put product_key in query string every time a user directs to a product page
 // using this site for help: https://www.thequantizer.com/javascript-json-get-value-by-key/
 
-// Process and validate light tote items that get added to cart from light_totes.html
+// Process and validate backpack items that get added to cart from light_totes.html
 app.post("/add_to_cart_light", function (request, response) {
    var quantities = {};
 
@@ -261,8 +261,6 @@ if (quantity > qa) {
    errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
 }
    
- 
-   
 if (errors_array.length == 0) {
     if (quantity) {
        quantities[products.light_totes[i].name] = parseInt(quantity);
@@ -270,29 +268,11 @@ if (errors_array.length == 0) {
    if (!request.session.cart) {
      request.session.cart = {};
    }
-// Store the quantities in the session
-var item = 'light_totes';
 
-if (request.session.cart.item) {
-   request.session.cart.item = request.session.cart.item + ',' + item;
- } else {
-   request.session.cart.item = [];
-   request.session.cart.item = item;
- }
-
-if (request.session.cart.name) {
-   request.session.cart.name = request.session.cart.name + ',' + name;
- } else {
-   request.session.cart.name = [];
+   // Store the quantities in the session
+   request.session.cart.item = 'light_totes';
    request.session.cart.name = name;
- }
-
-if (request.session.cart.quantities) {
-   request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
- } else {
-   request.session.cart.quantities = {};
    request.session.cart.quantities = quantity;
- }
  
    console.log(request.session);
    response.redirect('/cart.html');
@@ -362,29 +342,11 @@ if (errors_array.length == 0) {
    if (!request.session.cart) {
      request.session.cart = {};
    }
- // Store the quantities in the session
-   var item = 'heavy_totes';
 
-   if (request.session.cart.item) {
-      request.session.cart.item = request.session.cart.item + ',' + item;
-    } else {
-      request.session.cart.item = [];
-      request.session.cart.item = item;
-    }
-
-   if (request.session.cart.name) {
-      request.session.cart.name = request.session.cart.name + ',' + name;
-    } else {
-      request.session.cart.name = [];
-      request.session.cart.name = name;
-    }
-
-   if (request.session.cart.quantities) {
-      request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
-    } else {
-      request.session.cart.quantities = {};
-      request.session.cart.quantities = quantity;
-    }
+   // Store the quantities in the session
+   request.session.cart.item = 'heavy_totes';
+   request.session.cart.name = name;
+   request.session.cart.quantities = quantity;
  
    console.log(request.session);
    response.redirect('/cart.html');
@@ -455,29 +417,11 @@ if (errors_array.length == 0) {
    if (!request.session.cart) {
      request.session.cart = {};
    }
- // Store the quantities in the session
- var item = 'backpacks';
 
- if (request.session.cart.item) {
-    request.session.cart.item = request.session.cart.item + ',' + item;
-  } else {
-    request.session.cart.item = [];
-    request.session.cart.item = item;
-  }
-
- if (request.session.cart.name) {
-    request.session.cart.name = request.session.cart.name + ',' + name;
-  } else {
-    request.session.cart.name = [];
-    request.session.cart.name = name;
-  }
-
- if (request.session.cart.quantities) {
-    request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
-  } else {
-    request.session.cart.quantities = {};
-    request.session.cart.quantities = quantity;
-  }
+   // Store the quantities in the session
+   request.session.cart.item = 'backpacks';
+   request.session.cart.name = name;
+   request.session.cart.quantities = quantity;
  
    console.log(request.session);
    response.redirect('/cart.html');
@@ -487,6 +431,19 @@ if (errors_array.length == 0) {
    }
  });
  
+
+// add route to make session data available to html cart file
+app.get('/get_cart', function (request, response) {
+   var cartData = request.session.cart;
+   
+   console.log(cartData);
+   response.json(cartData);
+   
+ });
+
+
+
+
 
 app.get('/clear_cookie', function (req, res) {
    res.clearCookie('added_itembackpacks');
@@ -499,25 +456,10 @@ app.get('/clear_cookie', function (req, res) {
    res.send('Cookie cleared!');
  });
 
-// add route to make session data available to html cart file
-app.get('/get_cart', function (request, response) {
-   if (request.session.cart){
-    cartData = request.session.cart; 
-   }
+ app.get('/clear_session', function (request, response) {
 
-   console.log(cartData);
-   response.json(cartData);
-   
- });
 
- app.get('/clear_session', function (req, res) {
-   req.session.destroy(function (err) {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('Session data cleared.');
-       res.send('Session data cleared.');
-     }
-   });
+   response.json(request.session.cart);
+
  });
  
