@@ -34,6 +34,15 @@
     if (success) {
       window.alert(success);
     }
+
+    //if user is trying to purchase without logging in, direct them to this page via server and display a message
+     // if, user has succesfully registered a new account, alert them when they come back to this page
+     if (params.has(`login_message`)) {
+      var login_message = JSON.parse(params.get(`login_message`));
+    }
+    if (login_message) {
+      window.alert(login_message);
+    }
   };
 
 
@@ -61,7 +70,7 @@
       <li><a href="backpacks.html">Backpacks</a></li>
     </ul>
   </nav>
-  <form name="login_form" action="/invoice.html" method="post">
+  <form name="login_form" action="/login" method="POST">
 
     <div class="login-container">
       <table>

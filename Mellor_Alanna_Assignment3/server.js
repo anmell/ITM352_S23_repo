@@ -1,8 +1,7 @@
 /* I, Alanna Mellor, am the author of this code. The following program is a simple server designed to serve an eccomerce website. 
-The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to a login.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors. 
+The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to a login.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors.*/ 
 
-At login.html the user may enter a valid email and password (which gets validated via the server). If validation passes, client is directed to invoice.html (receipt page generated from data entered in product_display.html). If validation fails, user is prompted to register a new account -- executed at registration.html
-*/
+
 
 var express = require('express');
 var app = express();
@@ -45,14 +44,17 @@ app.all('*', function (request, response, next) {
    if (typeof request.session['cart'] == 'undefined') {
       request.session['cart'] = {};
    }
-
-   // check if the user is already logged in
-   if (typeof request.session['login'] !== 'undefined') {
-      // set a flag to indicate that the user is logged in
-      request.session['login']['loggedIn'] = true;
-      // response.json(request.session.login.loggedIn);
+   // initialize an object to store the login data in the session
+   if (typeof request.session['login'] == 'undefined') {
+      request.session['login'] = {};
    }
 
+   // set flag, assume user is not logged in; if the session has the username, then change flag to true
+   if(typeof request.session.login.username == 'undefined'){
+    request.session.login.loggedIn = false;  
+   }else{
+      request.session.login.loggedIn = true;
+   }
    next();
 });
 // when the server recieves a GET request for "/product_data.js", the server will respong in javascript with a string of data provided by the JSON file
@@ -71,7 +73,8 @@ var filename = __dirname + '/user_data.json';
 var user_data_object_JSON = fs.readFileSync(filename, 'utf-8');
 var user_data = JSON.parse(user_data_object_JSON);
 
-app.post("/invoice.html", function (request, response) {
+//route for when users log in; direct to cart page if successful
+app.post("/login", function (request, response) {
 
    // Process login form POST and redirect to logged in page if ok, back to login page if not
 
@@ -86,13 +89,6 @@ app.post("/invoice.html", function (request, response) {
    if (username.length == 0 || password.length == 0) {
       error_check.push('Please fill out all fields');
       response.redirect('./login.html?' + querystring.stringify({ error_check: `${JSON.stringify(error_check)}` }));
-   }
-
-   // check if the user is already logged in
-   if (typeof request.session['login'] !== 'undefined' && request.session['login']['loggedIn'] === true) {
-      // skip the login process and redirect to the invoice page
-      response.redirect('./invoice.html');
-      return;
    }
 
    // if username does not exist, redirect back to login.html, pass error via query string
@@ -116,14 +112,11 @@ app.post("/invoice.html", function (request, response) {
       }
 
       // set the flag to indicate that the user is logged in
-      request.session['login']['loggedIn'] = true;
-      request.session['login']['username'];
-
+      request.session.login.loggedIn = true;
 
    // Store the quantities in the session
    request.session.login.username = username;
-   request.session.login.password = password;
-   console.log(request.session);
+   console.log(request.session.login);
    response.redirect('./cart.html');
    }
 });
@@ -504,7 +497,6 @@ app.get('/get_cart', function (request, response) {
    if (request.session.cart){
     cartData = request.session.cart; 
    }
-
    console.log(cartData);
    response.json(cartData);
    
@@ -530,7 +522,34 @@ app.post('/update_cart', function(request, response) {
 });
 
  
- 
+// when user tries to purchase something, make sure they are logged in. If not, direct them to log in page, else, continue to invoice
+app.get('/invoice', function (request, response) {
+
+   console.log(request.session.login)
+   // check if the user is already logged in
+   if (request.session.login.loggedIn == false) {
+      var login_message = 'Please log in to purchase';
+      response.redirect('/login.html?'+ querystring.stringify({login_message: `${JSON.stringify(login_message)}` }));
+      
+   }else{
+     // skip the login process and redirect to the invoice page
+     response.redirect('./invoice.html');  
+   }
+ });
+
+
+// if user is logged in, display something that says that on every page
+// add route to make session data available to html cart file
+app.get('/signed_in', function (request, response) {
+   if (request.session.login){
+    login_status = request.session.login; 
+   }
+   console.log(login_status);
+   response.json(login_status);
+   
+ });
+
+
 
  app.get('/clear_session', function (req, res) {
    req.session.destroy(function (err) {

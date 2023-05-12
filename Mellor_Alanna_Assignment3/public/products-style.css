@@ -150,18 +150,7 @@ footer input[type="submit"]:hover {
 }
 
 
-.confirm_purchase_button {
-  background-color: #f7f7f7;
-  color: rgb(129, 117, 117);
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  line-height: 1;
-  font-size: 16px;
-}
+
 .add-cart {
   display: inline-block;
   font-weight: bolder;
@@ -174,11 +163,7 @@ footer input[type="submit"]:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-/* styling for update_cart button in cart page */
-.update_button:hover {
-  background-color: rgb(195, 182, 206);
-  color:  #ffffff;
-}
+
 
 .add-cart:hover {
   background-color: rgb(195, 182, 206);
@@ -249,3 +234,27 @@ footer input[type="submit"]:hover {
   text-align: center;
 }
 
+/*styling the confirm purchase button on cart page*/
+.confirm_purchase_button {
+  background-color: rgb(195, 182, 206);
+  color: #f7f7f7;
+  padding: 8px 16px; /* Adjust the padding values */
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  font-size: 16px; /* Adjust the font size */
+}
+
+.confirm_purchase_button:hover {
+  background-color: rgb(250, 191, 168);
+  color:  #ffffff;
+}
+
+/* styling for update_cart button in cart page */
+.update_button:hover {
+  background-color: rgb(250, 191, 168);
+  color:  #ffffff;
+}
