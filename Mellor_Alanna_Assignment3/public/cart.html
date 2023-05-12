@@ -30,6 +30,21 @@
 
 
   let params = (new URL(document.location)).searchParams;
+  //display successful cart update alert
+ 
+            
+    
+                // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+                if (params.has(`message`)) {
+                    var success = JSON.parse(params.get(`message`));
+                }
+            // if the variable storing the message exists, assign the value of the button to the errors
+                if (success) {
+                    window.alert(success)
+                }
+
+
+
   // Sub-Total
   var subtotal = 0;
   // shipping 
@@ -59,7 +74,7 @@
 
       <tr>
         <td align="center" width="43%">${name}</td>
-        <td align="center" width="11%"><input type="number" min="1" value="${quantity}" id="quantity_${i}"></td>
+        <td align="center" width="11%"><input type="number" name = quantities value="${quantity}" id="quantity_${i}"></td>
         <td align="center" width="13%">$${price}</td>
         <td width="43%">$${extended_price.toFixed(2)}</td>
         </tr>

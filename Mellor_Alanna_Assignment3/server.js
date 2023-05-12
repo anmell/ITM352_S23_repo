@@ -510,24 +510,27 @@ app.get('/get_cart', function (request, response) {
    
  });
 
- //add route to handle when the cart is updated
- // Assuming you're using Express.js
 app.post('/update_cart', function(request, response) {
-   // Retrieve the updated quantities from the form submission
-   var quantities = {};
-   for (var i = 0; i < request.body.length; i++) {
-     var key = 'quantity_' + i;
-     var quantity = parseInt(request.body[key]);
-     quantities[key] = quantity;
-   }
+  // Retrieve the updated quantities from the form submission
+  var quantities = request.body.quantities;
+
+  // Check if quantities is an array
+  if (Array.isArray(quantities)) {
+    // Convert the array to a comma-separated string
+    request.session.cart.quantities = quantities.join(',');
+  } else {
+    // Assign the single value to request.session.cart.quantities
+    request.session.cart.quantities = quantities;
+  }
+
+  //assign variable to message that will alert user that the cart has been updated successfully
+  var message = 'Your cart has been updated successfully!';
+
+  response.redirect('/cart.html?'+ querystring.stringify({message: `${JSON.stringify(message)}` }));
+});
+
  
-   // Update the quantities in the session or wherever you're storing the cart data
-   // For example, assuming you're using sessions:
-   request.session.cart.quantities = quantities;
  
-   // Redirect back to the cart page or wherever you want to go after updating the quantities
-   response.redirect('/cart.html');
- });
 
  app.get('/clear_session', function (req, res) {
    req.session.destroy(function (err) {
