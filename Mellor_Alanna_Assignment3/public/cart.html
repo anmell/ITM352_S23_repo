@@ -8,16 +8,26 @@
 <script>
   var products_data;
   var total = 0;
-  /* loadJSON('get_products_data', function (response) {
-      // Parsing JSON string into object
-      products_data = JSON.parse(response);
-  }); */
   loadJSON('get_cart', function (response) {
     // Parsing JSON string into object
     shopping_cart = JSON.parse(response);
 
     
   });
+  
+  window.onload = function (){
+
+  // check if the cart is empty
+  if (!shopping_cart.quantities) {
+    document.getElementById('cartTable').style.display = 'none';
+    document.getElementById('emptyCartMessage').style.display = 'block';
+    return;
+  }else{
+    document.getElementById('cartTable').style.display = 'block';
+    document.getElementById('emptyCartMessage').style.display = 'none';
+  }
+  };
+  
 
   let params = (new URL(document.location)).searchParams;
   // Sub-Total
@@ -27,7 +37,6 @@
   var qty;
   function generate_item_rows() {
     // function to generate item rows based on products array and the quantities in the query string
-
 
     var items = shopping_cart.item.split(',');
     var names = shopping_cart.name.split(',');
@@ -58,6 +67,8 @@ for (var i = 0; i < items.length; i++) {
       subtotal += extended_price
     }
   };
+
+  
 
 
 </script>
@@ -92,8 +103,10 @@ for (var i = 0; i < items.length; i++) {
   </nav>
 
   <div class="users_cart">
+    <div id="emptyCartMessage">Your cart is currently empty</div>
     <table border="2">
-      <tbody>
+    
+      <tbody id="cartTable" >
         <tr>
           <th style="text-align: center;" width="43%">Item</th>
           <th style="text-align: center;" width="11%">Quantity</th>
@@ -103,6 +116,7 @@ for (var i = 0; i < items.length; i++) {
 
         <script>
           //call the function 
+
           generate_item_rows();
 
 
@@ -125,7 +139,7 @@ for (var i = 0; i < items.length; i++) {
           // Grand Sales Total
           total = subtotal + salesTax + shipping;
 
-        </script>
+      </script>
         <tr>
           <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
           <td width="54%">$
@@ -156,6 +170,7 @@ for (var i = 0; i < items.length; i++) {
             </strong></td>
         </tr>
       </tbody>
+    
     </table>
   </div>
 
