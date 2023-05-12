@@ -6,31 +6,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <html>
-<script>
-    let params = (new URL(document.location)).searchParams;
+    <script>
+        let params = (new URL(document.location)).searchParams;
 
-    // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
-    // store in function and call it when the page loads 
-    window.onload = function () {
-        for (let i in products) {
 
-            // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
-            quantity_form[`quantities${i}`].value = params.get(`quantities${i}`);
-
-            // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
-            if (params.has(`errors_array`)) {
-                var errors = JSON.parse(params.get(`errors_array`));
+        // errors from server has been input into the query string and assigned to the variable "errors_array". if errors_arrays is in the query string, get it, pull out the value, and display it in purchase button
+        // store in function and call it when the page loads 
+        window.onload = function () {
+            for (let i in products) {
+    
+                // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
+                if (params.has(`errors_array`)) {
+                    var errors = JSON.parse(params.get(`errors_array`));
+                }
             }
-
             // if the variable storing the errors_array exists, assign the value of the button to the errors
-            if (errors) {
-                document.getElementById('purchase_button').value = errors;
-            }
+                if (errors) {
+                    window.alert(errors)
+                }
         }
-    }
-
-
-</script>
+     
+    </script>
 
 
 
@@ -65,7 +61,8 @@
     </nav>
     <div>
         <main>
-            <form name="quantity_form" action="/login.html" method="POST">
+            <form name="quantity_form" action="/add_to_cart_light" method="POST">
+               
                 <script>
                     // for loop that generates product data
                     for (i = 0; i < products.light_totes.length; i++){
@@ -73,13 +70,14 @@
                        document.write(`
                 <section class="item">
                     <h2 name = "products.light_totes${i}_name">${products.light_totes[i].name}</td>
+                     <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${products.light_totes[i].name}">    
                     </h2> 
                     <p>$${products.light_totes[i].price}</p>
                     <img src="${products.light_totes[i].img}" id = "image">
                     <p>Quantity Available: ${products.light_totes[i].quantityAvailable}</p>
                     <p>Total Sold: ${products.light_totes[i].total_sold} </p>
                     <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
-                   <p><input type = "text" id = "quantities${i}" name = "quantities${i}"></p>
+                   <p><input type = "text" id = "quantities${i}" name = "${products.light_totes[i].name}.quantities"></p>
                 </p><input type="submit" id="purchase_button" value="Add to Cart" class="add-cart"></p>
                 </section>
             `)};

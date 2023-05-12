@@ -14,17 +14,25 @@
     window.onload = function () {
         for (let i in products) {
 
+            // loop through the products object, pull the quantities entered from query string and put them back in the textboxes
+            quantity_form[`quantities${i}`].value = params.get(`quantities${i}`);
+
             // if query string has the array "errors_array" (passed back by via the server), params.get the array, use JSON parse to turn it from a string back into a js object (I learned to do this by RTFM), store this in a variable
             if (params.has(`errors_array`)) {
                 var errors = JSON.parse(params.get(`errors_array`));
             }
-        }
-        // if the variable storing the errors_array exists, assign the value of the button to the errors
+
+            // if the variable storing the errors_array exists, assign the value of the button to the errors
             if (errors) {
-                window.alert(errors)
+                document.getElementById('purchase_button').value = errors;
             }
+        }
     }
- 
+
+if (params.has(`type`)){
+    var product_key = params.get(`type`);
+};
+
 </script>
 
 
@@ -53,37 +61,36 @@
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="light_totes.html">Light Totes</a></li>
-            <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
-            <li><a href="backpacks.html">Backpacks</a></li>
+            <li><a href="category.html?type=light_totes">Light Totes</a></li>
+            <li><a href="category.html?type=heavy_totes">Heavy Totes</a></li>
+            <li><a href="category.html?type=backpacks">Backpacks</a></li>
         </ul>
     </nav>
     <div>
         <main>
-            <form name="quantity_form" action="/add_to_cart_back" method="POST">
-               
+            <form name="quantity_form" action="/add_to_cart" method="get">
                 <script>
                     // for loop that generates product data
-                    for (i = 0; i < products.backpacks.length; i++){
-                    products.backpacks[i].quantity_selected -= products.backpacks[i].quantity_selected ; // set the quantity_selected property back to 0 for each product
+                    for (i = 0; i < products[product_key].length; i++){
+                    products[product_key][i].quantity_selected -= products[product_key][i].quantity_selected ; // set the quantity_selected property back to 0 for each product
                        document.write(`
                 <section class="item">
-                    <h2 name = "products.backpacks${i}_name">${products.backpacks[i].name}</td>
-                     <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${products.backpacks[i].name}">    
+                    <INPUT TYPE="HIDDEN" NAME="products_key" VALUE="${product_key}">
+                    <h2 name = "products[product_key]${i}_name">${products[product_key][i].name}</td>
                     </h2> 
-                    <p>$${products.backpacks[i].price}</p>
-                    <img src="${products.backpacks[i].img}" id = "image">
-                    <p>Quantity Available: ${products.backpacks[i].quantityAvailable}</p>
-                    <p>Total Sold: ${products.backpacks[i].total_sold} </p>
+                    <p>$${products[product_key][i].price}</p>
+                    <img src="${products[product_key][i].img}" id = "image">
+                    <p>Quantity Available: ${products[product_key][i].quantityAvailable}</p>
+                    <p>Total Sold: ${products[product_key][i].total_sold} </p>
                     <p><label for = "quantities${i}" id = "quantities${i}_label">Enter Quantity Desired:</label><p>
-                   <p><input type = "text" id = "quantities${i}" name = "${products.backpacks[i].name}.quantities"></p>
-                </p><input type="submit" id="purchase_button" value="Add to Cart" class="add-cart" required></p>
+                   <p><input type = "Number" id = "quantities${i}" name = "quantities${i}"></p>
                 </section>
             `)};
                 </script>
 
     </div>
     <footer>
+    </p><input type="submit"  id="purchase_button" value="Add to Cart" class="add-cart"></p>
     </footer>
     </form>
     </main>
