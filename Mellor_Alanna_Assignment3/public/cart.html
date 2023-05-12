@@ -12,22 +12,22 @@
     // Parsing JSON string into object
     shopping_cart = JSON.parse(response);
 
-    
-  });
-  
-  window.onload = function (){
 
-  // check if the cart is empty
-  if (!shopping_cart.quantities) {
-    document.getElementById('cartTable').style.display = 'none';
-    document.getElementById('emptyCartMessage').style.display = 'block';
-    return;
-  }else{
-    document.getElementById('cartTable').style.display = 'block';
-    document.getElementById('emptyCartMessage').style.display = 'none';
-  }
+  });
+
+  window.onload = function () {
+
+    // check if the cart is empty
+    if (!shopping_cart.quantities) {
+      document.getElementById('cartTable').style.display = 'none';
+      document.getElementById('emptyCartMessage').style.display = 'block';
+      return;
+    } else {
+      document.getElementById('cartTable').style.display = 'block';
+      document.getElementById('emptyCartMessage').style.display = 'none';
+    }
   };
-  
+
 
   let params = (new URL(document.location)).searchParams;
   // Sub-Total
@@ -42,8 +42,8 @@
     var names = shopping_cart.name.split(',');
     var quantities = shopping_cart.quantities.split(',');
     // loop through products to generate a row for each product and quantity 
-// loop through items to generate a row for each item
-for (var i = 0; i < items.length; i++) {
+    // loop through items to generate a row for each item
+    for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var name = names[i];
       var quantity = parseInt(quantities[i]); // convert quantity to integer
@@ -52,23 +52,23 @@ for (var i = 0; i < items.length; i++) {
       //set extended price
       var extended_price = quantity * price;
 
-    
+
 
       // generate item rows 
       document.write(`
 
-            <tr>
-              <td align="center" width="43%">${name}</td>
-              <td align="center" width="11%">${quantity}</td>
-              <td align="center" width="13%">$${price}</div></td>
-              <td width="43%">$${extended_price.toFixed(2)}</td>
-            </tr>
+      <tr>
+        <td align="center" width="43%">${name}</td>
+        <td align="center" width="11%"><input type="number" min="1" value="${quantity}" id="quantity_${i}"></td>
+        <td align="center" width="13%">$${price}</td>
+        <td width="43%">$${extended_price.toFixed(2)}</td>
+        </tr>
       `)
       subtotal += extended_price
     }
   };
 
-  
+
 
 
 </script>
@@ -104,74 +104,82 @@ for (var i = 0; i < items.length; i++) {
 
   <div class="users_cart">
     <div id="emptyCartMessage">Your cart is currently empty</div>
-    <table border="2">
-    
-      <tbody id="cartTable" >
-        <tr>
-          <th style="text-align: center;" width="43%">Item</th>
-          <th style="text-align: center;" width="11%">Quantity</th>
-          <th style="text-align: center;" width="13%">Price</th>
-          <th style="text-align: center;" width="54%">Extended Price</th>
-        </tr>
+    <form id="cartForm" action="/update_cart" method="post">
+      <table border="2">
 
-        <script>
-          //call the function 
+        <tbody id="cartTable">
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">Quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended Price</th>
+          </tr>
 
-          generate_item_rows();
+          <script>
+            //call the function 
+
+            generate_item_rows();
 
 
-          // Sales Tax
-          taxRate = 5.75 / 100;
-          salesTax = subtotal * taxRate;
+            // Sales Tax
+            taxRate = 5.75 / 100;
+            salesTax = subtotal * taxRate;
 
-          //Shipping Costs
-          shipping;
-          if (subtotal <= 50) {
-            shipping = 2;
-          }
-          if (subtotal > 50 && subtotal <= 100) {
-            shipping = 5;
-          }
-          if (subtotal > 100) {
-            shipping = subtotal * 0.05;
-          }
+            //Shipping Costs
+            shipping;
+            if (subtotal <= 50) {
+              shipping = 2;
+            }
+            if (subtotal > 50 && subtotal <= 100) {
+              shipping = 5;
+            }
+            if (subtotal > 100) {
+              shipping = subtotal * 0.05;
+            }
 
-          // Grand Sales Total
-          total = subtotal + salesTax + shipping;
+            // Grand Sales Total
+            total = subtotal + salesTax + shipping;
 
-      </script>
-        <tr>
-          <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-          <td width="54%">$
-            <script>document.write(subtotal.toFixed(2))</script>
-          </td>
-        </tr>
-        <tr>
-          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span>
-          </td>
-          <td width="54%">$
-            <script>document.write(salesTax.toFixed(2))</script>
-          </td>
+          </script>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$
+              <script>document.write(subtotal.toFixed(2))</script>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span>
+            </td>
+            <td width="54%">$
+              <script>document.write(salesTax.toFixed(2))</script>
+            </td>
 
-        </tr>
+          </tr>
 
-        <tr>
-          <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span></td>
-          <td width="54%">$
-            <script>document.write(shipping.toFixed(2))</script>
-          </td>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping</span>
+            </td>
+            <td width="54%">$
+              <script>document.write(shipping.toFixed(2))</script>
+            </td>
 
-        </tr>
+          </tr>
 
-        <tr>
-          <td style="text-align: center;" colspan="3" width="67%"><strong><strong>Total</strong></strong></td>
-          <td width="54%"><strong>$
-              <script>document.write(total.toFixed(2))</script>
-            </strong></td>
-        </tr>
-      </tbody>
-    
-    </table>
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong><strong>Total</strong></strong></td>
+            <td width="54%"><strong>$
+                <script>document.write(total.toFixed(2))</script>
+              </strong></td>
+          </tr>
+          <tr>
+            <td colspan="4" align="center">
+              <button type="submit">Update Cart</button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </form>
   </div>
 
 </body>

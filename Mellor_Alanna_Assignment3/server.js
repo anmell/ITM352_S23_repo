@@ -510,6 +510,25 @@ app.get('/get_cart', function (request, response) {
    
  });
 
+ //add route to handle when the cart is updated
+ // Assuming you're using Express.js
+app.post('/update_cart', function(request, response) {
+   // Retrieve the updated quantities from the form submission
+   var quantities = {};
+   for (var i = 0; i < request.body.length; i++) {
+     var key = 'quantity_' + i;
+     var quantity = parseInt(request.body[key]);
+     quantities[key] = quantity;
+   }
+ 
+   // Update the quantities in the session or wherever you're storing the cart data
+   // For example, assuming you're using sessions:
+   request.session.cart.quantities = quantities;
+ 
+   // Redirect back to the cart page or wherever you want to go after updating the quantities
+   response.redirect('/cart.html');
+ });
+
  app.get('/clear_session', function (req, res) {
    req.session.destroy(function (err) {
      if (err) {
