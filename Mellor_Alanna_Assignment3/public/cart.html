@@ -11,8 +11,11 @@
   loadJSON('get_cart', function (response) {
     // Parsing JSON string into object
     shopping_cart = JSON.parse(response);
+  });
 
-
+  loadJSON('/signed_in', function (response) {
+    // Parsing JSON string into object; dsiplay if user is signed in or not
+    login_status = JSON.parse(response);
   });
 
   window.onload = function () {
@@ -26,6 +29,26 @@
       document.getElementById('cartTable').style.display = 'block';
       document.getElementById('emptyCartMessage').style.display = 'none';
     }
+
+     // if user is logged in, display their name on the page
+  if (!login_status.loggedIn){
+    document.getElementById('login_status_yes').style.display = `none`;
+    document.getElementById('login_status_no').style.display = `block`;
+
+    //display login button
+    document.getElementById('login-button').style.display = `block`;
+    document.getElementById('logout-button').style.display = `none`;
+
+    return
+  }else{
+    // if user is logged in, display their name on the page
+    document.getElementById('login_status_yes').style.display = `block`;
+    document.getElementById('login_status_no').style.display = `none`;
+
+     //display logout button
+     document.getElementById('login-button').style.display = `none`;
+    document.getElementById('logout-button').style.display = `block`;
+  } 
   };
 
 
@@ -100,10 +123,14 @@
 
 <header>
   <div class="header-container">
-    <a href="login.html" class="login-button">Login</a>
+    <a href="login.html" class="login-button" id = "login-button">Login</a>
+    <a href="/clear_session" class="login-button" id = "logout-button">Logout</a>
+    <a href="cart.html" class="cart-button">Shopping Cart</a>
   </div>
   <div class="store-title">
     <h1>Capture the Bag</h1>
+    <div id="login_status_no">You are not logged in</div>
+        <div id="login_status_yes">You're logged in as <script>document.write(`${login_status.username}`)</script></div>
   </div>
 </header>
 

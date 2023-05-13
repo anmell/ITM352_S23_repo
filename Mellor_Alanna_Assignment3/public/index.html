@@ -15,27 +15,38 @@
 </head>
 
 <script>
-loadJSON('/signed_in', function (response) {
+ loadJSON('/signed_in', function (response) {
     // Parsing JSON string into object; dsiplay if user is signed in or not
     login_status = JSON.parse(response);
   });
 
-     window.onload = function () {
+  window.onload = function () {
   // if user is logged in, display their name on the page
   if (!login_status.loggedIn){
     document.getElementById('login_status_yes').style.display = `none`;
     document.getElementById('login_status_no').style.display = `block`;
+
+    //display login button
+    document.getElementById('login-button').style.display = `block`;
+    document.getElementById('logout-button').style.display = `none`;
+
     return
   }else{
+    // if user is logged in, display their name on the page
     document.getElementById('login_status_yes').style.display = `block`;
     document.getElementById('login_status_no').style.display = `none`;
+
+     //display logout button
+     document.getElementById('login-button').style.display = `none`;
+    document.getElementById('logout-button').style.display = `block`;
   } };
 </script>
 
 
 <header>
     <div class="header-container">
-        <a href="login.html" class="login-button">Login</a>
+        <a href="login.html" class="login-button" id = "login-button">Login</a>
+        <a href="/clear_session" class="login-button" id = "logout-button">Logout</a>
         <a href="cart.html" class="cart-button">Shopping Cart</a>
     </div>
     <div class="store-title">
