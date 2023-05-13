@@ -1,5 +1,5 @@
 /* I, Alanna Mellor, am the author of this code. The following program is a simple server designed to serve an eccomerce website. 
-The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to a login.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors.*/ 
+The server recieves data from a products_display.html page and validates the data entered by the user. If the data passes all validations, the user is redirected to a login.html page. If the data fails validation, the user remains on the products_display page and is informed of the errors.*/
 
 
 
@@ -8,10 +8,12 @@ var app = express();
 const querystring = require('querystring');
 var session = require('express-session');
 
+const nodemailer = require('nodemailer');
+
 // express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -20,6 +22,28 @@ app.use(cookieParser());
 // stores product json data in server memory undet the variable name 'products' and maes it accessible through the root directory and the following json file path
 var products = require(__dirname + '/product_data.json');
 
+
+
+// Set up session middleware
+app.use(
+   session({
+      secret: 'secretkeyyy',
+      resave: false,
+      saveUninitialized: true
+   })
+);
+
+// Middleware to check if the user is authenticated; using for invoice; provided by chat gpt
+function isAuthenticated(req, res, next) {
+   // Check if the user is authenticated
+   if (req.session && req.session.login && req.session.login.loggedIn) {
+      // User is authenticated, allow access to the next middleware or route handler
+      next();
+   } else {
+      // User is not authenticated, redirect to a login page or show an error message
+      res.redirect('/login.html'); // You can change the login page URL as per your application
+   }
+}
 
 
 // function to check is quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
@@ -50,9 +74,9 @@ app.all('*', function (request, response, next) {
    }
 
    // set flag, assume user is not logged in; if the session has the username, then change flag to true
-   if(typeof request.session.login.username == 'undefined'){
-    request.session.login.loggedIn = false;  
-   }else{
+   if (typeof request.session.login.username == 'undefined') {
+      request.session.login.loggedIn = false;
+   } else {
       request.session.login.loggedIn = true;
    }
    next();
@@ -60,7 +84,7 @@ app.all('*', function (request, response, next) {
 // when the server recieves a GET request for "/product_data.js", the server will respong in javascript with a string of data provided by the JSON file
 app.get("/product_data.js", function (request, response, next) {
    response.type('.js');
-   var products_str = `var products = ${JSON.stringify(products)};`;
+   var products_str = `var products = ${JSON.stringify(products)};\n`;
    response.send(products_str);
 });
 
@@ -114,10 +138,10 @@ app.post("/login", function (request, response) {
       // set the flag to indicate that the user is logged in
       request.session.login.loggedIn = true;
 
-   // Store the quantities in the session
-   request.session.login.username = username;
-   console.log(request.session.login);
-   response.redirect('./cart.html');
+      // Store the quantities in the session
+      request.session.login.username = username;
+      console.log(request.session.login);
+      response.redirect('./cart.html');
    }
 });
 
@@ -155,9 +179,9 @@ app.post('/registration.html', function (request, response) {
    }
 
    // Check if password is between 10 and 16 characters long
-if (request.body.password.length < 10 || request.body.password.length > 16) {
-   reg_errors.push('Password must be between 10 and 16 characters long');
-}
+   if (request.body.password.length < 10 || request.body.password.length > 16) {
+      reg_errors.push('Password must be between 10 and 16 characters long');
+   }
 
    // Check if password contains spaces
    if (/\s/.test(request.body.password)) {
@@ -209,11 +233,11 @@ app.listen(8080, () => console.log(`listening on port 8080`))
 app.post("/add_to_cart_light", function (request, response) {
    var quantities = {};
 
-      //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
-      var all_textboxes = [];
+   //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
+   var all_textboxes = [];
 
-      //assign a variable to collect all errors
-      var errors_array = [];
+   //assign a variable to collect all errors
+   var errors_array = [];
 
    // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.light_totes.length; i++) {
@@ -221,91 +245,91 @@ app.post("/add_to_cart_light", function (request, response) {
 
    }
 
-   
+
    // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
    if (all_textboxes.every(element => element === '')) {
-     errors_array.push('Please enter at least one quantity');
-     response.redirect('./light_totes.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
+      errors_array.push('Please enter at least one quantity');
+      response.redirect('./light_totes.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
    }
 
    // Loop through the products and get the quantities from the request body
    for (let i = 0; i < products.light_totes.length; i++) {
-     var quantity = request.body[`${products.light_totes[i].name}.quantities`];
+      var quantity = request.body[`${products.light_totes[i].name}.quantities`];
 
-     // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
-     var name = products.light_totes[i].name;
+      // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
+      var name = products.light_totes[i].name;
 
-// assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
-let errors = isNonNegInt(quantity, true);
+      // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
+      let errors = isNonNegInt(quantity, true);
 
-// assign a variable to the quantity available for each product
-var qa = products.light_totes[i].quantityAvailable;
+      // assign a variable to the quantity available for each product
+      var qa = products.light_totes[i].quantityAvailable;
 
- //if there's an empty textbox, let the loop continue
-  if (quantity == 0) {
-   continue;
-}
+      //if there's an empty textbox, let the loop continue
+      if (quantity == 0) {
+         continue;
+      }
 
-if (errors.length > 0) {
-   errors_array.push(`Invalid Quantity for ${products.light_totes[i].name}`);
-}
-// if the user selects more quantities than are available, push an error into the errors_array
-if (quantity > qa) {
-   errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
-}
-   
- 
-   
-if (errors_array.length == 0) {
-    if (quantity) {
-       quantities[products.light_totes[i].name] = parseInt(quantity);
-     } 
-   if (!request.session.cart) {
-     request.session.cart = {};
+      if (errors.length > 0) {
+         errors_array.push(`Invalid Quantity for ${products.light_totes[i].name}`);
+      }
+      // if the user selects more quantities than are available, push an error into the errors_array
+      if (quantity > qa) {
+         errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
+      }
+
+
+
+      if (errors_array.length == 0) {
+         if (quantity) {
+            quantities[products.light_totes[i].name] = parseInt(quantity);
+         }
+         if (!request.session.cart) {
+            request.session.cart = {};
+         }
+         // Store the quantities in the session
+         var item = 'light_totes';
+
+         if (request.session.cart.item) {
+            request.session.cart.item = request.session.cart.item + ',' + item;
+         } else {
+            request.session.cart.item = [];
+            request.session.cart.item = item;
+         }
+
+         if (request.session.cart.name) {
+            request.session.cart.name = request.session.cart.name + ',' + name;
+         } else {
+            request.session.cart.name = [];
+            request.session.cart.name = name;
+         }
+
+         if (request.session.cart.quantities) {
+            request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
+         } else {
+            request.session.cart.quantities = {};
+            request.session.cart.quantities = quantity;
+         }
+
+         console.log(request.session);
+         response.redirect('/cart.html');
+      } else {
+         response.redirect('./light_totes.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
+      }
    }
-// Store the quantities in the session
-var item = 'light_totes';
-
-if (request.session.cart.item) {
-   request.session.cart.item = request.session.cart.item + ',' + item;
- } else {
-   request.session.cart.item = [];
-   request.session.cart.item = item;
- }
-
-if (request.session.cart.name) {
-   request.session.cart.name = request.session.cart.name + ',' + name;
- } else {
-   request.session.cart.name = [];
-   request.session.cart.name = name;
- }
-
-if (request.session.cart.quantities) {
-   request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
- } else {
-   request.session.cart.quantities = {};
-   request.session.cart.quantities = quantity;
- }
- 
-   console.log(request.session);
-   response.redirect('/cart.html');
-}else{
-   response.redirect('./light_totes.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
-}
-   }
- });
- 
+});
 
 
- // Process and validate heavy tote items that get added to cart from heavy_totes.html
+
+// Process and validate heavy tote items that get added to cart from heavy_totes.html
 app.post("/add_to_cart_heavy", function (request, response) {
    var quantities = {};
 
-      //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
-      var all_textboxes = [];
+   //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
+   var all_textboxes = [];
 
-      //assign a variable to collect all errors
-      var errors_array = [];
+   //assign a variable to collect all errors
+   var errors_array = [];
 
    // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.heavy_totes.length; i++) {
@@ -313,92 +337,92 @@ app.post("/add_to_cart_heavy", function (request, response) {
 
    }
 
-   
+
    // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
    if (all_textboxes.every(element => element === '')) {
-     errors_array.push('Please enter at least one quantity');
-     response.redirect('./heavy_totes.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
+      errors_array.push('Please enter at least one quantity');
+      response.redirect('./heavy_totes.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
    }
 
    // Loop through the products and get the quantities from the request body
    for (let i = 0; i < products.heavy_totes.length; i++) {
-     var quantity = request.body[`${products.heavy_totes[i].name}.quantities`];
+      var quantity = request.body[`${products.heavy_totes[i].name}.quantities`];
 
-     // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
-     var name = products.heavy_totes[i].name;
+      // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
+      var name = products.heavy_totes[i].name;
 
-// assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
-let errors = isNonNegInt(quantity, true);
+      // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
+      let errors = isNonNegInt(quantity, true);
 
-// assign a variable to the quantity available for each product
-var qa = products.heavy_totes[i].quantityAvailable;
+      // assign a variable to the quantity available for each product
+      var qa = products.heavy_totes[i].quantityAvailable;
 
- //if there's an empty textbox, let the loop continue
-  if (quantity == 0) {
-   continue;
-}
+      //if there's an empty textbox, let the loop continue
+      if (quantity == 0) {
+         continue;
+      }
 
-if (errors.length > 0) {
-   errors_array.push(`Invalid Quantity for ${products.heavy_totes[i].name}`);
-}
-// if the user selects more quantities than are available, push an error into the errors_array
-if (quantity > qa) {
-   errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
-}
-   
- 
-   
-if (errors_array.length == 0) {
-    if (quantity) {
-       quantities[products.heavy_totes[i].name] = parseInt(quantity);
-     } 
-   if (!request.session.cart) {
-     request.session.cart = {};
+      if (errors.length > 0) {
+         errors_array.push(`Invalid Quantity for ${products.heavy_totes[i].name}`);
+      }
+      // if the user selects more quantities than are available, push an error into the errors_array
+      if (quantity > qa) {
+         errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
+      }
+
+
+
+      if (errors_array.length == 0) {
+         if (quantity) {
+            quantities[products.heavy_totes[i].name] = parseInt(quantity);
+         }
+         if (!request.session.cart) {
+            request.session.cart = {};
+         }
+         // Store the quantities in the session
+         var item = 'heavy_totes';
+
+         if (request.session.cart.item) {
+            request.session.cart.item = request.session.cart.item + ',' + item;
+         } else {
+            request.session.cart.item = [];
+            request.session.cart.item = item;
+         }
+
+         if (request.session.cart.name) {
+            request.session.cart.name = request.session.cart.name + ',' + name;
+         } else {
+            request.session.cart.name = [];
+            request.session.cart.name = name;
+         }
+
+         if (request.session.cart.quantities) {
+            request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
+         } else {
+            request.session.cart.quantities = {};
+            request.session.cart.quantities = quantity;
+         }
+
+         console.log(request.session);
+         response.redirect('/cart.html');
+      } else {
+         response.redirect('./heavy_totes.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
+      }
    }
- // Store the quantities in the session
-   var item = 'heavy_totes';
-
-   if (request.session.cart.item) {
-      request.session.cart.item = request.session.cart.item + ',' + item;
-    } else {
-      request.session.cart.item = [];
-      request.session.cart.item = item;
-    }
-
-   if (request.session.cart.name) {
-      request.session.cart.name = request.session.cart.name + ',' + name;
-    } else {
-      request.session.cart.name = [];
-      request.session.cart.name = name;
-    }
-
-   if (request.session.cart.quantities) {
-      request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
-    } else {
-      request.session.cart.quantities = {};
-      request.session.cart.quantities = quantity;
-    }
- 
-   console.log(request.session);
-   response.redirect('/cart.html');
-}else{
-   response.redirect('./heavy_totes.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
-}
-   }
- });
- 
+});
 
 
 
- // Process and validate backpack items that get added to cart from backpacks.html
+
+// Process and validate backpack items that get added to cart from backpacks.html
 app.post("/add_to_cart_back", function (request, response) {
    var quantities = {};
 
-      //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
-      var all_textboxes = [];
+   //assign an empty array to collect all values of the textboxes; use to check that at least texbox has a value
+   var all_textboxes = [];
 
-      //assign a variable to collect all errors
-      var errors_array = [];
+   //assign a variable to collect all errors
+   var errors_array = [];
 
    // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.backpacks.length; i++) {
@@ -406,80 +430,85 @@ app.post("/add_to_cart_back", function (request, response) {
 
    }
 
-   
+
    // use an arrow function; call each element of the array as a parameter, then check that "every" element is equal to an empty string. I learned this by RTFM (A LOT of outside research)
    if (all_textboxes.every(element => element === '')) {
-     errors_array.push('Please enter at least one quantity');
-     response.redirect('./backpacks.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
+      errors_array.push('Please enter at least one quantity');
+      response.redirect('./backpacks.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
    }
 
    // Loop through the products and get the quantities from the request body
    for (let i = 0; i < products.backpacks.length; i++) {
-     var quantity = request.body[`${products.backpacks[i].name}.quantities`];
+      var quantity = request.body[`${products.backpacks[i].name}.quantities`];
 
-     // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
-     var name = products.backpacks[i].name;
+      // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
+      var name = products.backpacks[i].name;
 
-// assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
-let errors = isNonNegInt(quantity, true);
+      // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
+      let errors = isNonNegInt(quantity, true);
 
-// assign a variable to the quantity available for each product
-var qa = products.backpacks[i].quantityAvailable;
+      // assign a variable to the quantity available for each product
+      var qa = products.backpacks[i].quantityAvailable;
 
- //if there's an empty textbox, let the loop continue
-  if (quantity == 0) {
-   continue;
-}
+      //if there's an empty textbox, let the loop continue
+      if (quantity == 0) {
+         continue;
+      }
 
-if (errors.length > 0) {
-   errors_array.push(`Invalid Quantity for ${products.backpacks[i].name}`);
-}
-// if the user selects more quantities than are available, push an error into the errors_array
-if (quantity > qa) {
-   errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
-}
-   
- 
-   
-if (errors_array.length == 0) {
-    if (quantity) {
-       quantities[products.backpacks[i].name] = parseInt(quantity);
-     } 
-   if (!request.session.cart) {
-     request.session.cart = {};
+      if (errors.length > 0) {
+         errors_array.push(`Invalid Quantity for ${products.backpacks[i].name}`);
+      }
+      // if the user selects more quantities than are available, push an error into the errors_array
+      if (quantity > qa) {
+         errors_array.push(`The quantity that you have selected for ${name} exceeds the quantity that we have available`);
+      }
+
+
+
+      if (errors_array.length == 0) {
+         for (let i in products) {
+            // assign the quantities selected by user to quantity_selected attribute for each object
+            products[i].quantity_selected += Number(request.body[`quantities${i}`]);
+         }
+
+         if (quantity) {
+            quantities[products.backpacks[i].name] = parseInt(quantity);
+         }
+         if (!request.session.cart) {
+            request.session.cart = {};
+         }
+         // Store the quantities in the session
+         var item = 'backpacks';
+
+         if (request.session.cart.item) {
+            request.session.cart.item = request.session.cart.item + ',' + item;
+         } else {
+            request.session.cart.item = [];
+            request.session.cart.item = item;
+         }
+
+         if (request.session.cart.name) {
+            request.session.cart.name = request.session.cart.name + ',' + name;
+         } else {
+            request.session.cart.name = [];
+            request.session.cart.name = name;
+         }
+
+         if (request.session.cart.quantities) {
+            request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
+         } else {
+            request.session.cart.quantities = {};
+            request.session.cart.quantities = quantity;
+         }
+
+         console.log(request.session);
+         response.redirect('/cart.html');
+      } else {
+         response.redirect('./backpacks.html?' + querystring.stringify({ errors_array: `${JSON.stringify(errors_array)}` }));
+      }
    }
- // Store the quantities in the session
- var item = 'backpacks';
+});
 
- if (request.session.cart.item) {
-    request.session.cart.item = request.session.cart.item + ',' + item;
-  } else {
-    request.session.cart.item = [];
-    request.session.cart.item = item;
-  }
-
- if (request.session.cart.name) {
-    request.session.cart.name = request.session.cart.name + ',' + name;
-  } else {
-    request.session.cart.name = [];
-    request.session.cart.name = name;
-  }
-
- if (request.session.cart.quantities) {
-    request.session.cart.quantities = request.session.cart.quantities + ',' + quantity;
-  } else {
-    request.session.cart.quantities = {};
-    request.session.cart.quantities = quantity;
-  }
- 
-   console.log(request.session);
-   response.redirect('/cart.html');
-}else{
-   response.redirect('./backpacks.html?' + querystring.stringify({errors_array: `${JSON.stringify(errors_array)}` }));
-}
-   }
- });
- 
 
 app.get('/clear_cookie', function (req, res) {
    res.clearCookie('added_itembackpacks');
@@ -490,38 +519,39 @@ app.get('/clear_cookie', function (req, res) {
    res.clearCookie('quantities');
    res.clearCookie('added_item');
    res.send('Cookie cleared!');
- });
+});
 
 // add route to make session data available to html cart file
 app.get('/get_cart', function (request, response) {
-   if (request.session.cart){
-    cartData = request.session.cart; 
+
+   if (request.session.cart) {
+      cartData = request.session.cart;
    }
    console.log(cartData);
    response.json(cartData);
-   
- });
 
-app.post('/update_cart', function(request, response) {
-  // Retrieve the updated quantities from the form submission
-  var quantities = request.body.quantities;
-
-  // Check if quantities is an array
-  if (Array.isArray(quantities)) {
-    // Convert the array to a comma-separated string
-    request.session.cart.quantities = quantities.join(',');
-  } else {
-    // Assign the single value to request.session.cart.quantities
-    request.session.cart.quantities = quantities;
-  }
-
-  //assign variable to message that will alert user that the cart has been updated successfully
-  var message = 'Your cart has been updated successfully!';
-
-  response.redirect('/cart.html?'+ querystring.stringify({message: `${JSON.stringify(message)}` }));
 });
 
- 
+app.post('/update_cart', function (request, response) {
+   // Retrieve the updated quantities from the form submission
+   var quantities = request.body.quantities;
+
+   // Check if quantities is an array
+   if (Array.isArray(quantities)) {
+      // Convert the array to a comma-separated string
+      request.session.cart.quantities = quantities.join(',');
+   } else {
+      // Assign the single value to request.session.cart.quantities
+      request.session.cart.quantities = quantities;
+   }
+
+   //assign variable to message that will alert user that the cart has been updated successfully
+   var message = 'Your cart has been updated successfully!';
+
+   response.redirect('/cart.html?' + querystring.stringify({ message: `${JSON.stringify(message)}` }));
+});
+
+
 // when user tries to purchase something, make sure they are logged in. If not, direct them to log in page, else, continue to invoice
 app.get('/invoice', function (request, response) {
 
@@ -529,30 +559,57 @@ app.get('/invoice', function (request, response) {
    // check if the user is already logged in
    if (request.session.login.loggedIn == false) {
       var login_message = 'Please log in to purchase';
-      response.redirect('/login.html?'+ querystring.stringify({login_message: `${JSON.stringify(login_message)}` }));
-      
-   }else{
-     // skip the login process and redirect to the invoice page
-     response.redirect('./invoice.html');  
+      response.redirect('/login.html?' + querystring.stringify({ login_message: `${JSON.stringify(login_message)}` }));
+
+   } else {
+      // skip the login process and redirect to the invoice page
+      response.redirect('./invoice.html');
    }
- });
+});
 
 
-// if user is logged in, display something that says that on every page
+// email receipt to user at invoice
+// when user tries to purchase something, make sure they are logged in. If not, direct them to log in page, else, continue to invoice
+app.get("/invoice.html", isAuthenticated, function (request, response) {
+   console.log(request.session.login)
+   // check if the user is already logged in
+   if (request.session.login.loggedIn == false) {
+      var login_message = 'Please log in to purchase';
+      response.redirect('/login.html?' + querystring.stringify({ login_message: `${JSON.stringify(login_message)}` }));
+
+   } else {
+      // skip the login process and redirect to the invoice page
+      response.redirect('./invoice.html');
+   }
+
+});
+
+
 // add route to make session data available to html cart file
 app.get('/signed_in', function (request, response) {
-   if (request.session.login){
-    login_status = request.session.login; 
+   if (request.session.login) {
+      login_status = request.session.login;
    }
    console.log(login_status);
    response.json(login_status);
-   
- });
+});
+
 
 //if user is logged in, let them have the option to logout. If they log out delete their login info
 app.get('/clear_session', function (request, response) {
    delete request.session.login;
    console.log('User logged out.');
    response.redirect('index.html'); // Redirect the user to the desired page after logging out
- });
- 
+});
+
+//after user completes their purchase, empty thier cart, update total available
+app.get('/clear_cart', function (request, response) {
+   // upate quantity available and total sold after purchase is completed
+   for (let i in products){
+      products[i].total_sold += products[i].quantity_selected;
+      products[i].quantityAvailable -= products[i].quantity_selected;
+   }
+   delete request.session.cart;
+   console.log('the cart has been emptied');
+   response.redirect('index.html'); // Redirect the user to the desired page after logging out
+});

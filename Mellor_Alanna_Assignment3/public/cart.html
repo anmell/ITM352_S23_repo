@@ -6,50 +6,50 @@
 <script src="/product_data.js"></script>
 <script src="./functions.js"></script>
 <script>
-  var products_data;
-  var total = 0;
-  loadJSON('get_cart', function (response) {
-    // Parsing JSON string into object
-    shopping_cart = JSON.parse(response);
-  });
+ var products_data;
+var total = 0;
 
-  loadJSON('/signed_in', function (response) {
-    // Parsing JSON string into object; dsiplay if user is signed in or not
+loadJSON('/signed_in', function (response) {
+    // Parsing JSON string into object; display if user is signed in or not
     login_status = JSON.parse(response);
-  });
+});
+ loadJSON('get_cart', function (response) {
+  // Parsing JSON string into object
+  shopping_cart = JSON.parse(response);
+});
 
-  window.onload = function () {
 
-    // check if the cart is empty
-    if (!shopping_cart.quantities) {
-      document.getElementById('cartTable').style.display = 'none';
-      document.getElementById('emptyCartMessage').style.display = 'block';
-      return;
-    } else {
-      document.getElementById('cartTable').style.display = 'block';
-      document.getElementById('emptyCartMessage').style.display = 'none';
-    }
+window.onload = function () {
+ 
+  // check if the cart is empty
+  if (!shopping_cart.quantities) {
+    document.getElementById('cartTable').style.display = 'none';
+    document.getElementById('emptyCartMessage').style.display = 'block';
+    return;
+  } else {
+    document.getElementById('cartTable').style.display = 'block';
+    document.getElementById('emptyCartMessage').style.display = 'none';
+  }
 
-     // if user is logged in, display their name on the page
-  if (!login_status.loggedIn){
-    document.getElementById('login_status_yes').style.display = `none`;
-    document.getElementById('login_status_no').style.display = `block`;
-
-    //display login button
-    document.getElementById('login-button').style.display = `block`;
-    document.getElementById('logout-button').style.display = `none`;
-
-    return
-  }else{
     // if user is logged in, display their name on the page
-    document.getElementById('login_status_yes').style.display = `block`;
-    document.getElementById('login_status_no').style.display = `none`;
+    if (login_status.loggedIn) {
+      document.getElementById('login_status_yes').style.display = 'block';
+      document.getElementById('login_status_no').style.display = 'none';
 
-     //display logout button
-     document.getElementById('login-button').style.display = `none`;
-    document.getElementById('logout-button').style.display = `block`;
-  } 
-  };
+      // display login button
+      document.getElementById('login-button').style.display = 'none';
+      document.getElementById('logout-button').style.display = 'block';
+    } else {
+      // if user is not logged in, display appropriate elements
+      document.getElementById('login_status_yes').style.display = 'none';
+      document.getElementById('login_status_no').style.display = 'block';
+
+      // display logout button
+      document.getElementById('login-button').style.display = 'block';
+      document.getElementById('logout-button').style.display = 'none';
+    }
+};
+
 
 
   let params = (new URL(document.location)).searchParams;
@@ -85,6 +85,9 @@
       var item = items[i];
       var name = names[i];
       var quantity = parseInt(quantities[i]); // convert quantity to integer
+      if (quantity == 0){
+        continue;
+      }
       var price = 10;
 
       //set extended price
@@ -216,7 +219,7 @@
           <tr>
             <td colspan="4" align="center">
               <button type="submit" class="update_button">Update Cart</button>
-              <a href="invoice" class="confirm_purchase_button">Confirm</a>
+              <a href="invoice" class="confirm_purchase_button">Confirm Purchase</a>
             </td>
           </tr>
         </tbody>

@@ -127,7 +127,9 @@ footer input[type="submit"] {
 footer input[type="submit"]:hover {
   background-color: rgb(211, 211, 211);
 }
-.header-container {
+.header-container,
+.continue-button,
+.user-info {
   display: flex;
   justify-content: space-between; /* Add space between login and cart buttons */
   align-items: center;

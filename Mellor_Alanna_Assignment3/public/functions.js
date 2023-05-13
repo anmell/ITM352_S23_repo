@@ -19,5 +19,3 @@ function nav_bar(this_product_key, product_data) {
         document.write(`<a href='./display_products.html?products_key=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
     }
 }
-
- 

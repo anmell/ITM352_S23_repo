@@ -59,7 +59,10 @@
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var name = names[i];
-      var quantity = parseInt(quantities[i]); // convert quantity to integer
+       var quantity = parseInt(quantities[i]); // convert quantity to integer
+      if (quantity == 0){
+        continue;
+      }
       var price = 10;
 
       //set extended price
@@ -97,23 +100,12 @@
 </head>
 
 <header>
-  <div class="header-container">
-    <a href="logout" class="login-button">Logout</a>
-  </div>
   <div class="store-title">
     <h1>Thank you for your purchase!</h1>
   </div>
 </header>
 
 <body>
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="light_totes.html">Light Totes</a></li>
-      <li><a href="heavy_totes.html">Heavy Duty Totes</a></li>
-      <li><a href="backpacks.html">Backpacks</a></li>
-    </ul>
-  </nav>
 
   <div class="users_cart">
     <div id="emptyCartMessage">Your cart is currently empty</div>
@@ -191,10 +183,10 @@
         </tbody>
 
       </table>
+      <a href="/clear_cart" class="continue-button" id = "login-button">Continue</a>
     </form>
   </div>
 
 </body>
-
 
 </html>
