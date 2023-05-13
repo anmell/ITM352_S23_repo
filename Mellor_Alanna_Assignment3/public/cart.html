@@ -99,9 +99,10 @@ window.onload = function () {
       document.write(`
 
       <tr>
-        <td align="center" width="43%">${name}</td>
-        <td align="center" width="11%"><input type="number" name = quantities value="${quantity}" id="quantity_${i}"></td>
-        <td align="center" width="13%">$${price}</td>
+        <input type="hidden" name = "item" value = "${item}">
+        <td align="center" width="43%" name = "name">${name}</td>
+        <td align="center" width="11%"><input type="number" name = "quantities" value="${quantity}" id="quantity_${i}"></td>
+        <td align="center" width="13%" name = >$${price}</td>
         <td width="43%">$${extended_price.toFixed(2)}</td>
         </tr>
       `)

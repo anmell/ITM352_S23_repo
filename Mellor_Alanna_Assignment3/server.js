@@ -534,16 +534,33 @@ app.get('/get_cart', function (request, response) {
 
 app.post('/update_cart', function (request, response) {
    // Retrieve the updated quantities from the form submission
-   var quantities = request.body.quantities;
-
-   // Check if quantities is an array
-   if (Array.isArray(quantities)) {
-      // Convert the array to a comma-separated string
-      request.session.cart.quantities = quantities.join(',');
-   } else {
-      // Assign the single value to request.session.cart.quantities
-      request.session.cart.quantities = quantities;
+   var body = request.body;
+   var input_quantities = body.quantities.split(',');
+   var cart = request.session.cart;
+ 
+   var items = cart.item.split(',');
+   var names = cart.name.split(',');
+   var quantities = cart.quantities.split(',');
+ 
+   var updatedItems = [];
+   var updatedNames = [];
+   var updatedQuantities = [];
+ 
+   for (var i = 0; i < input_quantities.length; i++) {
+     var quantity = parseInt(input_quantities[i]);
+ 
+     if (quantity > 0) {
+       updatedItems.push(items[i]);
+       updatedNames.push(names[i]);
+       updatedQuantities.push(quantity);
+     }
    }
+ 
+   cart.item = updatedItems.join(',');
+   cart.name = updatedNames.join(',');
+   cart.quantities = updatedQuantities.join(',');
+ 
+ 
 
    //assign variable to message that will alert user that the cart has been updated successfully
    var message = 'Your cart has been updated successfully!';
