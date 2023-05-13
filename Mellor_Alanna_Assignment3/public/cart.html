@@ -76,14 +76,18 @@ window.onload = function () {
   function generate_item_rows() {
     // function to generate item rows based on products array and the quantities in the query string
 
+
+
     var items = shopping_cart.item.split(',');
     var names = shopping_cart.name.split(',');
     var quantities = shopping_cart.quantities.split(',');
+    var images = shopping_cart.image.split(',');
     // loop through products to generate a row for each product and quantity 
     // loop through items to generate a row for each item
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var name = names[i];
+      var image = images[i];
       var quantity = parseInt(quantities[i]); // convert quantity to integer
       if (quantity == 0){
         continue;
@@ -94,13 +98,12 @@ window.onload = function () {
       var extended_price = quantity * price;
 
 
-
       // generate item rows 
       document.write(`
 
       <tr>
+        <td align="center" width="43%"><img src="${image}" width="30%" height="30%"><div><div><div>${name}</td>
         <input type="hidden" name = "item" value = "${item}">
-        <td align="center" width="43%" name = "name">${name}</td>
         <td align="center" width="11%"><input type="number" name = "quantities" value="${quantity}" id="quantity_${i}"></td>
         <td align="center" width="13%" name = >$${price}</td>
         <td width="43%">$${extended_price.toFixed(2)}</td>

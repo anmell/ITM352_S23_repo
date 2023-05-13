@@ -13,18 +13,6 @@
     shopping_cart = JSON.parse(response);
   });
 
-  window.onload = function () {
-
-    // check if the cart is empty
-    if (!shopping_cart.quantities) {
-      document.getElementById('cartTable').style.display = 'none';
-      document.getElementById('emptyCartMessage').style.display = 'block';
-      return;
-    } else {
-      document.getElementById('cartTable').style.display = 'block';
-      document.getElementById('emptyCartMessage').style.display = 'none';
-    }
-  };
 
 
   let params = (new URL(document.location)).searchParams;
@@ -54,11 +42,13 @@
     var items = shopping_cart.item.split(',');
     var names = shopping_cart.name.split(',');
     var quantities = shopping_cart.quantities.split(',');
+    var images = shopping_cart.image.split(',');
     // loop through products to generate a row for each product and quantity 
     // loop through items to generate a row for each item
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       var name = names[i];
+      var image = images[i];
        var quantity = parseInt(quantities[i]); // convert quantity to integer
       if (quantity == 0){
         continue;
@@ -74,6 +64,7 @@
       document.write(`
 
       <tr>
+        <td align="center" width="43%"><img src="${image}" width="30%" height="30%"><div><div><div>${name}</td>
         <td align="center" width="43%">${name}</td>
         <td align="center" width="11%">${quantity}</td>
         <td align="center" width="13%">$${price}</td>

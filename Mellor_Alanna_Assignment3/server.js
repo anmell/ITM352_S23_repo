@@ -259,6 +259,9 @@ app.post("/add_to_cart_light", function (request, response) {
       // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
       var name = products.light_totes[i].name;
 
+      // assign variable to images
+      var image = products.light_totes[i].img;
+
       // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
       let errors = isNonNegInt(quantity, true);
 
@@ -310,7 +313,12 @@ app.post("/add_to_cart_light", function (request, response) {
             request.session.cart.quantities = {};
             request.session.cart.quantities = quantity;
          }
-
+         if (request.session.cart.image) {
+            request.session.cart.image = request.session.cart.image + ',' + image;
+         } else {
+            request.session.cart.image = {};
+            request.session.cart.image = image;
+         }
          console.log(request.session);
          response.redirect('/cart.html');
       } else {
@@ -350,6 +358,9 @@ app.post("/add_to_cart_heavy", function (request, response) {
 
       // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
       var name = products.heavy_totes[i].name;
+
+      // assign variable to images
+      var image = products.heavy_totes[i].img;
 
       // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
       let errors = isNonNegInt(quantity, true);
@@ -402,6 +413,12 @@ app.post("/add_to_cart_heavy", function (request, response) {
             request.session.cart.quantities = {};
             request.session.cart.quantities = quantity;
          }
+         if (request.session.cart.image) {
+            request.session.cart.image = request.session.cart.image + ',' + image;
+         } else {
+            request.session.cart.image = {};
+            request.session.cart.image = image;
+         }
 
          console.log(request.session);
          response.redirect('/cart.html');
@@ -443,6 +460,9 @@ app.post("/add_to_cart_back", function (request, response) {
 
       // assign a variable to the name of each product -- to be used if there is an error; will alert user where the error occured
       var name = products.backpacks[i].name;
+
+      // assign variable to images
+      var image = products.backpacks[i].img;
 
       // assign a variable which calls the function "isNonNegInt"; this function checks if to see if the user has input a string, negtive number, or decimal
       let errors = isNonNegInt(quantity, true);
@@ -500,6 +520,12 @@ app.post("/add_to_cart_back", function (request, response) {
             request.session.cart.quantities = {};
             request.session.cart.quantities = quantity;
          }
+         if (request.session.cart.image) {
+            request.session.cart.image = request.session.cart.image + ',' + image;
+         } else {
+            request.session.cart.image = {};
+            request.session.cart.image = image;
+         }
 
          console.log(request.session);
          response.redirect('/cart.html');
@@ -510,16 +536,6 @@ app.post("/add_to_cart_back", function (request, response) {
 });
 
 
-app.get('/clear_cookie', function (req, res) {
-   res.clearCookie('added_itembackpacks');
-   res.clearCookie('added_itemheavy_totes');
-   res.clearCookie('added_itemlight_totes');
-   res.clearCookie('cartItems');
-   res.clearCookie('name');
-   res.clearCookie('quantities');
-   res.clearCookie('added_item');
-   res.send('Cookie cleared!');
-});
 
 // add route to make session data available to html cart file
 app.get('/get_cart', function (request, response) {
@@ -532,19 +548,27 @@ app.get('/get_cart', function (request, response) {
 
 });
 
+//update cart quantities if user desires
+//i wrote majority of this code, though for the part that deletes the item, name, and quantity from the session when 0 is entered, I referenced chatgpt
 app.post('/update_cart', function (request, response) {
    // Retrieve the updated quantities from the form submission
    var body = request.body;
-   var input_quantities = body.quantities.split(',');
+   var input_quantities = Array.isArray(body.quantities) ? body.quantities : [body.quantities];
    var cart = request.session.cart;
  
+   // Convert input_quantities to an array of numbers if needed
+   if (typeof input_quantities === 'number') {
+     input_quantities = [input_quantities];
+   }
    var items = cart.item.split(',');
    var names = cart.name.split(',');
    var quantities = cart.quantities.split(',');
+   var images = cart.image.split(',');
  
    var updatedItems = [];
    var updatedNames = [];
    var updatedQuantities = [];
+   var updatedImages = [];
  
    for (var i = 0; i < input_quantities.length; i++) {
      var quantity = parseInt(input_quantities[i]);
@@ -553,14 +577,15 @@ app.post('/update_cart', function (request, response) {
        updatedItems.push(items[i]);
        updatedNames.push(names[i]);
        updatedQuantities.push(quantity);
+       updatedImages.push(images[i]);
      }
    }
  
    cart.item = updatedItems.join(',');
    cart.name = updatedNames.join(',');
    cart.quantities = updatedQuantities.join(',');
- 
- 
+   cart.image = updatedImages.join(',');
+
 
    //assign variable to message that will alert user that the cart has been updated successfully
    var message = 'Your cart has been updated successfully!';
