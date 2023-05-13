@@ -549,16 +549,10 @@ app.get('/signed_in', function (request, response) {
    
  });
 
-
-
- app.get('/clear_session', function (req, res) {
-   req.session.destroy(function (err) {
-     if (err) {
-       console.log(err);
-     } else {
-       console.log('Session data cleared.');
-       res.send('Session data cleared.');
-     }
-   });
+//if user is logged in, let them have the option to logout. If they log out delete their login info
+app.get('/clear_session', function (request, response) {
+   delete request.session.login;
+   console.log('User logged out.');
+   response.redirect('index.html'); // Redirect the user to the desired page after logging out
  });
  
