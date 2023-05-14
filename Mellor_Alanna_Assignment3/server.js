@@ -33,18 +33,6 @@ app.use(
    })
 );
 
-// Middleware to check if the user is authenticated; using for invoice; provided by chat gpt
-function isAuthenticated(req, res, next) {
-   // Check if the user is authenticated
-   if (req.session && req.session.login && req.session.login.loggedIn) {
-      // User is authenticated, allow access to the next middleware or route handler
-      next();
-   } else {
-      // User is not authenticated, redirect to a login page or show an error message
-      res.redirect('/login.html'); // You can change the login page URL as per your application
-   }
-}
-
 
 // function to check is quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
 function isNonNegInt(quantities, returnErrors) {
@@ -633,27 +621,59 @@ app.get('/invoice', function (request, response) {
       response.redirect('/login.html?' + querystring.stringify({ login_message: `${JSON.stringify(login_message)}` }));
 
    } else {
+       // Assignment 3 IR7: update cart count to reflect that item is in a users cart; reset after user purchases
+       var name = request.session.cart.name.split(',');
+       var quantities = request.session.cart.quantities.split(',');
+       
+       // update cartCount for light totes
+       for (let i = 0; i < products.light_totes.length; i++) {
+         for (let j = 0; j < name.length; j++) {
+           if (name[j] === products.light_totes[i].name) {
+             var quantity = parseInt(quantities[j]);
+             products.light_totes[i].cartCount -= quantity;
+             
+             // update total sold
+             products.light_totes[i].total_sold += quantity;
+
+             //update quantity available
+             products.light_totes[i].quantityAvailable -= quantity;
+         
+           }
+         }
+       }
+
+       // update cartCount for heavy totes
+       for (let i = 0; i < products.heavy_totes.length; i++) {
+         for (let j = 0; j < name.length; j++) {
+           if (name[j] === products.heavy_totes[i].name) {
+             var quantity = parseInt(quantities[j]);
+             products.heavy_totes[i].cartCount -= quantity;
+             products.heavy_totes[i].total_sold += quantity;
+             products.heavy_totes[i].quantityAvailable -= quantity;
+           }
+         }
+       }
+
+        // update cartCount for backpacks
+        for (let i = 0; i < products.backpacks.length; i++) {
+         for (let j = 0; j < name.length; j++) {
+           if (name[j] === products.backpacks[i].name) {
+             var quantity = parseInt(quantities[j]);
+             products.backpacks[i].cartCount -= quantity;
+
+             //update total sold
+             products.backpacks[i].total_sold += quantity;
+
+             //update quantityAvailable
+             products.backpacks[i].quantityAvailable -= quantity;
+           }
+         }
+       }
       // skip the login process and redirect to the invoice page
       response.redirect('./invoice.html');
    }
 });
 
-
-// email receipt to user at invoice
-// when user tries to purchase something, make sure they are logged in. If not, direct them to log in page, else, continue to invoice
-app.get("/invoice.html", isAuthenticated, function (request, response) {
-   console.log(request.session.login)
-   // check if the user is already logged in
-   if (request.session.login.loggedIn == false) {
-      var login_message = 'Please log in to purchase';
-      response.redirect('/login.html?' + querystring.stringify({ login_message: `${JSON.stringify(login_message)}` }));
-
-   } else {
-      // skip the login process and redirect to the invoice page
-      response.redirect('./invoice.html');
-   }
-
-});
 
 
 // add route to make session data available to html cart file

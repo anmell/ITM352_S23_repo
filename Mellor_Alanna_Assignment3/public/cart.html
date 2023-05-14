@@ -20,19 +20,8 @@ loadJSON('/signed_in', function (response) {
 
 
 window.onload = function () {
- 
-  // check if the cart is empty
-  if (!shopping_cart.quantities) {
-    document.getElementById('cartTable').style.display = 'none';
-    document.getElementById('emptyCartMessage').style.display = 'block';
-    return;
-  } else {
-    document.getElementById('cartTable').style.display = 'block';
-    document.getElementById('emptyCartMessage').style.display = 'none';
-  }
-
-    // if user is logged in, display their name on the page
-    if (login_status.loggedIn) {
+   // if user is logged in, display their name on the page
+   if (login_status.loggedIn) {
       document.getElementById('login_status_yes').style.display = 'block';
       document.getElementById('login_status_no').style.display = 'none';
 
@@ -48,9 +37,16 @@ window.onload = function () {
       document.getElementById('login-button').style.display = 'block';
       document.getElementById('logout-button').style.display = 'none';
     }
-};
-
-
+  // check if the cart is empty
+  if (!shopping_cart.quantities) {
+    document.getElementById('cartTable').style.display = 'none';
+    document.getElementById('emptyCartMessage').style.display = 'block';
+    return;
+  } else {
+    document.getElementById('cartTable').style.display = 'block';
+    document.getElementById('emptyCartMessage').style.display = 'none';
+  }
+  };
 
   let params = (new URL(document.location)).searchParams;
   //display successful cart update alert
@@ -112,10 +108,6 @@ window.onload = function () {
       subtotal += extended_price
     }
   };
-
-
-
-
 </script>
 
 <!DOCTYPE html>
@@ -166,7 +158,6 @@ window.onload = function () {
 
           <script>
             //call the function 
-
             generate_item_rows();
 
 

@@ -1,66 +1,67 @@
 {
     "light_totes": [
-    {
-        "name": "Light Blue Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true",
-        "cartCount": 0
-    },
-    {
-        "name": "Brown Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BrownLightTote.png?raw=true",
-        "cartCount": 0
-    },
-    {
-        "name": "Plain Cream Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/CreamToteLight.png?raw=true",
-        "cartCount": 0
-    },
-    {
-        "name": "Red Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/RedToteLight.png?raw=true",
-        "cartCount": 0
-    },
-    {
-        "name": "Green Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/GreenToteLight.png?raw=true",
-        "cartCount": 0
-    },
-    {
-        "name": "Grey Tote",
-        "price": 10,
-        "quantityAvailable": 100,
-        "quantity_selected": 0,
-        "total_sold":0, 
-        "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/GreyToteLight.png?raw=true",
-        "cartCount": 0
-    }
+        {
+            "name": "Light Blue Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BlueLightTote.png?raw=true",
+            "cartCount": 0
+        },
+        {
+            "name": "Brown Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/BrownLightTote.png?raw=true",
+            "cartCount": 0
+        },
+        {
+            "name": "Plain Cream Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/CreamToteLight.png?raw=true",
+            "cartCount": 0
+        },
+        {
+            "name": "Red Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/RedToteLight.png?raw=true",
+            "cartCount": 0
+        },
+        {
+            "name": "Green Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/GreenToteLight.png?raw=true",
+            "cartCount": 0
+        },
+        {
+            "name": "Grey Tote",
+            "price": 10,
+            "quantityAvailable": 100,
+            "quantity_selected": 0,
+            "total_sold": 0,
+            "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/ToteImages/GreyToteLight.png?raw=true",
+            "cartCount": 0
+        }
     ],
-    "heavy_totes":[
+    "heavy_totes": [
         {
             "name": "Black Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/BlackHeavy.png?raw=true",
             "cartCount": 0
         },
@@ -68,7 +69,8 @@
             "name": "Royal Blue Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/TrueBlueHeavy.png?raw=true",
             "cartCount": 0
         },
@@ -76,7 +78,8 @@
             "name": "Navy Blue Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/BlueHeavy.png?raw=true",
             "cartCount": 0
         },
@@ -84,7 +87,8 @@
             "name": "Light Green Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/GreenHeavy.png?raw=true",
             "cartCount": 0
         },
@@ -92,7 +96,8 @@
             "name": "Red Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/RedHeavy.png?raw=true",
             "cartCount": 0
         },
@@ -100,7 +105,8 @@
             "name": "White Heavy Tote",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/HeavyToteImages/WhiteHeavy.png?raw=true",
             "cartCount": 0
         }
@@ -110,7 +116,8 @@
             "name": "Plain Cream Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/CreamBackpack.png?raw=true",
             "cartCount": 0
         },
@@ -118,16 +125,17 @@
             "name": "Brown Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/BrownBackpack.png?raw=true",
             "cartCount": 0
         },
-        
         {
             "name": "Light Green Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/GreenBackpack.png?raw=true",
             "cartCount": 0
         },
@@ -135,7 +143,8 @@
             "name": "Blue Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/BlueBackpack.png?raw=true",
             "cartCount": 0
         },
@@ -143,7 +152,8 @@
             "name": "Grey Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/GreyBackpack.png?raw=true",
             "cartCount": 0
         },
@@ -151,7 +161,8 @@
             "name": "Red Backpack",
             "price": 10,
             "quantityAvailable": 100,
-            "total_sold":0, 
+            "quantity_selected": 0,
+            "total_sold": 0,
             "img": "https://github.com/anmell/ITM352_S23_repo/blob/main/Mellor_Alanna_Assignment3/public/BackpackImages/RedBackpack.png?raw=true",
             "cartCount": 0
         }
