@@ -242,7 +242,6 @@ app.post("/add_to_cart_light", function (request, response) {
    // run a for loop to collect the values of all of the textboxes and store them in an array
    for (let i = 0; i < products.light_totes.length; i++) {
       all_textboxes.push(request.body[`${products.light_totes[i].name}.quantities`]);
-
    }
 
 
@@ -290,7 +289,7 @@ app.post("/add_to_cart_light", function (request, response) {
          if (!request.session.cart) {
             request.session.cart = {};
          }
-         // Store the quantities in the session
+         // Store the item data in the session
          var item = 'light_totes';
 
          if (request.session.cart.item) {
@@ -318,6 +317,17 @@ app.post("/add_to_cart_light", function (request, response) {
          } else {
             request.session.cart.image = {};
             request.session.cart.image = image;
+         }
+
+         // Assignment 3 IR7: update cart count to reflect that item is in a users cart
+         for (let i = 0; i < products.light_totes.length; i++) {
+            var quantity = request.body[`${products.light_totes[i].name}.quantities`];
+
+            //if there's a quantity is 0, skip it
+            if (quantity == 0) {
+            continue;
+            }
+            products.light_totes[i].cartCount += parseInt(quantity);
          }
          console.log(request.session);
          response.redirect('/cart.html');
@@ -390,7 +400,7 @@ app.post("/add_to_cart_heavy", function (request, response) {
          if (!request.session.cart) {
             request.session.cart = {};
          }
-         // Store the quantities in the session
+         // Store the item data in the session
          var item = 'heavy_totes';
 
          if (request.session.cart.item) {
@@ -419,7 +429,16 @@ app.post("/add_to_cart_heavy", function (request, response) {
             request.session.cart.image = {};
             request.session.cart.image = image;
          }
+         // Assignment 3 IR7: update cart count to reflect that item is in a users cart
+         for (let i = 0; i < products.heavy_totes.length; i++) {
+            var quantity = request.body[`${products.heavy_totes[i].name}.quantities`];
 
+            //if there's a quantity is 0, skip it
+            if (quantity == 0) {
+            continue;
+            }
+            products.heavy_totes[i].cartCount += parseInt(quantity);
+         }
          console.log(request.session);
          response.redirect('/cart.html');
       } else {
@@ -497,7 +516,7 @@ app.post("/add_to_cart_back", function (request, response) {
          if (!request.session.cart) {
             request.session.cart = {};
          }
-         // Store the quantities in the session
+         // Store the item data in the session
          var item = 'backpacks';
 
          if (request.session.cart.item) {
@@ -527,6 +546,16 @@ app.post("/add_to_cart_back", function (request, response) {
             request.session.cart.image = image;
          }
 
+         // Assignment 3 IR7: update cart count to reflect that item is in a users cart
+         for (let i = 0; i < products.backpacks.length; i++) {
+            var quantity = request.body[`${products.backpacks[i].name}.quantities`];
+
+            //if there's a quantity is 0, skip it
+            if (quantity == 0) {
+            continue;
+            }
+            products.backpacks[i].cartCount += parseInt(quantity);
+         }
          console.log(request.session);
          response.redirect('/cart.html');
       } else {

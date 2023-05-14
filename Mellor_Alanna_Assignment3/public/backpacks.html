@@ -112,7 +112,7 @@
                                     <img src="${products.backpacks[i].img}" id="image">
                                     <p>Quantity Available: ${products.backpacks[i].quantityAvailable}</p>
                                     <p>Total Sold: ${products.backpacks[i].total_sold}</p>
-                                    <p>0 People have this in their cart!</p>
+                                    <p>${products.backpacks[i].cartCount} of these are in carts for all users on the site!</p>
                                     <p><label for="quantities${i}" id="quantities${i}_label">Enter Quantity Desired:</label></p>
                                     <p><input type="text" id="quantities${i}" name="${products.backpacks[i].name}.quantities"></p>
                                     <p><input type="submit" id="purchase_button" value="Add to Cart" class="add-cart"></p>
