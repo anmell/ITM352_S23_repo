@@ -126,8 +126,9 @@ app.post("/login", function (request, response) {
       // set the flag to indicate that the user is logged in
       request.session.login.loggedIn = true;
 
-      // Store the quantities in the session
+      // Store the login email in the session
       request.session.login.username = username;
+
       console.log(request.session.login);
       response.redirect('./cart.html');
    }

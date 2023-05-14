@@ -13,7 +13,10 @@
     shopping_cart = JSON.parse(response);
   });
 
-
+  loadJSON('/signed_in', function (response) {
+    // Parsing JSON string into object; display if user is signed in or not
+    login = JSON.parse(response);
+});
 
   let params = (new URL(document.location)).searchParams;
   //display successful cart update alert
@@ -92,7 +95,7 @@
 
 <header>
   <div class="store-title">
-    <h1>Thank you for your purchase!</h1>
+    <h1>Thank you, <script> document.write(`${login.username}`)</script> for your purchase!</h1>
   </div>
 </header>
 

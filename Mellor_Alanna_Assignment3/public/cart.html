@@ -13,6 +13,7 @@ loadJSON('/signed_in', function (response) {
     // Parsing JSON string into object; display if user is signed in or not
     login_status = JSON.parse(response);
 });
+
  loadJSON('get_cart', function (response) {
   // Parsing JSON string into object
   shopping_cart = JSON.parse(response);
