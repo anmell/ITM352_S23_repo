@@ -314,7 +314,7 @@ app.post("/add_to_cart_light", function (request, response) {
 
             //if there's a quantity is 0, skip it
             if (quantity == 0) {
-            continue;
+               continue;
             }
             products.light_totes[i].cartCount += parseInt(quantity);
          }
@@ -424,7 +424,7 @@ app.post("/add_to_cart_heavy", function (request, response) {
 
             //if there's a quantity is 0, skip it
             if (quantity == 0) {
-            continue;
+               continue;
             }
             products.heavy_totes[i].cartCount += parseInt(quantity);
          }
@@ -541,7 +541,7 @@ app.post("/add_to_cart_back", function (request, response) {
 
             //if there's a quantity is 0, skip it
             if (quantity == 0) {
-            continue;
+               continue;
             }
             products.backpacks[i].cartCount += parseInt(quantity);
          }
@@ -573,43 +573,64 @@ app.post('/update_cart', function (request, response) {
    var body = request.body;
    var input_quantities = Array.isArray(body.quantities) ? body.quantities : [body.quantities];
    var cart = request.session.cart;
- 
+
    // Convert input_quantities to an array of numbers if needed
    if (typeof input_quantities === 'number') {
-     input_quantities = [input_quantities];
+      input_quantities = [input_quantities];
    }
    var items = cart.item.split(',');
    var names = cart.name.split(',');
    var quantities = cart.quantities.split(',');
    var images = cart.image.split(',');
- 
+
    var updatedItems = [];
    var updatedNames = [];
    var updatedQuantities = [];
    var updatedImages = [];
- 
+
    for (var i = 0; i < input_quantities.length; i++) {
-     var quantity = parseInt(input_quantities[i]);
- 
-     if (quantity > 0) {
-       updatedItems.push(items[i]);
-       updatedNames.push(names[i]);
-       updatedQuantities.push(quantity);
-       updatedImages.push(images[i]);
-     }
+      var newQuantity = parseInt(input_quantities[i]);
+
+      if (newQuantity > 0) {
+         var itemName = names[i];
+
+         updatedItems.push(items[i]);
+         updatedNames.push(itemName);
+         updatedQuantities.push(newQuantity);
+         updatedImages.push(images[i]);
+
+         // Update cartCount for heavy totes
+         for (var j = 0; j < products.heavy_totes.length; j++) {
+            if (products.heavy_totes[j].name === itemName) {
+               products.heavy_totes[j].cartCount = newQuantity;
+            }
+         }
+         // Update cartCount for light totes
+         for (var j = 0; j < products.light_totes.length; j++) {
+            if (products.light_totes[j].name === itemName) {
+               products.light_totes[j].cartCount = newQuantity;
+            }
+         }
+         // Update cartCount for backpacks
+         for (var j = 0; j < products.backpacks.length; j++) {
+            if (products.backpacks[j].name === itemName) {
+               products.backpacks[j].cartCount = newQuantity;
+            }
+         }
+      }
    }
- 
+
    cart.item = updatedItems.join(',');
    cart.name = updatedNames.join(',');
    cart.quantities = updatedQuantities.join(',');
    cart.image = updatedImages.join(',');
 
-
-   //assign variable to message that will alert user that the cart has been updated successfully
+   // Assign variable to message that will alert the user that the cart has been updated successfully
    var message = 'Your cart has been updated successfully!';
 
    response.redirect('/cart.html?' + querystring.stringify({ message: `${JSON.stringify(message)}` }));
 });
+
 
 
 // when user tries to purchase something, make sure they are logged in. If not, direct them to log in page, else, continue to invoice
@@ -622,54 +643,54 @@ app.get('/invoice', function (request, response) {
       response.redirect('/login.html?' + querystring.stringify({ login_message: `${JSON.stringify(login_message)}` }));
 
    } else {
-       // Assignment 3 IR7: update cart count to reflect that item is in a users cart; reset after user purchases
-       var name = request.session.cart.name.split(',');
-       var quantities = request.session.cart.quantities.split(',');
-       
-       // update cartCount for light totes
-       for (let i = 0; i < products.light_totes.length; i++) {
+      // Assignment 3 IR7: update cart count to reflect that item is in a users cart; reset after user purchases
+      var name = request.session.cart.name.split(',');
+      var quantities = request.session.cart.quantities.split(',');
+
+      // update cartCount for light totes
+      for (let i = 0; i < products.light_totes.length; i++) {
          for (let j = 0; j < name.length; j++) {
-           if (name[j] === products.light_totes[i].name) {
-             var quantity = parseInt(quantities[j]);
-             products.light_totes[i].cartCount -= quantity;
-             
-             // update total sold
-             products.light_totes[i].total_sold += quantity;
+            if (name[j] === products.light_totes[i].name) {
+               var quantity = parseInt(quantities[j]);
+               products.light_totes[i].cartCount -= quantity;
 
-             //update quantity available
-             products.light_totes[i].quantityAvailable -= quantity;
-         
-           }
+               // update total sold
+               products.light_totes[i].total_sold += quantity;
+
+               //update quantity available
+               products.light_totes[i].quantityAvailable -= quantity;
+
+            }
          }
-       }
+      }
 
-       // update cartCount for heavy totes
-       for (let i = 0; i < products.heavy_totes.length; i++) {
+      // update cartCount for heavy totes
+      for (let i = 0; i < products.heavy_totes.length; i++) {
          for (let j = 0; j < name.length; j++) {
-           if (name[j] === products.heavy_totes[i].name) {
-             var quantity = parseInt(quantities[j]);
-             products.heavy_totes[i].cartCount -= quantity;
-             products.heavy_totes[i].total_sold += quantity;
-             products.heavy_totes[i].quantityAvailable -= quantity;
-           }
+            if (name[j] === products.heavy_totes[i].name) {
+               var quantity = parseInt(quantities[j]);
+               products.heavy_totes[i].cartCount -= quantity;
+               products.heavy_totes[i].total_sold += quantity;
+               products.heavy_totes[i].quantityAvailable -= quantity;
+            }
          }
-       }
+      }
 
-        // update cartCount for backpacks
-        for (let i = 0; i < products.backpacks.length; i++) {
+      // update cartCount for backpacks
+      for (let i = 0; i < products.backpacks.length; i++) {
          for (let j = 0; j < name.length; j++) {
-           if (name[j] === products.backpacks[i].name) {
-             var quantity = parseInt(quantities[j]);
-             products.backpacks[i].cartCount -= quantity;
+            if (name[j] === products.backpacks[i].name) {
+               var quantity = parseInt(quantities[j]);
+               products.backpacks[i].cartCount -= quantity;
 
-             //update total sold
-             products.backpacks[i].total_sold += quantity;
+               //update total sold
+               products.backpacks[i].total_sold += quantity;
 
-             //update quantityAvailable
-             products.backpacks[i].quantityAvailable -= quantity;
-           }
+               //update quantityAvailable
+               products.backpacks[i].quantityAvailable -= quantity;
+            }
          }
-       }
+      }
       // skip the login process and redirect to the invoice page
       response.redirect('./invoice.html');
    }
@@ -697,7 +718,7 @@ app.get('/clear_session', function (request, response) {
 //after user completes their purchase, empty thier cart, update total available
 app.get('/clear_cart', function (request, response) {
    // upate quantity available and total sold after purchase is completed
-   for (let i in products){
+   for (let i in products) {
       products[i].total_sold += products[i].quantity_selected;
       products[i].quantityAvailable -= products[i].quantity_selected;
    }
