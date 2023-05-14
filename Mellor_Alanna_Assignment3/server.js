@@ -561,7 +561,6 @@ app.get('/get_cart', function (request, response) {
    if (request.session.cart) {
       cartData = request.session.cart;
    }
-   console.log(cartData);
    response.json(cartData);
 
 });
@@ -598,24 +597,24 @@ app.post('/update_cart', function (request, response) {
          updatedNames.push(itemName);
          updatedQuantities.push(newQuantity);
          updatedImages.push(images[i]);
-
-         // Update cartCount for heavy totes
-         for (var j = 0; j < products.heavy_totes.length; j++) {
-            if (products.heavy_totes[j].name === itemName) {
-               products.heavy_totes[j].cartCount = newQuantity;
-            }
+      }
+      
+       // Update cartCount for heavy totes
+       for (var j = 0; j < products.heavy_totes.length; j++) {
+         if (products.heavy_totes[j].name === itemName) {
+            products.heavy_totes[j].cartCount = newQuantity;
          }
-         // Update cartCount for light totes
-         for (var j = 0; j < products.light_totes.length; j++) {
-            if (products.light_totes[j].name === itemName) {
-               products.light_totes[j].cartCount = newQuantity;
-            }
+      }
+      // Update cartCount for light totes
+      for (var j = 0; j < products.light_totes.length; j++) {
+         if (products.light_totes[j].name === itemName) {
+            products.light_totes[j].cartCount = newQuantity;
          }
-         // Update cartCount for backpacks
-         for (var j = 0; j < products.backpacks.length; j++) {
-            if (products.backpacks[j].name === itemName) {
-               products.backpacks[j].cartCount = newQuantity;
-            }
+      }
+      // Update cartCount for backpacks
+      for (var j = 0; j < products.backpacks.length; j++) {
+         if (products.backpacks[j].name === itemName) {
+            products.backpacks[j].cartCount = newQuantity;
          }
       }
    }
